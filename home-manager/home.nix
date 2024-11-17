@@ -1,5 +1,9 @@
 { config, pkgs, fonts, ... }:
 
+let
+  isLinux = builtins.match ".*-linux" builtins.currentSystem != null;
+in
+
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -18,7 +22,7 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -35,45 +39,52 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    pkgs.zsh
-    pkgs.curl
-    pkgs.git
-    pkgs.htop
-    pkgs.mcfly # desc: A replacement for ctrl-r with context-aware filtering and improved search
-    pkgs.neovim
-    pkgs.podlet # desc: use to gengerate podman systemd service (quadlet)
-    pkgs.python3
-    pkgs.starship # desc: The minimal, blazing-fast, and infinitely customizable prompt for any shell!
-    pkgs.todo-txt-cli
-    pkgs.trash-cli
-    pkgs.zoxide # desc: A faster way to navigate your filesystem
-    (pkgs.nerdfonts.override {
+    zsh
+    curl
+    git
+    htop
+    mcfly # desc: A replacement for ctrl-r with context-aware filtering and improved search
+    neovim
+    podlet # desc: use to gengerate podman systemd service (quadlet)
+    python3
+    starship # desc: The minimal, blazing-fast, and infinitely customizable prompt for any shell!
+    todo-txt-cli
+    trash-cli
+    zoxide # desc: A faster way to navigate your filesystem
+    (nerdfonts.override {
       fonts = [
         "JetBrainsMono"
         "CascadiaCode"
       ];
     })
-    pkgs.lazygit
-    pkgs.lazydocker
-    pkgs.fzf
-    pkgs.ripgrep
-    pkgs.fd
-    pkgs.tmux
-    pkgs.nodejs_20
-    pkgs.duf
-    pkgs.dust
-    pkgs.delta
-    pkgs.gping
-    pkgs.dogdns
-    pkgs.git-open
-    pkgs.whois
-    pkgs.pup # desc: HTML parsing tool
-    pkgs.zk # desc: A CLI for Zettelkasten note taking
-    pkgs.glow # desc: Render markdown on the CLI, with pizzazz!
-    pkgs.httpie # desc: A user-friendly command-line HTTP client for the API era
-    pkgs.yazi
-    pkgs.bottom # desc: A cross-platform graphical process/system monitor with a customizable interface and a multitude of features
-    pkgs.progress # desc: Coreutils progress viewer
+    lazygit
+    lazydocker
+    fzf
+    ripgrep
+    fd
+    tmux
+    nodejs_20
+    duf
+    dust
+    delta
+    gping
+    dogdns
+    git-open
+    whois
+    pup # desc: HTML parsing tool
+    zk # desc: A CLI for Zettelkasten note taking
+    glow # desc: Render markdown on the CLI, with pizzazz!
+    httpie # desc: A user-friendly command-line HTTP client for the API era
+    yazi
+    bottom # desc: A cross-platform graphical process/system monitor with a customizable interface and a multitude of features
+    progress # desc: Coreutils progress viewer
+    gcc
+    go
+    python3
+    mycli
+    copyq # desc: Clipboard manager with advanced features
+    flameshot # desc: Powerful yet simple to use screenshot software
+    gh # desc: GitHub CLI
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -100,6 +111,8 @@
     ".config/starship.toml".source = ~/.config/home-manager/d/starship.toml;
     ".config/kitty/kitty.conf".source = ~/.config/home-manager/d/kitty.conf;
     ".config/wezterm".source = ~/.config/home-manager/d/wezterm;
+    ".cargo/config.toml".source = ~/.config/home-manager/d/cargo.toml;
+    ".config/nvim".source = ~/.config/home-manager/d/nvim;
   };
 
   # Home Manager can also manage your environment variables through
@@ -121,54 +134,107 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     MCFLY_RESULTS = "50";
-    PATH="$HOME/.local/bin:$HOME/repos/my-busybox/bin:$PATH";
+    PATH = "$HOME/.local/bin:$HOME/repos/my-busybox/bin:$PATH";
+    GOPROXY = "https://goproxy.cn";
   };
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-  programs.zsh = {
-    enable = true;
-    autosuggestion = {
+  programs = {
+    # Let Home Manager install and manage itself.
+    home-manager.enable = true;
+    zsh = {
       enable = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      shellAliases = {
+        v = "nvim";
+        j = "z";
+        rm = "trash";
+        lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
+        docker = "podman";
+        docker-compose = "podman-compose";
+      };
+      defaultKeymap = "emacs";
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "git"
+          "sudo"
+          "fancy-ctrl-z"
+          "tmux"
+        ];
+      };
+      envExtra = ''
+        . $HOME/.cargo/env
+      '';
+      initExtraBeforeCompInit = ''
+        todo.sh list
+      '';
     };
-    shellAliases = {
-      v = "nvim";
-      j = "z";
-      lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
-      docker = "podman";
-      docker-compose = "podman-compose";
-    };
-    syntaxHighlighting = {
-      enable = true;
-    };
-    defaultKeymap = "emacs";
-    oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "git"
-        "sudo"
-        "fancy-ctrl-z"
-        "tmux"
-      ];
-    };
-    envExtra = ''
-      . $HOME/.cargo/env
-    '';
-    initExtraBeforeCompInit = ''
-      todo.sh list
-    '';
-    # initExtraFirst = '' '';
-    initExtra = ''
-      eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
-    '';
+    mcfly.enable = true;
+    starship.enable = true;
+    zoxide.enable = true;
+    gh.enable = true;
   };
-  programs.mcfly = {
-    enable = true;
-  };
-  programs.starship = {
-    enable = true;
-  };
-  programs.zoxide = {
-    enable = true;
-  };
+
+  systemd.user.services =
+    if isLinux then {
+      podman = {
+        Unit = {
+          Description = "Podman service";
+          After = [ "network.target" ];
+        };
+        Install = {
+          WantedBy = [ "default.target" ];
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "/usr/bin/podman system service --time 0";
+          Restart = "always";
+        };
+      };
+    } else { };
+
+
+  services =
+    if isLinux then {
+      flameshot.enable = false;
+      copyq.enable = true;
+    } else { };
+
+  # BUG: home-manager podman has bug, so only use systemd to start podman service
+  # dotfiles on  main [✘»!+]
+  # ❯ podman --log-level debug images
+  # ERRO[0000] running `/home/hrli/.nix-profile/bin/newuidmap 9883 0 1000 1 1 100000 65536`: newuidmap: write to uid_map failed: Operation not permitted
+  # Error: cannot set up namespace using "/home/hrli/.nix-profile/bin/newuidmap": should have setuid or have filecaps setuid: exit status 1
+
+  # services.podman.enable = true;
+  # services.podman.containers = {
+  #   mariadb = {
+  #     image = "mariadb";
+  #     environment = {
+  #       MYSQL_ROOT_PASSWORD = "root";
+  #     };
+  #     ports = [ "127.0.0.1:3306:3306" ];
+  #     volumes = [ "mariadb_data:/var/lib/mysql" ];
+  #   };
+  #   gotify = {
+  #     image = "gotify/server";
+  #     ports = [ "7777:80" ];
+  #     volumes = [ "gotify-data:/app/data" ];
+  #   };
+  #   ddns-go = {
+  #     image = "jeessy/ddns-go";
+  #     network = "host";
+  #     volumes = [ "ddns-go-data:/root" ];
+  #   };
+  #   clickhouse = {
+  #     image = "clickhouse/clickhouse-server";
+  #     ports = [ "127.0.0.1:8123:8123" "127.0.0.1:9000:9000" ];
+  #     volumes = [
+  #       "ch_data:/var/lib/clickhouse"
+  #       "ch_config:/etc/clickhouse-server"
+  #       "ch_logs:/var/log/clickhouse-server"
+  #     ];
+  #   };
+  # };
 }

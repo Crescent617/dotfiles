@@ -23,6 +23,3 @@
 
 [credential "https://gist.github.com"]
 	helper = !gh auth git-credential
-
-[includeIf "gitdir:/data/fw-repos/"]
-  path = .gitconfig-fw
