@@ -776,7 +776,7 @@ return {
       }
     end,
   },
-  { "danilamihailov/beacon.nvim", event = "BufRead" },
+  { "danilamihailov/beacon.nvim", event = "BufRead", enabled = not vim.g.neovide },
   {
     "j-hui/fidget.nvim",
     opts = {

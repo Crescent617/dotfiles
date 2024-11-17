@@ -67,6 +67,7 @@ in
     duf
     dust
     delta
+    tree
     gping
     dogdns
     git-open
@@ -136,6 +137,12 @@ in
     MCFLY_RESULTS = "50";
     PATH = "$HOME/.local/bin:$HOME/repos/my-busybox/bin:$PATH";
     GOPROXY = "https://goproxy.cn";
+    FZF_DEFAULT_OPTS = " \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+--color=selected-bg:#45475a \
+--multi";
   };
 
   programs = {
@@ -178,6 +185,7 @@ in
 
   systemd.user.services =
     if isLinux then {
+      # podman service: use to manage container using lazydocker
       podman = {
         Unit = {
           Description = "Podman service";
@@ -199,42 +207,49 @@ in
     if isLinux then {
       flameshot.enable = false;
       copyq.enable = true;
+
+      podman = {
+        enable = true;
+        # NOTE: here need use network, https://github.com/nix-community/home-manager/issues/4336
+        networks = {
+          container_routing = {
+            driver = "bridge";
+            subnet = "172.21.1.0/24";
+          };
+        };
+        containers = {
+          mariadb = {
+            image = "mariadb";
+            environment = {
+              MYSQL_ROOT_PASSWORD = "root";
+            };
+            network = "container_routing";
+            ports = [ "127.0.0.1:3306:3306" ];
+            volumes = [ "mariadb_data:/var/lib/mysql" ];
+          };
+          gotify = {
+            image = "gotify/server";
+            ports = [ "7777:80" ];
+            network = "container_routing";
+            volumes = [ "gotify-data:/app/data" ];
+          };
+          ddns-go = {
+            image = "jeessy/ddns-go";
+            network = "host";
+            volumes = [ "ddns-go-data:/root" ];
+          };
+          clickhouse = {
+            image = "clickhouse/clickhouse-server";
+            ports = [ "127.0.0.1:8123:8123" "127.0.0.1:9000:9000" ];
+            network = "container_routing";
+            volumes = [
+              "ch_data:/var/lib/clickhouse"
+              "ch_config:/etc/clickhouse-server"
+              "ch_logs:/var/log/clickhouse-server"
+            ];
+          };
+        };
+      };
     } else { };
 
-  # BUG: home-manager podman has bug, so only use systemd to start podman service
-  # dotfiles on  main [✘»!+]
-  # ❯ podman --log-level debug images
-  # ERRO[0000] running `/home/hrli/.nix-profile/bin/newuidmap 9883 0 1000 1 1 100000 65536`: newuidmap: write to uid_map failed: Operation not permitted
-  # Error: cannot set up namespace using "/home/hrli/.nix-profile/bin/newuidmap": should have setuid or have filecaps setuid: exit status 1
-
-  # services.podman.enable = true;
-  # services.podman.containers = {
-  #   mariadb = {
-  #     image = "mariadb";
-  #     environment = {
-  #       MYSQL_ROOT_PASSWORD = "root";
-  #     };
-  #     ports = [ "127.0.0.1:3306:3306" ];
-  #     volumes = [ "mariadb_data:/var/lib/mysql" ];
-  #   };
-  #   gotify = {
-  #     image = "gotify/server";
-  #     ports = [ "7777:80" ];
-  #     volumes = [ "gotify-data:/app/data" ];
-  #   };
-  #   ddns-go = {
-  #     image = "jeessy/ddns-go";
-  #     network = "host";
-  #     volumes = [ "ddns-go-data:/root" ];
-  #   };
-  #   clickhouse = {
-  #     image = "clickhouse/clickhouse-server";
-  #     ports = [ "127.0.0.1:8123:8123" "127.0.0.1:9000:9000" ];
-  #     volumes = [
-  #       "ch_data:/var/lib/clickhouse"
-  #       "ch_config:/etc/clickhouse-server"
-  #       "ch_logs:/var/log/clickhouse-server"
-  #     ];
-  #   };
-  # };
 }

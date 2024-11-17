@@ -86,12 +86,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- GUI
 if g.neovide then
-  o.guifont = "JetBrainsMono Nerd Font"
+  vim.o.guifont = "CaskaydiaCove NF:h12"
+  vim.o.linespace = 6
+
   g.neovide_remember_window_size = true
   g.neovide_cursor_vfx_mode = "railgun"
   g.neovide_confirm_quit = true
-  g.neovide_input_use_logo = 1
-  g.neovide_no_idle = true
 
   vim.cmd [[
     let g:dracula#palette          = {}
@@ -124,6 +124,8 @@ if g.neovide then
     tmap <D-v> <C-R>+
     imap <C-v> <C-R>+
     tmap <C-v> <C-R>+
+    imap <C-S-v> <C-R>+
+    tmap <C-S-v> <C-R>+
     map ˙ <a-h>
     map ∆ <a-j>
     map ˚ <a-k>
