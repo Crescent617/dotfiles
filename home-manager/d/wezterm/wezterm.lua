@@ -13,7 +13,7 @@ config.color_scheme = "Dracula (Official)"
 
 config.font = wezterm.font "CaskaydiaCove NF"
 -- config.hide_tab_bar_if_only_one_tab = true
--- conf.default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" }
+config.default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" }
 
 config.window_background_opacity = 0.9
 config.window_decorations = "NONE"

@@ -21,6 +21,10 @@ vim.cmd [[
   endfunction
 ]]
 
+-- [[ custom
+require "custom.command" -- TODO: use lazy.nvim to load this
+-- ]]
+
 o.cmdheight = 1 -- more space in the neovim command line for displaying messages
 o.confirm = true
 o.foldmethod = "indent"
@@ -36,62 +40,88 @@ o.list = true
 -- o.spell = true
 -- o.spelloptions = "camel,noplainbuffer"
 o.sessionoptions = "buffers,curdir,folds,tabpages,winpos,winsize"
+o.jumpoptions = "stack"
 
 g.conflict_marker_enable_mappings = 0
 g.loaded_python3_provider = nil
 
-local highlights = {
-  -- diagnostics underline
-  "hi! DiagnosticUnderlineError guisp=#FF5555 gui=undercurl",
-  "hi! DiagnosticUnderlineWarn guisp=#e0af68 gui=undercurl",
-  "hi! DiagnosticUnderlineInfo guisp=#6ad8ed gui=undercurl",
-  "hi! DiagnosticUnderlineHint guisp=#bd93f9 gui=undercurl",
-
-  -- diagnostics vt
-  "hi! DiagnosticVirtualTextError guifg=#FF5555 guibg=#362C3D",
-  "hi! DiagnosticVirtualTextWarn guifg=#e0af68 guibg=#373640",
-  "hi! DiagnosticVirtualTextInfo guifg=#6ad8eD guibg=#30385f",
-  "hi! DiagnosticVirtualTextHint guifg=#bd93f9 guibg=#3d3059",
-
-  -- diagnostics signs
-  "hi! DiagnosticSignError guifg=#FF5555",
-  "hi! DiagnosticSignWarn guifg=#e0af68",
-  "hi! DiagnosticSignInfo guifg=#6ad8ed",
-  "hi! DiagnosticSignHint guifg=#bd93f9",
+local colors = {
+  red = "#FF6555",
+  yellow = "#e0af68",
+  cyan = "#6ad8ed",
+  purple = "#bd93f9",
+  red_bg = "#362C3D",
+  yellow_bg = "#373640",
+  cyan_bg = "#30385f",
+  purple_bg = "#3d3059",
 }
 
+local highlights = {
+  -- diagnostics underline
+  { "DiagnosticUnderlineError", { sp = colors.red, undercurl = true } },
+  { "DiagnosticUnderlineWarn", { sp = colors.yellow, undercurl = true } },
+  { "DiagnosticUnderlineInfo", { sp = colors.cyan, undercurl = true } },
+  { "DiagnosticUnderlineHint", { sp = colors.purple, undercurl = true } },
+
+  -- diagnostics vt
+  { "DiagnosticVirtualTextError", { fg = colors.red, bg = colors.red_bg } },
+  { "DiagnosticVirtualTextWarn", { fg = colors.yellow, bg = colors.yellow_bg } },
+  { "DiagnosticVirtualTextInfo", { fg = colors.cyan, bg = colors.cyan_bg } },
+  { "DiagnosticVirtualTextHint", { fg = colors.purple, bg = colors.purple_bg } },
+
+  -- diagnostics signs
+  { "DiagnosticSignError", { fg = colors.red } },
+  { "DiagnosticSignWarn", { fg = colors.yellow } },
+  { "DiagnosticSignInfo", { fg = colors.cyan } },
+  { "DiagnosticSignHint", { fg = colors.purple } },
+}
+
+local function set_highlights()
+  for _, highlight in ipairs(highlights) do
+    vim.api.nvim_set_hl(0, highlight[1], highlight[2])
+  end
+end
+
+local function switch_relative_number(b)
+  return function()
+    if vim.wo.number then
+      vim.wo.relativenumber = b
+    end
+  end
+end
+
 local autocmds = {
-  { "UIEnter", "*", table.concat(highlights, " | ") },
-  { "InsertLeave", "*", ":set relativenumber" },
-  { "InsertEnter", "*", ":set norelativenumber" },
-  -- { "InsertLeave", "*", ":lua vim.diagnostic.show(nil, 0)" },
-  -- { "InsertEnter", "*", ":lua vim.diagnostic.hide(nil, 0)" },
+  { "UIEnter", "*", set_highlights },
+  { "InsertLeave", "*", switch_relative_number(true) },
+  { "InsertEnter", "*", switch_relative_number(false) },
+  -- { "InsertLeave", "*", function() vim.diagnostic.show(nil, 0) end },
+  -- { "InsertEnter", "*", function() vim.diagnostic.hide(nil, 0) end },
 }
 
 for _, v in ipairs(autocmds) do
-  vim.api.nvim_create_autocmd(v[1], { pattern = v[2], command = v[3] })
+  vim.api.nvim_create_autocmd(v[1], { pattern = v[2], callback = v[3] })
 end
 
 -- lsp inlay_hint
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client.server_capabilities.inlayHintProvider then
-      vim.lsp.inlay_hint.enable()
-    end
-    -- whatever other lsp config you want
-  end,
-})
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+--   callback = function(args)
+--     local client = vim.lsp.get_client_by_id(args.data.client_id)
+--     if client and client.server_capabilities.inlayHintProvider then
+--       vim.lsp.inlay_hint.enable()
+--     end
+--     -- whatever other lsp config you want
+--   end,
+-- })
 
 -- GUI
 if g.neovide then
-  o.guifont = "JetBrainsMono Nerd Font"
+  vim.o.guifont = "JetBrainsMono Nerd Font:h13"
+  vim.o.linespace = 6
+
   g.neovide_remember_window_size = true
   g.neovide_cursor_vfx_mode = "railgun"
   g.neovide_confirm_quit = true
-  g.neovide_input_use_logo = 1
-  g.neovide_no_idle = true
 
   vim.cmd [[
     let g:dracula#palette          = {}
@@ -124,6 +154,8 @@ if g.neovide then
     tmap <D-v> <C-R>+
     imap <C-v> <C-R>+
     tmap <C-v> <C-R>+
+    imap <C-S-v> <C-R>+
+    tmap <C-S-v> <C-R>+
     map ˙ <a-h>
     map ∆ <a-j>
     map ˚ <a-k>
