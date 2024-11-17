@@ -21,6 +21,8 @@ vim.cmd [[
   endfunction
 ]]
 
+require "custom.command" -- 定义用户命令
+
 o.cmdheight = 1 -- more space in the neovim command line for displaying messages
 o.confirm = true
 o.foldmethod = "indent"
@@ -36,6 +38,7 @@ o.list = true
 -- o.spell = true
 -- o.spelloptions = "camel,noplainbuffer"
 o.sessionoptions = "buffers,curdir,folds,tabpages,winpos,winsize"
+o.jumpoptions = "stack"
 
 g.conflict_marker_enable_mappings = 0
 g.loaded_python3_provider = nil
@@ -60,6 +63,12 @@ local highlights = {
   "hi! DiagnosticSignHint guifg=#bd93f9",
 }
 
+-- 自定义行前标记
+vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+vim.fn.sign_define("DiagnosticSignHint", { text = " ", texthl = "DiagnosticSignHint" })
+
 local autocmds = {
   { "UIEnter", "*", table.concat(highlights, " | ") },
   { "InsertLeave", "*", ":set relativenumber" },
@@ -73,25 +82,25 @@ for _, v in ipairs(autocmds) do
 end
 
 -- lsp inlay_hint
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client.server_capabilities.inlayHintProvider then
-      vim.lsp.inlay_hint.enable()
-    end
-    -- whatever other lsp config you want
-  end,
-})
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+--   callback = function(args)
+--     local client = vim.lsp.get_client_by_id(args.data.client_id)
+--     if client and client.server_capabilities.inlayHintProvider then
+--       vim.lsp.inlay_hint.enable()
+--     end
+--     -- whatever other lsp config you want
+--   end,
+-- })
 
 -- GUI
 if g.neovide then
-  o.guifont = "JetBrainsMono Nerd Font"
+  vim.o.guifont = "JetBrainsMono Nerd Font:h13"
+  vim.o.linespace = 6
+
   g.neovide_remember_window_size = true
   g.neovide_cursor_vfx_mode = "railgun"
   g.neovide_confirm_quit = true
-  g.neovide_input_use_logo = 1
-  g.neovide_no_idle = true
 
   vim.cmd [[
     let g:dracula#palette          = {}
@@ -124,6 +133,8 @@ if g.neovide then
     tmap <D-v> <C-R>+
     imap <C-v> <C-R>+
     tmap <C-v> <C-R>+
+    imap <C-S-v> <C-R>+
+    tmap <C-S-v> <C-R>+
     map ˙ <a-h>
     map ∆ <a-j>
     map ˚ <a-k>

@@ -1,17 +1,5 @@
-local function load_session_for_cwd()
-  require("persisted").load()
-  if not vim.g.persisted_loaded_session then
-    vim.notify("No session found", vim.log.levels.WARN, { title = "Session" })
-    return false
-  else
-    print("Session loaded " .. vim.g.persisted_loaded_session)
-    local ft = vim.bo.filetype
-    if ft == "dashboard" then
-      vim.cmd "bd"
-    end
-    return true
-  end
-end
+local util = require "configs.util"
+local load_session_for_cwd = util.load_session_for_cwd
 
 return {
   theme = "hyper",
@@ -21,14 +9,14 @@ return {
       enable = true,
     },
     project = {
-      -- limit = 8,
+      enable = true,
       action = function(path)
         if not load_session_for_cwd() then
           require("telescope.builtin").find_files { cwd = path }
         end
       end,
     },
-    -- mru = { limit = 10 },
+    mru = { cwd_only = true, limit = 17 },
     shortcut = {
       {
         desc = " New File",
@@ -57,8 +45,14 @@ return {
         key = "l",
       },
       { desc = "󰚰 Update", group = "@property", action = "Lazy update", key = "u" },
+      -- {
+      --   desc = " Sessions",
+      --   group = "DiagnosticInfo",
+      --   action = "Telescope persisted",
+      --   key = "s",
+      -- },
       {
-        desc = "󰩈 Quit",
+        desc = "󰈆 Quit",
         key = "q",
         action = "qall",
         group = "DiagnosticError",

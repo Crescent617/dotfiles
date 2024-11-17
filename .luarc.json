@@ -1,12 +1,13 @@
 {
-    "diagnostics.globals": [
-        "vim",
-        "lvim",
-        "awesome",
-        "client",
-        "root",
-        "globalkeys",
-        "tag",
-        "screen"
-    ]
+  "diagnostics.globals": [
+    "vim",
+    "lvim",
+    "awesome",
+    "client",
+    "root",
+    "globalkeys",
+    "tag",
+    "screen",
+    "Snacks"
+  ]
 }

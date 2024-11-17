@@ -1,3 +1,5 @@
+local frontend_formatter = { "prettierd", "prettier", stop_after_first = true }
+
 return {
   {
     "stevearc/conform.nvim",
@@ -10,7 +12,7 @@ return {
         function()
           require("conform").format { async = true, lsp_fallback = true }
         end,
-        mode = "n",
+        mode = "",
         desc = "Format buffer",
       },
     },
@@ -20,12 +22,15 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         python = { "isort", "black" },
-        javascript = { "prettierd", "prettier", stop_after_first = true },
-        go = { "goimports", "gofmt", "golines" },
+        javascript = frontend_formatter,
+        typescript = frontend_formatter,
+        javascriptreact = frontend_formatter,
+        typescriptreact = frontend_formatter,
+        go = { "goimports", "gofumpt" },
         sql = { "sql-formatter" },
       },
       -- Set up format-on-save
-      -- format_on_save = { timeout_ms = 500, lsp_fallback = true },
+      format_on_save = { timeout_ms = 500, lsp_fallback = true },
       -- Customize formatters
       formatters = {
         shfmt = {
@@ -35,9 +40,17 @@ return {
     },
   },
   {
+    "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("fzf-lua").setup {}
+    end,
+  },
+  {
     "nvim-tree/nvim-tree.lua",
     opts = {
       git = { enable = true },
+      notify = { threshold = vim.log.levels.WARN },
     },
   },
   { "folke/trouble.nvim", cmd = "Trouble", opts = {} },
@@ -71,20 +84,26 @@ return {
     end,
   },
   {
-    "windwp/nvim-spectre",
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
     config = function()
-      require("spectre").setup {
-        mapping = {
-          ["send_to_qf"] = {
-            map = "<C-q>",
-          },
-        },
+      require("grug-far").setup {
+        -- options, see Configuration section below
+        -- there are no required options atm
+        -- engine = 'ripgrep' is default, but 'astgrep' can be specified
       }
     end,
   },
+
   {
     "f-person/git-blame.nvim",
     event = "BufRead",
+    opts = {
+      enabled = true, -- if you want to enable the plugin
+      message_template = "    <author> • <summary> • <<sha>> at <date>", -- template for the blame message, check the Message template section for more options
+      date_format = "%Y-%m-%d %H:%M", -- template for the date, check Date format section for more options
+      virtual_text_column = 1, -- virtual text start column, check Start virtual text at column section for more options
+    },
   },
   {
     "folke/todo-comments.nvim",
@@ -248,7 +267,7 @@ return {
     config = true,
   },
   {
-    "chentoast/marks.nvim",
+    "chentoast/marks.nvim", -- display marks sign
     event = "BufRead",
     config = function()
       require("marks").setup {
@@ -264,6 +283,64 @@ return {
         prefix = "➜",
         min_rows = 20,
         disable_virtual_lines = true,
+      }
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    enabled = false,
+    event = "BufRead",
+    config = function()
+      require("treesitter-context").setup {}
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    event = "BufRead",
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]m"] = "@function.outer",
+              ["]]"] = { query = "@class.outer", desc = "Next class start" },
+              --
+              -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queries.
+              ["]o"] = "@loop.*",
+              -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+              --
+              -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+              -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+              ["]s"] = { query = "@local.scope", query_group = "locals", desc = "Next scope" },
+              ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+            },
+            goto_next_end = {
+              ["]M"] = "@function.outer",
+              ["]["] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[m"] = "@function.outer",
+              ["[["] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[M"] = "@function.outer",
+              ["[]"] = "@class.outer",
+            },
+          },
+        },
       }
     end,
   },
@@ -314,7 +391,13 @@ return {
       require("nvim-dap-virtual-text").setup {}
     end,
   },
-  { "tpope/vim-unimpaired", event = "BufRead" },
+  {
+    "tummetott/unimpaired.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add options here if you wish to override the default settings
+    },
+  },
   {
     "windwp/nvim-ts-autotag",
     event = "BufRead",
@@ -493,7 +576,18 @@ return {
     "dnlhc/glance.nvim",
     event = "BufRead",
     config = function()
-      require("glance").setup {}
+      local glance = require "glance"
+      local actions = glance.actions
+      glance.setup {
+        mappings = {
+          list = {
+            ["<C-h>"] = actions.enter_win "preview", -- Focus preview window
+          },
+          preview = {
+            ["<C-l>"] = actions.enter_win "list", -- Focus list window
+          },
+        },
+      }
       -- Lua
       vim.keymap.set("n", "gpd", "<CMD>Glance definitions<CR>")
       vim.keymap.set("n", "gpr", "<CMD>Glance references<CR>")
@@ -527,27 +621,11 @@ return {
           gitcommit = true,
           gitrebase = true,
           ["dap-repl"] = false,
+          ["grug-far"] = false,
+          ["grug-far-history"] = false,
+          ["grug-far-help"] = false,
         },
       }
-    end,
-  },
-  {
-    "rcarriga/nvim-notify",
-    event = "VeryLazy",
-    config = function()
-      local builtin_notify = vim.notify
-      local noti = require "notify"
-      local blacklist = { "textDocument/" }
-
-      vim.notify = function(msg, level, opts)
-        for _, v in ipairs(blacklist) do
-          if msg:find(v) then
-            builtin_notify("Blacklisted notification: " .. msg, vim.log.levels.DEBUG)
-            return
-          end
-        end
-        noti(msg, level, opts)
-      end
     end,
   },
   {
@@ -561,32 +639,6 @@ return {
         },
       }
       require("telescope").load_extension "yank_history"
-    end,
-  },
-  {
-    "kevinhwang91/nvim-hlslens",
-    event = "BufRead",
-    config = function()
-      require("hlslens").setup()
-
-      local kopts = { noremap = true, silent = true }
-
-      vim.api.nvim_set_keymap(
-        "n",
-        "n",
-        [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        kopts
-      )
-      vim.api.nvim_set_keymap(
-        "n",
-        "N",
-        [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        kopts
-      )
-      vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
     end,
   },
   {
@@ -639,15 +691,15 @@ return {
       require("refactoring").setup()
     end,
   },
-  {
-    "nvimdev/dashboard-nvim",
-    event = "VimEnter",
-    config = function()
-      local conf = require "configs.dashboard"
-      require("dashboard").setup(conf)
-    end,
-    dependencies = { { "nvim-tree/nvim-web-devicons" } },
-  },
+  -- {
+  --   "nvimdev/dashboard-nvim",
+  --   event = "VimEnter",
+  --   config = function()
+  --     local conf = require "configs.dashboard"
+  --     require("dashboard").setup(conf)
+  --   end,
+  --   dependencies = { { "nvim-tree/nvim-web-devicons" } },
+  -- },
   -- Minimal configuration
   {
     "David-Kunz/gen.nvim",
@@ -684,17 +736,20 @@ return {
     "olimorris/persisted.nvim",
     event = "VeryLazy",
     config = function()
+      local skip_ft = { "alpha", "dashboard", "fugitive", "grug-far", "grug-far-help", "grug-far-history" }
       require("persisted").setup {
         follow_cwd = false,
         should_autosave = function()
           local ft = vim.bo.filetype
-          -- do not autosave if the alpha dashboard is the current filetype
-          if ft == "alpha" or ft == "dashboard" or ft == "fugitive" then
-            return false
+          for _, v in ipairs(skip_ft) do
+            if ft == v then
+              return false
+            end
           end
           return true
         end,
       }
+      require("telescope").load_extension "persisted"
     end,
   },
   {
@@ -704,6 +759,7 @@ return {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
+    build = "make tiktoken", -- Only on MacOS or Linux
     keys = {
       {
         "<leader>ai",
@@ -715,7 +771,7 @@ return {
       },
     },
     opts = {
-      debug = true, -- Enable debugging
+      -- debug = true, -- Enable debugging
       window = {
         layout = "float",
         width = 0.75,
@@ -724,39 +780,7 @@ return {
     },
   },
   {
-    "NvChad/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup {
-        filetypes = { "*" },
-        user_default_options = {
-          RGB = true, -- #RGB hex codes
-          RRGGBB = true, -- #RRGGBB hex codes
-          names = true, -- "Name" codes like Blue or blue
-          RRGGBBAA = true, -- #RRGGBBAA hex codes
-          AARRGGBB = true, -- 0xAARRGGBB hex codes
-          rgb_fn = false, -- CSS rgb() and rgba() functions
-          hsl_fn = false, -- CSS hsl() and hsla() functions
-          css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-          css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-          -- Available modes for `mode`: foreground, background,  virtualtext
-          mode = "background", -- Set the display mode.
-          -- Available methods are false / true / "normal" / "lsp" / "both"
-          -- True is same as normal
-          tailwind = false, -- Enable tailwind colors
-          -- parsers can contain values used in |user_default_options|
-          sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
-          virtualtext = "■",
-          -- update color values even if buffer is not focused
-          -- example use: cmp_menu, cmp_docs
-          always_update = false,
-        },
-        -- all the sub-options of filetypes apply to buftypes
-        buftypes = {},
-      }
-    end,
-  },
-  {
-    "linrongbin16/gitlinker.nvim",
+    "linrongbin16/gitlinker.nvim", -- generate git link at current line
     cmd = "GitLink",
     opts = {},
     keys = {
@@ -768,20 +792,134 @@ return {
         router = {
           browse = {
             ["^github.freewheel.tv"] = require("gitlinker.routers").github_browse,
+            ["^dev.msh.team"] = require("gitlinker.routers").github_browse,
           },
           blame = {
             ["^github.freewheel.tv"] = require("gitlinker.routers").github_blame,
+            ["^dev.msh.team"] = require("gitlinker.routers").github_blame,
           },
         },
       }
     end,
   },
-  { "danilamihailov/beacon.nvim", event = "BufRead" },
   {
-    "j-hui/fidget.nvim",
+    "sphamba/smear-cursor.nvim", -- cursor like neovide
+    opts = {},
+    enabled = false and not vim.g.neovide, -- kitty have this feature
+    event = "VeryLazy",
+  },
+  {
+    "j-hui/fidget.nvim", -- lsp progress at bottom right
     opts = {
       -- options
     },
     event = "BufRead",
+  },
+  {
+    --  IMPORTANT: As mentioned earlier, this plugin serves as a replacement for typescript-language-server, so you should remove the nvim-lspconfig setup for it.
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+  },
+  {
+    "stevearc/oil.nvim",
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    commands = {
+      "Oil",
+    },
+    keys = {
+      {
+        "-",
+        "<cmd>Oil<CR>",
+        mode = "n",
+      },
+    },
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+  },
+  {
+    "jvgrootveld/telescope-zoxide",
+    keys = {
+      {
+        "<leader>cd",
+        function()
+          require("telescope").extensions.zoxide.list()
+        end,
+        mode = "n",
+        desc = "Autojump",
+      },
+    },
+    config = function()
+      require("telescope").load_extension "zoxide"
+    end,
+  },
+  {
+    "2kabhishek/nerdy.nvim",
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    cmd = "Nerdy",
+  },
+  {
+    "rcarriga/nvim-notify",
+    event = "VeryLazy",
+    config = function()
+      require "configs.notify"
+    end,
+  },
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      bigfile = { enabled = true },
+      -- dashboard = { enabled = true, },
+      -- terminal = { enabled = true },
+      -- notifier = { enabled = true, timeout = 5000 }, -- already have nvim-notify
+      quickfile = { enabled = true },
+      -- scroll = { enabled = true },
+      -- input = { enabled = true }, -- already have dressing.nvim
+      lazygit = { enabled = true },
+      scope = { enabled = true },
+      statuscolumn = { enabled = false },
+      words = { enabled = true },
+    },
+    keys = {
+      {
+        "<leader>gB",
+        function()
+          Snacks.gitbrowse()
+        end,
+        desc = "Git Browse",
+      },
+      {
+        "<leader>gg",
+        function()
+          Snacks.lazygit()
+        end,
+        desc = "Lazygit",
+      },
+    },
+    init = function()
+      -- LSP-integrated file renaming with support for plugins
+      local prev = { new_name = "", old_name = "" } -- Prevents duplicate events
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "NvimTreeSetup",
+        callback = function()
+          local events = require("nvim-tree.api").events
+          events.subscribe(events.Event.NodeRenamed, function(data)
+            if prev.new_name ~= data.new_name or prev.old_name ~= data.old_name then
+              data = data
+              Snacks.rename.on_rename_file(data.old_name, data.new_name)
+            end
+          end)
+        end,
+      })
+    end,
   },
 }
