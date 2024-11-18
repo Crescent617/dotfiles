@@ -86,6 +86,7 @@ in
     copyq # desc: Clipboard manager with advanced features
     flameshot # desc: Powerful yet simple to use screenshot software
     gh # desc: GitHub CLI
+    systemctl-tui # desc: A text-based systemd manager
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -107,7 +108,7 @@ in
     ".tmux.conf".source = ~/.config/home-manager/d/.tmux.conf;
     ".todo.cfg".source = ~/.config/home-manager/d/.todo.cfg;
     ".vimrc".source = ~/.config/home-manager/d/.vimrc;
-    ".config/containers".source = ~/.config/home-manager/d/containers;
+    ".config/containers/registries.conf".source = ~/.config/home-manager/d/containers/registries.conf;
     ".config/picom.conf".source = ~/.config/home-manager/d/picom.conf;
     ".config/starship.toml".source = ~/.config/home-manager/d/starship.toml;
     ".config/kitty/kitty.conf".source = ~/.config/home-manager/d/kitty.conf;
@@ -177,79 +178,29 @@ in
         todo.sh list
       '';
     };
-    mcfly.enable = true;
+    mcfly = {
+      enable = true;
+      fzf.enable = true;
+    };
     starship.enable = true;
     zoxide.enable = true;
     gh.enable = true;
   };
 
-  systemd.user.services =
-    if isLinux then {
-      # podman service: use to manage container using lazydocker
-      podman = {
-        Unit = {
-          Description = "Podman service";
-          After = [ "network.target" ];
-        };
-        Install = {
-          WantedBy = [ "default.target" ];
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "/usr/bin/podman system service --time 0";
-          Restart = "always";
-        };
-      };
-    } else { };
-
+  imports = [ ./custom/services.nix ];
 
   services =
     if isLinux then {
       flameshot.enable = false;
       copyq.enable = true;
-
-      podman = {
-        enable = true;
-        # NOTE: here need use network, https://github.com/nix-community/home-manager/issues/4336
-        networks = {
-          container_routing = {
-            driver = "bridge";
-            subnet = "172.21.1.0/24";
-          };
-        };
-        containers = {
-          mariadb = {
-            image = "mariadb";
-            environment = {
-              MYSQL_ROOT_PASSWORD = "root";
-            };
-            network = "container_routing";
-            ports = [ "127.0.0.1:3306:3306" ];
-            volumes = [ "mariadb_data:/var/lib/mysql" ];
-          };
-          gotify = {
-            image = "gotify/server";
-            ports = [ "7777:80" ];
-            network = "container_routing";
-            volumes = [ "gotify-data:/app/data" ];
-          };
-          ddns-go = {
-            image = "jeessy/ddns-go";
-            network = "host";
-            volumes = [ "ddns-go-data:/root" ];
-          };
-          clickhouse = {
-            image = "clickhouse/clickhouse-server";
-            ports = [ "127.0.0.1:8123:8123" "127.0.0.1:9000:9000" ];
-            network = "container_routing";
-            volumes = [
-              "ch_data:/var/lib/clickhouse"
-              "ch_config:/etc/clickhouse-server"
-              "ch_logs:/var/log/clickhouse-server"
-            ];
-          };
-        };
-      };
     } else { };
 
+  custom.services.podman.enable = true;
+  custom.containers =
+    if isLinux then {
+      mariadb.enable = true;
+      gotify.enable = true;
+      clickhouse.enable = true;
+      ddns-go.enable = true;
+    } else { };
 }
