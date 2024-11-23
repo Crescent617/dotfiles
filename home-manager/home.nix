@@ -114,7 +114,11 @@ in
     ".config/kitty/kitty.conf".source = ~/.config/home-manager/d/kitty.conf;
     ".config/wezterm".source = ~/.config/home-manager/d/wezterm;
     ".cargo/config.toml".source = ~/.config/home-manager/d/cargo.toml;
-    ".config/nvim".source = ~/.config/home-manager/d/nvim;
+    ".config/nvim/lua".source = ~/.config/home-manager/d/nvim/lua;
+    ".config/nvim/init.lua".source = ~/.config/home-manager/d/nvim/init.lua;
+    ".Xresources".source = ~/.config/home-manager/d/.Xresources;
+    ".Xmodmap".source = ~/.config/home-manager/d/.Xmodmap;
+    ".config/rofi".source = ~/.config/home-manager/d/rofi;
   };
 
   # Home Manager can also manage your environment variables through
@@ -177,6 +181,20 @@ in
       initExtraBeforeCompInit = ''
         todo.sh list
       '';
+      initExtra = ''
+        # >>> conda initialize >>>
+        __conda_setup="$('/home/hrli/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+        if [ $? -eq 0 ]; then
+            eval "$__conda_setup"
+        else
+            if [ -f "/home/hrli/miniconda3/etc/profile.d/conda.sh" ]; then
+                . "/home/hrli/miniconda3/etc/profile.d/conda.sh"
+            else
+                export PATH="/home/hrli/miniconda3/bin:$PATH"
+            fi
+        fi
+        unset __conda_setup
+      '';
     };
     mcfly = {
       enable = true;
@@ -200,7 +218,7 @@ in
     if isLinux then {
       mariadb.enable = true;
       gotify.enable = true;
-      clickhouse.enable = true;
       ddns-go.enable = true;
+      clickhouse.enable = true;
     } else { };
 }

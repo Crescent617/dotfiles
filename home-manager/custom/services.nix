@@ -4,7 +4,7 @@ with lib;
 
 let
   srvPrefix = "hm-"; # Home Manager
-  conPrefix = "hmc-"; # Home Manager Container
+  conSrvPrefix = "hmc-"; # Home Manager Container
   ociCmd = config.custom.ociCmd;
   serviceConfig = { enable, desc, startCmd, stopCmd, ... }: mkIf enable {
     Unit.Description = "${desc}";
@@ -18,7 +18,7 @@ let
   };
 
   containerConfig = { enable, name, params, ... }:
-    let cName = "systemctl_${name}"; in
+    let cName = "${conSrvPrefix}${name}"; in
     mkIf enable {
       Unit.Description = "${cName} container";
       Unit.After = [ "network.target" ];
@@ -57,7 +57,7 @@ in
         stopCmd = "";
       };
 
-      "${conPrefix}mariadb" = containerConfig {
+      "${conSrvPrefix}mariadb" = containerConfig {
         enable = config.custom.containers.mariadb.enable;
         name = "mariadb";
         params = ''
@@ -68,7 +68,7 @@ in
         '';
       };
 
-      "${conPrefix}gotify" = containerConfig {
+      "${conSrvPrefix}gotify" = containerConfig {
         enable = config.custom.containers.gotify.enable;
         name = "gotify";
         params = ''
@@ -78,7 +78,7 @@ in
         '';
       };
 
-      "${conPrefix}clickhouse" = containerConfig {
+      "${conSrvPrefix}clickhouse" = containerConfig {
         enable = config.custom.containers.clickhouse.enable;
         name = "clickhouse";
         params = ''
@@ -91,7 +91,7 @@ in
         '';
       };
 
-      "${conPrefix}ddns-go" = containerConfig {
+      "${conSrvPrefix}ddns-go" = containerConfig {
         enable = config.custom.containers.ddns-go.enable;
         name = "ddns-go";
         params = ''

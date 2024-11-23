@@ -784,4 +784,11 @@ return {
     },
     event = "BufRead",
   },
+  {
+    "pteroctopus/faster.nvim", -- handle big files
+    event = "VeryLazy",
+    config = function()
+      require("faster").setup()
+    end,
+  },
 }
