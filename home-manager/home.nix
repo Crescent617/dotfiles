@@ -41,6 +41,7 @@ in
     # '')
     zsh
     curl
+    unzip
     git
     htop
     mcfly # desc: A replacement for ctrl-r with context-aware filtering and improved search
@@ -119,6 +120,7 @@ in
     ".Xresources".source = ~/.config/home-manager/d/.Xresources;
     ".Xmodmap".source = ~/.config/home-manager/d/.Xmodmap;
     ".config/rofi".source = ~/.config/home-manager/d/rofi;
+    ".pip/pip.conf".source = ~/.config/home-manager/d/pip.conf;
   };
 
   # Home Manager can also manage your environment variables through
