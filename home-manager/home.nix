@@ -86,6 +86,8 @@ in
     copyq # desc: Clipboard manager with advanced features
     flameshot # desc: Powerful yet simple to use screenshot software
     gh # desc: GitHub CLI
+    hyperfine # desc: A command-line benchmarking tool
+    fastfetch # desc: A command-line system information tool written in Rust
     # systemctl-tui # desc: A text-based systemd manager
     # superfile
   ];
