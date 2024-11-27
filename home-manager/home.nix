@@ -80,14 +80,14 @@ in
     yazi
     bottom # desc: A cross-platform graphical process/system monitor with a customizable interface and a multitude of features
     progress # desc: Coreutils progress viewer
-    gcc
     go
     python3
     mycli
     copyq # desc: Clipboard manager with advanced features
     flameshot # desc: Powerful yet simple to use screenshot software
     gh # desc: GitHub CLI
-    systemctl-tui # desc: A text-based systemd manager
+    # systemctl-tui # desc: A text-based systemd manager
+    # superfile
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -145,11 +145,11 @@ in
     PATH = "$HOME/.local/bin:$HOME/repos/my-busybox/bin:$PATH";
     GOPROXY = "https://goproxy.cn";
     FZF_DEFAULT_OPTS = " \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
---color=selected-bg:#45475a \
---multi";
+      --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+      --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+      --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+      --color=selected-bg:#45475a \
+      --multi";
   };
 
   programs = {
@@ -181,7 +181,7 @@ in
         . $HOME/.cargo/env
       '';
       initExtraBeforeCompInit = ''
-        todo.sh list
+        command -v motd.sh &>/dev/null && motd.sh
       '';
       initExtra = ''
         # >>> conda initialize >>>
@@ -219,7 +219,7 @@ in
   custom.containers =
     if isLinux then {
       mariadb.enable = true;
-      gotify.enable = true;
+      # gotify.enable = true;
       ddns-go.enable = true;
       clickhouse.enable = true;
     } else { };
