@@ -6,10 +6,10 @@ let
   srvPrefix = "hm-"; # Home Manager
   conSrvPrefix = "hmc-"; # Home Manager Container
   ociCmd = config.custom.ociCmd;
-  serviceConfig = { enable, desc, startCmd, stopCmd, ... }: mkIf enable {
+  serviceConfig = { enable, desc, startCmd, stopCmd, autoStart, ... }: mkIf enable {
     Unit.Description = "${desc}";
     Unit.After = [ "network.target" ];
-    Install.WantedBy = [ "default.target" ];
+    Install.WantedBy = if autoStart then [ "default.target" ] else [ ];
     Service = {
       ExecStart = "${startCmd}";
       ExecStop = "${stopCmd}";
@@ -17,12 +17,12 @@ let
     };
   };
 
-  containerConfig = { enable, name, params, ... }:
+  containerConfig = { enable, name, params, autoStart, ... }:
     let cName = "${conSrvPrefix}${name}"; in
     mkIf enable {
       Unit.Description = "${cName} container";
       Unit.After = [ "network.target" ];
-      Install.WantedBy = [ "default.target" ];
+      Install.WantedBy = if autoStart then [ "default.target" ] else [ ];
       Service = {
         ExecStartPre = "${ociCmd} rm --ignore ${name}";
         ExecStart = "${ociCmd} run --name ${cName} --rm ${params}";
@@ -39,8 +39,8 @@ in
       default = "podman";
       description = "OCI command to use";
     };
-    custom.services.podman.enable = mkEnableOption "Podman service";
-    custom.containers = {
+    custom.systemd.podman.enable = mkEnableOption "Podman service";
+    custom.systemd = {
       mariadb.enable = mkEnableOption "MariaDB container";
       gotify.enable = mkEnableOption "Gotify container";
       clickhouse.enable = mkEnableOption "ClickHouse container";
@@ -51,14 +51,15 @@ in
   config = {
     systemd.user.services = {
       "${srvPrefix}podman" = serviceConfig {
-        enable = config.custom.services.podman.enable;
+        enable = config.custom.systemd.podman.enable;
         desc = "Podman service";
         startCmd = "/usr/bin/podman system service --time 0";
         stopCmd = "";
+        autoStart = true;
       };
 
       "${conSrvPrefix}mariadb" = containerConfig {
-        enable = config.custom.containers.mariadb.enable;
+        enable = config.custom.systemd.mariadb.enable;
         name = "mariadb";
         params = ''
           -e MYSQL_ROOT_PASSWORD=root \
@@ -66,20 +67,22 @@ in
           -v mariadb_data:/var/lib/mysql \
           mariadb
         '';
+        autoStart = true;
       };
 
       "${conSrvPrefix}gotify" = containerConfig {
-        enable = config.custom.containers.gotify.enable;
+        enable = config.custom.systemd.gotify.enable;
         name = "gotify";
         params = ''
           -p 7777:80 \
           -v gotify-data:/app/data \
           gotify/server
         '';
+        autoStart = true;
       };
 
       "${conSrvPrefix}clickhouse" = containerConfig {
-        enable = config.custom.containers.clickhouse.enable;
+        enable = config.custom.systemd.clickhouse.enable;
         name = "clickhouse";
         params = ''
           -p 127.0.0.1:8123:8123 \
@@ -89,16 +92,18 @@ in
           -v ch_logs:/var/log/clickhouse-server \
           clickhouse/clickhouse-server
         '';
+        autoStart = false;
       };
 
       "${conSrvPrefix}ddns-go" = containerConfig {
-        enable = config.custom.containers.ddns-go.enable;
+        enable = config.custom.systemd.ddns-go.enable;
         name = "ddns-go";
         params = ''
           --network host \
           -v ddns-go-data:/root \
           jeessy/ddns-go
         '';
+        autoStart = true;
       };
     };
   };

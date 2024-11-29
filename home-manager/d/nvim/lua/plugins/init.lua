@@ -40,7 +40,7 @@ return {
       git = { enable = true },
     },
   },
-  { "folke/trouble.nvim", cmd = "Trouble", opts = {} },
+  { "folke/trouble.nvim",     cmd = "Trouble", opts = {} },
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -189,7 +189,7 @@ return {
     cmd = { "Git", "G" },
     event = "BufRead",
   },
-  { "stevearc/dressing.nvim", opts = {}, event = "VeryLazy" },
+  { "stevearc/dressing.nvim", opts = {},       event = "VeryLazy" },
   {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
@@ -268,6 +268,14 @@ return {
     end,
   },
   {
+    'nvim-treesitter/nvim-treesitter-context',
+    enabled = false,
+    event = "BufRead",
+    config = function()
+      require('treesitter-context').setup {}
+    end
+  },
+  {
     "SmiteshP/nvim-navic",
     dependencies = "neovim/nvim-lspconfig",
   },
@@ -314,7 +322,7 @@ return {
       require("nvim-dap-virtual-text").setup {}
     end,
   },
-  { "tpope/vim-unimpaired", event = "BufRead" },
+  { "tpope/vim-unimpaired",      event = "BufRead" },
   {
     "windwp/nvim-ts-autotag",
     event = "BufRead",
@@ -406,7 +414,7 @@ return {
     opts = {
       plugins = {
         spelling = {
-          enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+          enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
           suggestions = 20, -- how many suggestions should be shown in the list?
         },
       },
@@ -702,7 +710,7 @@ return {
     event = "BufRead",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+      { "nvim-lua/plenary.nvim" },  -- for curl, log wrapper
     },
     keys = {
       {
@@ -728,7 +736,7 @@ return {
     cmd = "GitLink",
     opts = {},
     keys = {
-      { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
+      { "<leader>gy", "<cmd>GitLink<cr>",  mode = { "n", "v" }, desc = "Yank git link" },
       { "<leader>gY", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
     },
     config = function()
@@ -744,7 +752,12 @@ return {
       }
     end,
   },
-  { "danilamihailov/beacon.nvim", event = "BufRead", enabled = not vim.g.neovide },
+  {
+    "sphamba/smear-cursor.nvim",
+    opts = {},
+    enabled = not vim.g.neovide,
+    event = "VeryLazy",
+  },
   {
     "j-hui/fidget.nvim",
     opts = {

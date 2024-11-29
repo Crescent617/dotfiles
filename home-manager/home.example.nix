@@ -52,12 +52,8 @@ in
     todo-txt-cli
     trash-cli
     zoxide # desc: A faster way to navigate your filesystem
-    (nerdfonts.override {
-      fonts = [
-        "JetBrainsMono"
-        "CascadiaCode"
-      ];
-    })
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.caskaydia-cove
     lazygit
     lazydocker
     fzf
@@ -181,7 +177,6 @@ in
       };
       envExtra = ''
         . $HOME/.cargo/env
-        [[ -f $HOME/.myshenv ]] && . $HOME/.myshenv
       '';
       initExtraBeforeCompInit = ''
         command -v motd.sh &>/dev/null && motd.sh
@@ -210,7 +205,6 @@ in
     gh.enable = true;
   };
 
-  imports = [ ./custom/services.nix ];
 
   services =
     if isLinux then {
@@ -218,9 +212,10 @@ in
       copyq.enable = true;
     } else { };
 
-  custom.services.podman.enable = true;
-  custom.containers =
+  imports = [ ./custom/systemd.nix ];
+  custom.systemd =
     if isLinux then {
+      podman.enable = true;
       mariadb.enable = true;
       # gotify.enable = true;
       ddns-go.enable = true;
