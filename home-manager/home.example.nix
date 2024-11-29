@@ -181,6 +181,7 @@ in
       };
       envExtra = ''
         . $HOME/.cargo/env
+        [[ -f $HOME/.myshenv ]] && . $HOME/.myshenv
       '';
       initExtraBeforeCompInit = ''
         command -v motd.sh &>/dev/null && motd.sh
