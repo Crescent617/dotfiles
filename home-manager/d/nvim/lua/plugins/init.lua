@@ -38,6 +38,7 @@ return {
     "nvim-tree/nvim-tree.lua",
     opts = {
       git = { enable = true },
+      notify = { threshold = vim.log.levels.WARN },
     },
   },
   { "folke/trouble.nvim",     cmd = "Trouble", opts = {} },
@@ -276,6 +277,56 @@ return {
     end
   },
   {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    event = "BufRead",
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]m"] = "@function.outer",
+              ["]]"] = { query = "@class.outer", desc = "Next class start" },
+              --
+              -- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queries.
+              ["]o"] = "@loop.*",
+              -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+              --
+              -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+              -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+              ["]s"] = { query = "@local.scope", query_group = "locals", desc = "Next scope" },
+              ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+            },
+            goto_next_end = {
+              ["]M"] = "@function.outer",
+              ["]["] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[m"] = "@function.outer",
+              ["[["] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[M"] = "@function.outer",
+              ["[]"] = "@class.outer",
+            },
+          },
+        },
+      }
+    end
+  },
+  {
     "SmiteshP/nvim-navic",
     dependencies = "neovim/nvim-lspconfig",
   },
@@ -322,7 +373,13 @@ return {
       require("nvim-dap-virtual-text").setup {}
     end,
   },
-  { "tpope/vim-unimpaired",      event = "BufRead" },
+  {
+    'tummetott/unimpaired.nvim',
+    event = 'VeryLazy',
+    opts = {
+      -- add options here if you wish to override the default settings
+    },
+  },
   {
     "windwp/nvim-ts-autotag",
     event = "BufRead",
@@ -509,7 +566,7 @@ return {
       vim.keymap.set("n", "gpi", "<CMD>Glance implementations<CR>")
     end,
   },
-  { "tpope/vim-repeat", event = "BufRead" },
+  { "tpope/vim-repeat",          event = "BufRead" },
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
@@ -772,4 +829,10 @@ return {
       require("faster").setup()
     end,
   },
+  {
+    --  IMPORTANT: As mentioned earlier, this plugin serves as a replacement for typescript-language-server, so you should remove the nvim-lspconfig setup for it.
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+  }
 }

@@ -90,6 +90,7 @@ in
           -v ch_data:/var/lib/clickhouse \
           -v ch_config:/etc/clickhouse-server \
           -v ch_logs:/var/log/clickhouse-server \
+          -v ch_backups:/backups \
           clickhouse/clickhouse-server
         '';
         autoStart = false;

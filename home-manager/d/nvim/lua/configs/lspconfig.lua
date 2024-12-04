@@ -5,14 +5,14 @@ local servers = {
   "bashls",
   "pyright",
   "gopls",
-  "ts_ls",
+  -- "ts_ls",
   "jsonls",
   "yamlls",
   "taplo",
   -- "prosemd_lsp",
   "eslint",
   -- "rust_analyzer",
-  -- "tailwindcss",
+  "tailwindcss",
   "rnix",
 }
 
