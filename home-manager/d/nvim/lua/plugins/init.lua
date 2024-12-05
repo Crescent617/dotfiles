@@ -1,3 +1,5 @@
+local frontend_formatter = { "prettierd", "prettier", stop_after_first = true }
+
 return {
   {
     "stevearc/conform.nvim",
@@ -20,7 +22,10 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         python = { "isort", "black" },
-        javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = frontend_formatter,
+        typescript = frontend_formatter,
+        javascriptreact = frontend_formatter,
+        typescriptreact = frontend_formatter,
         go = { "goimports", "gofmt", "golines" },
         sql = { "sql-formatter" },
       },
@@ -834,5 +839,6 @@ return {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
+    ft = { "typescript", "typescriptreact", 'javascript', 'javascriptreact' },
   }
 }
