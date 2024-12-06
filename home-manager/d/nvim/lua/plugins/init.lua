@@ -46,7 +46,7 @@ return {
       notify = { threshold = vim.log.levels.WARN },
     },
   },
-  { "folke/trouble.nvim",     cmd = "Trouble", opts = {} },
+  { "folke/trouble.nvim", cmd = "Trouble", opts = {} },
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -195,7 +195,7 @@ return {
     cmd = { "Git", "G" },
     event = "BufRead",
   },
-  { "stevearc/dressing.nvim", opts = {},       event = "VeryLazy" },
+  { "stevearc/dressing.nvim", opts = {}, event = "VeryLazy" },
   {
     "kevinhwang91/nvim-bqf",
     ft = "qf",
@@ -274,12 +274,12 @@ return {
     end,
   },
   {
-    'nvim-treesitter/nvim-treesitter-context',
+    "nvim-treesitter/nvim-treesitter-context",
     enabled = false,
     event = "BufRead",
     config = function()
-      require('treesitter-context').setup {}
-    end
+      require("treesitter-context").setup {}
+    end,
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
@@ -329,7 +329,7 @@ return {
           },
         },
       }
-    end
+    end,
   },
   {
     "SmiteshP/nvim-navic",
@@ -379,8 +379,8 @@ return {
     end,
   },
   {
-    'tummetott/unimpaired.nvim',
-    event = 'VeryLazy',
+    "tummetott/unimpaired.nvim",
+    event = "VeryLazy",
     opts = {
       -- add options here if you wish to override the default settings
     },
@@ -476,7 +476,7 @@ return {
     opts = {
       plugins = {
         spelling = {
-          enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+          enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
           suggestions = 20, -- how many suggestions should be shown in the list?
         },
       },
@@ -571,7 +571,7 @@ return {
       vim.keymap.set("n", "gpi", "<CMD>Glance implementations<CR>")
     end,
   },
-  { "tpope/vim-repeat",          event = "BufRead" },
+  { "tpope/vim-repeat", event = "BufRead" },
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
@@ -772,8 +772,9 @@ return {
     event = "BufRead",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" },  -- for curl, log wrapper
+      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
+    build = "make tiktoken", -- Only on MacOS or Linux
     keys = {
       {
         "<leader>ai",
@@ -785,7 +786,7 @@ return {
       },
     },
     opts = {
-      debug = true, -- Enable debugging
+      -- debug = true, -- Enable debugging
       window = {
         layout = "float",
         width = 0.75,
@@ -798,7 +799,7 @@ return {
     cmd = "GitLink",
     opts = {},
     keys = {
-      { "<leader>gy", "<cmd>GitLink<cr>",  mode = { "n", "v" }, desc = "Yank git link" },
+      { "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Yank git link" },
       { "<leader>gY", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
     },
     config = function()
@@ -839,6 +840,40 @@ return {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
-    ft = { "typescript", "typescriptreact", 'javascript', 'javascriptreact' },
-  }
+    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+  },
+  {
+    "stevearc/oil.nvim",
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    commands = {
+      "Oil",
+    },
+    keys = {
+      {
+        "-",
+        "<cmd>Oil<CR>",
+        mode = "n",
+      },
+    },
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+  },
+  {
+    "jvgrootveld/telescope-zoxide",
+    keys = {
+      {
+        "<leader>cd",
+        function()
+          require("telescope").extensions.zoxide.list()
+        end,
+        mode = "n",
+        desc = "Autojump",
+      },
+    },
+    config = function()
+      require("telescope").load_extension "zoxide"
+    end,
+  },
 }
