@@ -28,7 +28,7 @@ return {
         end
       end,
     },
-    -- mru = { limit = 10 },
+    mru = { cwd_only = true, limit = 17 },
     shortcut = {
       {
         desc = " New File",
@@ -58,7 +58,13 @@ return {
       },
       { desc = "󰚰 Update", group = "@property", action = "Lazy update", key = "u" },
       {
-        desc = "󰩈 Quit",
+        desc = " Sessions",
+        group = "DiagnosticInfo",
+        action = "Telescope persisted",
+        key = "s",
+      },
+      {
+        desc = "󰈆 Quit",
         key = "q",
         action = "qall",
         group = "DiagnosticError",

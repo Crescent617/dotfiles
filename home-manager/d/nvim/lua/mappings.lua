@@ -8,11 +8,11 @@ del("n", "<leader>v")
 del("n", "<leader>h")
 del("n", "<leader>n")
 del("n", "<Tab>")
-del('i', '<C-l>')
-del('i', '<C-h>')
-del('i', '<C-j>')
-del('i', '<C-k>')
-del('n', '<C-c>')
+del("i", "<C-l>")
+del("i", "<C-h>")
+del("i", "<C-j>")
+del("i", "<C-k>")
+del("n", "<C-c>")
 -- del("n", "<C-l>")
 
 -- add yours here
@@ -20,6 +20,7 @@ del('n', '<C-c>')
 local map = vim.keymap.set
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
+map("n", "P", '"0p', { desc = "paste from yank register" })
 map("t", "jk", [[<C-\><C-n>]]) -- jk to escape in terminal mode
 
 map("n", "<C-q>", "<cmd>call QuickFixToggle()<CR>", { desc = "Toggle Quickfix" })

@@ -765,6 +765,7 @@ return {
           return true
         end,
       }
+      require("telescope").load_extension "persisted"
     end,
   },
   {
@@ -875,5 +876,13 @@ return {
     config = function()
       require("telescope").load_extension "zoxide"
     end,
+  },
+  {
+    "2kabhishek/nerdy.nvim",
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    cmd = "Nerdy",
   },
 }
