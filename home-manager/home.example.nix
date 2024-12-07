@@ -86,6 +86,7 @@ in
     fastfetch # desc: A command-line system information tool written in Rust
     # systemctl-tui # desc: A text-based systemd manager
     # superfile
+    gitmux
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
