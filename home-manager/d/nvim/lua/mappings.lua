@@ -30,12 +30,17 @@ map("n", "<leader>Q", "<cmd>qall<CR>", { desc = "quit all" })
 map("n", "<leader>w", "<cmd>update<CR>", { desc = "save" })
 map("n", "<leader>.", ":<Up><CR>", { desc = "last cmd" })
 map("n", "<leader>;", "<cmd>Dashboard<CR>", { desc = "open dashboard" })
-map("n", "<leader>S", "<cmd>lua require('spectre').open()<CR>", { desc = "spectre" })
 map("n", "<leader>tp", "<cmd>Trouble diagnostics toggle<CR>", { desc = "problems" })
 map("n", "<leader>b", "<cmd>b#<CR>", { desc = "last buffer" })
 map("n", "<Esc>", "<cmd>nohl<CR>", { desc = "nohl" })
 
-map("v", "<leader>S", "<cmd>lua require('spectre').open_visual()<CR>", { desc = "spectre" })
+map("n", "<leader>S", "<cmd>lua require('grug-far').open({ transient = true })<CR>", { desc = "Search & Replace" })
+map(
+  "v",
+  "<leader>S",
+  "<cmd>lua require('grug-far').with_visual_selection({ transient = true })<CR>",
+  { desc = "Search & Replace" }
+)
 
 map("n", "<leader>tf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', { desc = "Test File" })
 map("n", "<leader>tn", '<cmd>lua require("neotest").run.run()<CR>', { desc = "Test Nearest" })

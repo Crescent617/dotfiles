@@ -77,17 +77,17 @@ return {
     end,
   },
   {
-    "windwp/nvim-spectre",
+    "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
     config = function()
-      require("spectre").setup {
-        mapping = {
-          ["send_to_qf"] = {
-            map = "<C-q>",
-          },
-        },
+      require("grug-far").setup {
+        -- options, see Configuration section below
+        -- there are no required options atm
+        -- engine = 'ripgrep' is default, but 'astgrep' can be specified
       }
     end,
   },
+
   {
     "f-person/git-blame.nvim",
     event = "BufRead",
@@ -603,6 +603,9 @@ return {
           gitcommit = true,
           gitrebase = true,
           ["dap-repl"] = false,
+          ["grug-far"] = false,
+          ["grug-far-history"] = false,
+          ["grug-far-help"] = false,
         },
       }
     end,
@@ -741,13 +744,15 @@ return {
     "olimorris/persisted.nvim",
     event = "VeryLazy",
     config = function()
+      local skip_ft = { "alpha", "dashboard", "fugitive", "grug-far", "grug-far-help", "grug-far-history" }
       require("persisted").setup {
         follow_cwd = false,
         should_autosave = function()
           local ft = vim.bo.filetype
-          -- do not autosave if the alpha dashboard is the current filetype
-          if ft == "alpha" or ft == "dashboard" or ft == "fugitive" then
-            return false
+          for _, v in ipairs(skip_ft) do
+            if ft == v then
+              return false
+            end
           end
           return true
         end,
