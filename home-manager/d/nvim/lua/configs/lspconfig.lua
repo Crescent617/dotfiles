@@ -4,6 +4,7 @@ local servers = {
   "cssls",
   "bashls",
   "pyright",
+  -- "pylyzer",
   "gopls",
   -- "ts_ls",
   "jsonls",
