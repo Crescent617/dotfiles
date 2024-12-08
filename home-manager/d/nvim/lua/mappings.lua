@@ -108,9 +108,10 @@ map("n", "<leader>gs", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", { desc = 
 map("n", "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", { desc = "Undo Stage Hunk" })
 map("n", "<leader>go", "<cmd>Telescope git_status<cr>", { desc = "Open changed file" })
 map("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Checkout commit" })
-map("n", "<leader>gC", "<cmd>Telescope git_bcommits<cr>", { desc = "Checkout commit(for current file)" })
+map("n", "<leader>gC", "<cmd>Telescope git_bcommits<cr>", { desc = "Checkout commit (Cur File)" })
 map("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff" })
-map("n", "<leader>gg", "<cmd>Git<cr>", { desc = "  gitfutive" })
+map("n", "<leader>gg", "<cmd>Git<cr>", { desc = "gitfutive" })
+map("n", "<leader>gb", "<cmd>lua Snacks.git.blame_line()", { desc = "Blame Line" })
 
 map("n", "L", "<cmd>lua require('nvchad.tabufline').next()<cr>", { desc = "  goto next buffer" })
 map("n", "H", "<cmd>lua require('nvchad.tabufline').prev()<cr>", { desc = "  goto prev buffer" })

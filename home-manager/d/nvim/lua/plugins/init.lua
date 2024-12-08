@@ -91,6 +91,12 @@ return {
   {
     "f-person/git-blame.nvim",
     event = "BufRead",
+    opts = {
+      enabled = true, -- if you want to enable the plugin
+      message_template = "    <author> • <summary> • <<sha>> at <date>", -- template for the blame message, check the Message template section for more options
+      date_format = "%Y-%m-%d %H:%M", -- template for the date, check Date format section for more options
+      virtual_text_column = 1, -- virtual text start column, check Start virtual text at column section for more options
+    },
   },
   {
     "folke/todo-comments.nvim",
@@ -602,25 +608,6 @@ return {
     end,
   },
   {
-    "rcarriga/nvim-notify",
-    event = "VeryLazy",
-    config = function()
-      local builtin_notify = vim.notify
-      local noti = require "notify"
-      local blacklist = { "textDocument/" }
-
-      vim.notify = function(msg, level, opts)
-        for _, v in ipairs(blacklist) do
-          if msg:find(v) then
-            builtin_notify("Blacklisted notification: " .. msg, vim.log.levels.DEBUG)
-            return
-          end
-        end
-        noti(msg, level, opts)
-      end
-    end,
-  },
-  {
     "gbprod/yanky.nvim",
     event = "BufRead",
     config = function()
@@ -808,16 +795,18 @@ return {
         router = {
           browse = {
             ["^github.freewheel.tv"] = require("gitlinker.routers").github_browse,
+            ["^dev.msh.team"] = require("gitlinker.routers").github_browse,
           },
           blame = {
             ["^github.freewheel.tv"] = require("gitlinker.routers").github_blame,
+            ["^dev.msh.team"] = require("gitlinker.routers").github_blame,
           },
         },
       }
     end,
   },
   {
-    "sphamba/smear-cursor.nvim",
+    "sphamba/smear-cursor.nvim", -- cursor like neovide
     opts = {},
     enabled = not vim.g.neovide,
     event = "VeryLazy",
@@ -828,13 +817,6 @@ return {
       -- options
     },
     event = "BufRead",
-  },
-  {
-    "pteroctopus/faster.nvim", -- handle big files
-    event = "VeryLazy",
-    config = function()
-      require("faster").setup()
-    end,
   },
   {
     --  IMPORTANT: As mentioned earlier, this plugin serves as a replacement for typescript-language-server, so you should remove the nvim-lspconfig setup for it.
@@ -884,5 +866,70 @@ return {
       "nvim-telescope/telescope.nvim",
     },
     cmd = "Nerdy",
+  },
+  --  	{
+  -- 	"rcarriga/nvim-notify",
+  -- 	event = "VeryLazy",
+  -- 	config = function()
+  -- 		local builtin_notify = vim.notify
+  -- 		local noti = require("notify")
+  -- 		local blacklist = { "textDocument/" }
+  --
+  -- 		vim.notify = function(msg, level, opts)
+  -- 			for _, v in ipairs(blacklist) do
+  -- 				if msg:find(v) then
+  -- 					builtin_notify("Blacklisted notification: " .. msg, vim.log.levels.DEBUG)
+  -- 					return
+  -- 				end
+  -- 			end
+  -- 			noti(msg, level, opts)
+  -- 		end
+  -- 	end,
+  -- },
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      bigfile = { enabled = true },
+      dashboard = { enabled = false },
+      terminal = { enabled = false },
+      notifier = {
+        enabled = true,
+        timeout = 3000,
+      },
+      quickfile = { enabled = true },
+      statuscolumn = { enabled = false },
+      words = { enabled = true },
+      styles = {
+        notification = {
+          wo = { wrap = true }, -- Wrap notifications
+        },
+      },
+    },
+    keys = {
+      {
+        "<leader>nl",
+        function()
+          Snacks.notifier.show_history()
+        end,
+        desc = "Notification List",
+      },
+      {
+        "<leader>gB",
+        function()
+          Snacks.gitbrowse()
+        end,
+        desc = "Git Browse",
+      },
+      {
+        "<leader>nx",
+        function()
+          Snacks.notifier.hide()
+        end,
+        desc = "Dismiss All Notifications",
+      },
+    },
   },
 }
