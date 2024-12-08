@@ -867,25 +867,28 @@ return {
     },
     cmd = "Nerdy",
   },
-  --  	{
-  -- 	"rcarriga/nvim-notify",
-  -- 	event = "VeryLazy",
-  -- 	config = function()
-  -- 		local builtin_notify = vim.notify
-  -- 		local noti = require("notify")
-  -- 		local blacklist = { "textDocument/" }
-  --
-  -- 		vim.notify = function(msg, level, opts)
-  -- 			for _, v in ipairs(blacklist) do
-  -- 				if msg:find(v) then
-  -- 					builtin_notify("Blacklisted notification: " .. msg, vim.log.levels.DEBUG)
-  -- 					return
-  -- 				end
-  -- 			end
-  -- 			noti(msg, level, opts)
-  -- 		end
-  -- 	end,
-  -- },
+  {
+    "rcarriga/nvim-notify",
+    event = "VeryLazy",
+    config = function()
+      local builtin_notify = vim.notify
+      local noti = require "notify"
+      noti.setup {
+        render = "wrapped-compact",
+      }
+      local blacklist = { "textDocument/" }
+
+      vim.notify = function(msg, level, opts)
+        for _, v in ipairs(blacklist) do
+          if msg:find(v) then
+            builtin_notify("[Blocked] " .. msg, vim.log.levels.DEBUG)
+            return
+          end
+        end
+        noti(msg, level, opts)
+      end
+    end,
+  },
   {
     "folke/snacks.nvim",
     priority = 1000,
@@ -895,27 +898,12 @@ return {
       bigfile = { enabled = true },
       dashboard = { enabled = false },
       terminal = { enabled = false },
-      notifier = {
-        enabled = true,
-        timeout = 3000,
-      },
+      notifier = { enabled = false, timeout = 5000 },
       quickfile = { enabled = true },
       statuscolumn = { enabled = false },
       words = { enabled = true },
-      styles = {
-        notification = {
-          wo = { wrap = true }, -- Wrap notifications
-        },
-      },
     },
     keys = {
-      {
-        "<leader>nl",
-        function()
-          Snacks.notifier.show_history()
-        end,
-        desc = "Notification List",
-      },
       {
         "<leader>gB",
         function()
@@ -923,13 +911,22 @@ return {
         end,
         desc = "Git Browse",
       },
-      {
-        "<leader>nx",
-        function()
-          Snacks.notifier.hide()
-        end,
-        desc = "Dismiss All Notifications",
-      },
     },
+    init = function()
+      -- LSP-integrated file renaming with support for plugins
+      local prev = { new_name = "", old_name = "" } -- Prevents duplicate events
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "NvimTreeSetup",
+        callback = function()
+          local events = require("nvim-tree.api").events
+          events.subscribe(events.Event.NodeRenamed, function(data)
+            if prev.new_name ~= data.new_name or prev.old_name ~= data.old_name then
+              data = data
+              Snacks.rename.on_rename_file(data.old_name, data.new_name)
+            end
+          end)
+        end,
+      })
+    end,
   },
 }
