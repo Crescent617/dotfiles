@@ -56,7 +56,11 @@ in
     gitmux
     just # desc: A handy way to save and run project-specific commands
     chafa # desc: Image-to-text converter supporting ANSI, ASCII and HTML
-  ];
+  ] ++ (if isLinux then [
+    copyq # desc: Clipboard manager with advanced features
+    flameshot # desc: Powerful yet simple to use screenshot software
+  ] else [ ]);
+
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
