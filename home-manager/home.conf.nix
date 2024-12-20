@@ -85,8 +85,6 @@ in
     ".config/kitty/kitty.conf".source = ~/.config/home-manager/d/kitty.conf;
     ".config/wezterm".source = ~/.config/home-manager/d/wezterm;
     ".cargo/config.toml".source = ~/.config/home-manager/d/cargo.toml;
-    ".config/nvim/lua".source = ~/.config/home-manager/d/nvim/lua;
-    ".config/nvim/init.lua".source = ~/.config/home-manager/d/nvim/init.lua;
     ".Xresources".source = ~/.config/home-manager/d/.Xresources;
     ".Xmodmap".source = ~/.config/home-manager/d/.Xmodmap;
     ".config/rofi".source = ~/.config/home-manager/d/rofi;
@@ -119,14 +117,16 @@ in
       j = "z";
       rm = "trash";
       lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
-      docker = "podman";
-      docker-compose = "podman-compose";
+      lg = "lazygit";
+      # docker = "podman";
+      # docker-compose = "podman-compose";
     };
     defaultKeymap = "emacs";
     oh-my-zsh = {
       enable = true;
       plugins = [
         "git"
+        "gitignore"
         "sudo"
         "fancy-ctrl-z"
         "tmux"
