@@ -132,9 +132,6 @@ end, { desc = "LazyGit" })
 map("n", "L", "<cmd>lua require('nvchad.tabufline').next()<cr>", { desc = "  goto next buffer" })
 map("n", "H", "<cmd>lua require('nvchad.tabufline').prev()<cr>", { desc = "  goto prev buffer" })
 
-map("n", "B", "<cmd>ReachOpen buffers<CR>", { desc = "buffers" })
-map("n", "M", "<cmd>ReachOpen marks<CR>", { desc = "marks" })
-
 map("n", "<leader>fy", "<cmd>Telescope yank_history<cr>", { desc = "yank history" })
 
 map("n", "]c", "<cmd>Gitsigns next_hunk<cr>", { desc = "  next_hunk" })

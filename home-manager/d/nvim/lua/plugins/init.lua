@@ -251,15 +251,11 @@ return {
     end,
   },
   {
-    "toppair/reach.nvim",
-    event = "BufRead",
-    config = function()
-      -- default config
-      require("reach").setup {}
-      vim.cmd [[
-        hi! link ReachHandleDelete DiffRemoved
-      ]]
-    end,
+    "dzfrias/arena.nvim",
+    event = "BufWinEnter",
+    -- Calls `.setup()` automatically
+    config = true,
+    keys = { { "B", "<Cmd>ArenaToggle<CR>", mode = "n", desc = "buffers" } },
   },
   {
     "ellisonleao/glow.nvim",
