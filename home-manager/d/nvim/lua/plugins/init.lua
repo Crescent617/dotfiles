@@ -631,6 +631,9 @@ return {
     version = false, -- set this if you want to always pull the latest change
     opts = {
       provider = "copilot",
+      copilot = {
+        model = "claude-3.5-sonnet",
+      },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
@@ -743,15 +746,6 @@ return {
   --   dependencies = { { "nvim-tree/nvim-web-devicons" } },
   -- },
   -- Minimal configuration
-  {
-    "David-Kunz/gen.nvim",
-    cmd = "Gen",
-    opts = {
-      model = "llama3",
-      -- display_mode = "split",
-      -- debug = true
-    },
-  },
   {
     "mrcjkb/rustaceanvim",
     version = "^4", -- Recommended
@@ -875,8 +869,11 @@ return {
         -- "size",
         "mtime",
       },
+      keymaps = {
+        ["q"] = { "actions.close", mode = "n" },
+      },
     },
-    commands = {
+    cmd = {
       "Oil",
     },
     keys = {
@@ -886,17 +883,6 @@ return {
         mode = "n",
       },
     },
-    init = function()
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "OilEnter",
-        callback = vim.schedule_wrap(function(args)
-          local oil = require "oil"
-          if vim.api.nvim_get_current_buf() == args.data.buf and oil.get_cursor_entry() then
-            oil.open_preview()
-          end
-        end),
-      })
-    end,
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   },

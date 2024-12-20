@@ -46,8 +46,6 @@ in
     go
     python3
     mycli
-    copyq # desc: Clipboard manager with advanced features
-    flameshot # desc: Powerful yet simple to use screenshot software
     gh # desc: GitHub CLI
     hyperfine # desc: A command-line benchmarking tool
     fastfetch # desc: A command-line system information tool written in Rust
@@ -112,58 +110,56 @@ in
     RUSTUP_DIST_SERVER = "https://mirrors.tuna.tsinghua.edu.cn/rustup";
   };
 
-  programs = {
-    zsh = {
-      enable = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
-      shellAliases = {
-        v = "nvim";
-        j = "z";
-        rm = "trash";
-        lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
-        docker = "podman";
-        docker-compose = "podman-compose";
-      };
-      defaultKeymap = "emacs";
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "git"
-          "sudo"
-          "fancy-ctrl-z"
-          "tmux"
-        ];
-      };
-      envExtra = ''
-        . $HOME/.cargo/env
-      '';
-      initExtraBeforeCompInit = ''
-        command -v motd.sh &>/dev/null && motd.sh
-      '';
-      initExtra = ''
-        # >>> conda initialize >>>
-        __conda_setup="$('/home/hrli/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-        if [ $? -eq 0 ]; then
-            eval "$__conda_setup"
-        else
-            if [ -f "/home/hrli/miniconda3/etc/profile.d/conda.sh" ]; then
-                . "/home/hrli/miniconda3/etc/profile.d/conda.sh"
-            else
-                export PATH="/home/hrli/miniconda3/bin:$PATH"
-            fi
-        fi
-        unset __conda_setup
-      '';
+  programs.zsh = {
+    enable = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    shellAliases = {
+      v = "nvim";
+      j = "z";
+      rm = "trash";
+      lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
+      docker = "podman";
+      docker-compose = "podman-compose";
     };
-    mcfly = {
+    defaultKeymap = "emacs";
+    oh-my-zsh = {
       enable = true;
-      fzf.enable = true;
+      plugins = [
+        "git"
+        "sudo"
+        "fancy-ctrl-z"
+        "tmux"
+      ];
     };
-    starship.enable = true;
-    zoxide.enable = true;
-    gh.enable = true;
+    envExtra = ''
+      . $HOME/.cargo/env
+    '';
+    initExtraBeforeCompInit = ''
+      command -v motd.sh &>/dev/null && motd.sh
+    '';
+    initExtra = ''
+      # >>> conda initialize >>>
+      __conda_setup="$('/home/hrli/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+      if [ $? -eq 0 ]; then
+          eval "$__conda_setup"
+      else
+          if [ -f "/home/hrli/miniconda3/etc/profile.d/conda.sh" ]; then
+              . "/home/hrli/miniconda3/etc/profile.d/conda.sh"
+          else
+              export PATH="/home/hrli/miniconda3/bin:$PATH"
+          fi
+      fi
+      unset __conda_setup
+    '';
   };
+  programs.mcfly = {
+    enable = true;
+    fzf.enable = true;
+  };
+  programs.starship.enable = true;
+  programs.zoxide.enable = true;
+  programs.gh.enable = true;
 
   services = { };
 
