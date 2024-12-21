@@ -251,13 +251,6 @@ return {
     end,
   },
   {
-    "dzfrias/arena.nvim",
-    event = "BufWinEnter",
-    -- Calls `.setup()` automatically
-    config = true,
-    keys = { { "B", "<Cmd>ArenaToggle<CR>", mode = "n", desc = "buffers" } },
-  },
-  {
     "ellisonleao/glow.nvim",
     ft = "markdown",
     config = true,
@@ -631,9 +624,9 @@ return {
     version = false, -- set this if you want to always pull the latest change
     opts = {
       provider = "copilot",
-      copilot = {
-        model = "claude-3.5-sonnet",
-      },
+      -- copilot = {
+      --   model = "claude-3.5-sonnet",
+      -- },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",
@@ -860,8 +853,6 @@ return {
   },
   {
     "stevearc/oil.nvim",
-    ---@module 'oil'
-    ---@type oil.SetupOpts
     opts = {
       columns = {
         "icon",
@@ -883,7 +874,6 @@ return {
         mode = "n",
       },
     },
-    -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   },
   {
@@ -911,13 +901,6 @@ return {
     cmd = "Nerdy",
   },
   {
-    "rcarriga/nvim-notify",
-    event = "VeryLazy",
-    config = function()
-      require "configs.notify"
-    end,
-  },
-  {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
@@ -932,7 +915,7 @@ return {
       -- input = { enabled = true }, -- already have dressing.nvim
       lazygit = { enabled = true },
       scope = { enabled = true },
-      statuscolumn = { enabled = false },
+      -- statuscolumn = { enabled = true },
       words = { enabled = true },
     },
     keys = {
@@ -966,6 +949,37 @@ return {
           end)
         end,
       })
+    end,
+  },
+  {
+    dir = "~/.config/nvim/lua/custom/bufferjump",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    keys = {
+      {
+        "B",
+        function()
+          require("custom.bufferjump").bufferjump()
+        end,
+        mode = "n",
+        desc = "Buffer Jump",
+      },
+    },
+  },
+  {
+    dir = "~/.config/nvim/lua/custom/betternoti",
+    dependencies = { "rcarriga/nvim-notify" },
+    event = "VeryLazy",
+    config = function()
+      local bt = require "custom.betternoti"
+      bt.setup { blacklist = { "textDocument/" } }
+      vim.notify = bt.notify
+    end,
+  },
+  {
+    "Wansmer/symbol-usage.nvim",
+    event = "BufReadPre", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
+    config = function()
+      require "configs.symbol-usage"
     end,
   },
 }

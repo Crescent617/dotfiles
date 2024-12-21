@@ -34,9 +34,10 @@ M.nvdash = {
     { txt = "󰈭  Find Word", keys = "fw", cmd = "Telescope live_grep" },
     -- { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
     -- { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
-    { txt = "  Sessions", keys = "s", cmd = "Telescope persisted" },
     { txt = "󰒲  lazy", keys = "L", cmd = "Lazy" },
     { txt = "󰭻  Load Session", keys = "l", cmd = "lua require('configs.util').load_session_for_cwd()" },
+    { txt = "  Sessions", keys = "s", cmd = "Telescope persisted" },
+    { txt = "󰗼  Quit", keys = "q", cmd = "q" },
     { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
     {
       txt = function()

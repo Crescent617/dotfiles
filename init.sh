@@ -29,8 +29,9 @@ mkln() {
 target=~/.tmux/plugins/tpm
 if [ ! -d $target ]; then
   git clone https://github.com/tmux-plugins/tpm $target
+  echo "🔗 TPM linked"
 else
-  echo " TPM already exists"
+  echo "😹 TPM already exists"
 fi
 
 # Link configurations

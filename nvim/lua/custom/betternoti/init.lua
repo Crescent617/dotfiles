@@ -1,25 +1,22 @@
 local builtin_notify = vim.notify
 local noti = require "notify"
-local timeout = 5000
-
-noti.setup {
-  render = "wrapped-compact",
-  timeout = timeout,
-}
+local M = {}
+M.timeout = 5000
 
 local function build_key(title, msg)
   return string.format("%s:%s", title, msg)
 end
 
-local blacklist = { "textDocument/" }
 local hist_msgs = {}
 local msg_cnt = 0
 
-vim.notify = function(msg, level, opts)
-  for _, v in ipairs(blacklist) do
-    if msg:find(v) then
-      builtin_notify("[Blocked] " .. msg, vim.log.levels.INFO)
-      return
+M.notify = function(msg, level, opts)
+  if M.blacklist ~= nil then
+    for _, v in ipairs(M.blacklist) do
+      if msg:find(v) then
+        builtin_notify("[Blocked] " .. msg, vim.log.levels.INFO)
+        return
+      end
     end
   end
 
@@ -27,6 +24,8 @@ vim.notify = function(msg, level, opts)
     noti(msg, level, opts)
     return
   end
+
+  local timeout = M.timeout
 
   local cur_opts = opts or {}
   local cur_title = cur_opts.title or "Noti"
@@ -63,3 +62,15 @@ vim.notify = function(msg, level, opts)
     end
   end
 end
+
+M.setup = function(opts)
+  if opts.blacklist then
+    M.blacklist = opts.blacklist
+  end
+  noti.setup {
+    render = "wrapped-compact",
+    timeout = opts.timeout or M.timeout,
+  }
+end
+
+return M

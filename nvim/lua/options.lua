@@ -21,7 +21,9 @@ vim.cmd [[
   endfunction
 ]]
 
-require "custom.command" -- 定义用户命令
+-- [[ custom
+require "custom.command" -- TODO: use lazy.nvim to load this
+-- ]]
 
 o.cmdheight = 1 -- more space in the neovim command line for displaying messages
 o.confirm = true
