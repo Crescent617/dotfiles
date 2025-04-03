@@ -1,31 +1,52 @@
+-- ======================= CONSTANTS =======================
+-- If you are using mason.nvim, you can get the ts_plugin_path like this
+local mason_registry = require "mason-registry"
+local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
+  .. "/node_modules/@vue/language-server"
+
+-- ======================= LSP CONFIGURATION =======================
 local servers = {
-  "vimls",
-  "html",
-  "cssls",
-  "bashls",
-  "pyright",
-  "gopls",
-  "ts_ls",
-  "jsonls",
-  "yamlls",
-  "taplo",
-  -- "prosemd_lsp",
-  "eslint",
-  -- "rust_analyzer",
-  -- "tailwindcss",
-  "rnix",
+  vimls = {},
+  html = {},
+  cssls = {},
+  bashls = {},
+  pyright = {},
+  -- pylyzer = {},
+  gopls = {},
+  ts_ls = {
+    config = {
+      init_options = {
+        plugins = {
+          {
+            name = "@vue/typescript-plugin",
+            location = vue_language_server_path,
+            languages = { "vue" },
+          },
+        },
+      },
+      filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+    },
+  },
+  jsonls = {},
+  yamlls = {},
+  taplo = {},
+  -- prosemd_lsp = {},
+  eslint = {},
+  -- rust_analyzer = {},
+  tailwindcss = {},
+  rnix = {},
+  volar = { disable_default = true },
+  helm_ls = {},
 }
+
+-- ======================= LSP HANDLER =======================
 
 local map = vim.keymap.set
 local navic = require "nvim-navic"
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-})
-
 local on_attach = function(client, bufnr)
   local function opts(desc)
-    return { buffer = bufnr, desc = desc }
+    return { buffer = bufnr, desc = "LSP " .. desc }
   end
 
   map("n", "K", vim.lsp.buf.hover, opts "Lsp hover information")
@@ -36,6 +57,9 @@ local on_attach = function(client, bufnr)
   -- map("n", "gD", vim.lsp.buf.declaration, opts "Lsp Go to declaration")
   map("n", "<leader>lth", function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    vim.notify("Inlay hints " .. (vim.lsp.inlay_hint.is_enabled() and "enabled" or "disabled"), nil, {
+      title = "LSP",
+    })
   end, opts "Toggle Lsp Inlay hints")
 
   -- setup signature popup
@@ -49,20 +73,28 @@ local on_attach = function(client, bufnr)
   end
 
   client.server_capabilities.semanticTokensProvider = nil
+
+  require("nvchad.lsp").diagnostic_config()
 end
 
 local configs = require "nvchad.configs.lspconfig"
 local on_init = configs.on_init
 local capabilities = configs.capabilities
 
+local default_config = {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  on_init = on_init,
+}
+
 local lspconfig = require "lspconfig"
 
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_init = on_init,
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
+for lsp, setting in pairs(servers) do
+  local custom_config = setting.config or {}
+  if not setting.disable_default then
+    custom_config = vim.tbl_extend("force", default_config, custom_config)
+  end
+  lspconfig[lsp].setup(custom_config)
 end
 
 -- Lua with vim
