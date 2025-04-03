@@ -1,4 +1,4 @@
-{ config, pkgs, fonts, ... }:
+{ config, pkgs, fonts, lib, ... }:
 
 let
   isLinux = builtins.match ".*-linux" builtins.currentSystem != null;
@@ -8,9 +8,7 @@ in
   home.packages = with pkgs; [
     # lang
     nodejs_22
-    go
     zsh
-    rustup
     uv # venv manager for python
     # cli
     curl
@@ -57,6 +55,8 @@ in
     ast-grep
     devbox # A development environment manager
   ] ++ (if isLinux then [
+    go
+    rustup
     copyq # Clipboard manager with advanced features
     flameshot # Powerful yet simple to use screenshot software
   ] else [ ]);
@@ -77,27 +77,29 @@ in
     # '';
     ".editorconfig".source = ~/.config/home-manager/d/.editorconfig;
     ".condarc".source = ~/.config/home-manager/d/.condarc;
-    ".gitconfig".source = ~/.config/home-manager/d/.gitconfig;
     ".tmux.conf".source = ~/.config/home-manager/d/.tmux.conf;
     ".todo.cfg".source = ~/.config/home-manager/d/.todo.cfg;
     ".vimrc".source = ~/.config/home-manager/d/.vimrc;
     ".config/containers/registries.conf".source = ~/.config/home-manager/d/containers/registries.conf;
-    ".config/picom.conf".source = ~/.config/home-manager/d/picom.conf;
     ".config/starship.toml".source = ~/.config/home-manager/d/starship.toml;
-    ".config/kitty/kitty.conf".source = ~/.config/home-manager/d/kitty.conf;
     ".config/wezterm".source = ~/.config/home-manager/d/wezterm;
     ".cargo/config.toml".source = ~/.config/home-manager/d/cargo.toml;
-    ".Xresources".source = ~/.config/home-manager/d/.Xresources;
-    ".config/rofi".source = ~/.config/home-manager/d/rofi;
     ".pip/pip.conf".source = ~/.config/home-manager/d/pip.conf;
     ".config/alacritty/alacritty.toml".source = ~/.config/home-manager/d/alacritty.toml;
     ".gitmux.conf".source = ~/.config/home-manager/d/.gitmux.conf;
-  };
+    ".cache/hm-current-config.nix".source = ~/.config/home-manager/home.nix;
+  } // (if isLinux then {
+    ".config/picom.conf".source = ~/.config/home-manager/d/picom.conf;
+    ".config/rofi".source = ~/.config/home-manager/d/rofi;
+    ".Xresources".source = ~/.config/home-manager/d/.Xresources;
+    ".config/kitty/kitty.conf".source = ~/.config/home-manager/d/kitty.conf;
+    ".gitconfig".source = ~/.config/home-manager/d/.gitconfig;
+  } else { });
 
   home.sessionVariables = {
     EDITOR = "nvim";
     PATH = "$HOME/.local/bin:$HOME/repos/my-busybox/bin:$PATH";
-    GOPROXY = "https://goproxy.cn";
+    GOPROXY = lib.mkDefault "https://goproxy.cn";
     FZF_DEFAULT_OPTS = " \
       --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
       --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
