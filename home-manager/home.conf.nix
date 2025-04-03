@@ -64,37 +64,42 @@ in
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
+  # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+  # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+  # # symlink to the Nix store copy.
+  # ".screenrc".source = dotfiles/screenrc;
 
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
-    ".editorconfig".source = ~/.config/home-manager/d/.editorconfig;
-    ".condarc".source = ~/.config/home-manager/d/.condarc;
-    ".tmux.conf".source = ~/.config/home-manager/d/.tmux.conf;
-    ".todo.cfg".source = ~/.config/home-manager/d/.todo.cfg;
-    ".vimrc".source = ~/.config/home-manager/d/.vimrc;
-    ".config/containers/registries.conf".source = ~/.config/home-manager/d/containers/registries.conf;
-    ".config/starship.toml".source = ~/.config/home-manager/d/starship.toml;
-    ".config/wezterm".source = ~/.config/home-manager/d/wezterm;
-    ".cargo/config.toml".source = ~/.config/home-manager/d/cargo.toml;
-    ".pip/pip.conf".source = ~/.config/home-manager/d/pip.conf;
-    ".config/alacritty/alacritty.toml".source = ~/.config/home-manager/d/alacritty.toml;
-    ".gitmux.conf".source = ~/.config/home-manager/d/.gitmux.conf;
-    ".cache/hm-current-config.nix".source = ~/.config/home-manager/home.nix;
-  } // (if isLinux then {
-    ".config/picom.conf".source = ~/.config/home-manager/d/picom.conf;
-    ".config/rofi".source = ~/.config/home-manager/d/rofi;
-    ".Xresources".source = ~/.config/home-manager/d/.Xresources;
-    ".config/kitty/kitty.conf".source = ~/.config/home-manager/d/kitty.conf;
-    ".gitconfig".source = ~/.config/home-manager/d/.gitconfig;
-  } else { });
+  # # You can also set the file content immediately.
+  # ".gradle/gradle.properties".text = ''
+  #   org.gradle.console=verbose
+  #   org.gradle.daemon.idletimeout=3600000
+  # '';
+  home.file =
+    let
+      hmDir = ~/.config/home-manager/d;
+    in
+    {
+      ".cache/hm-current-config.nix".source = ~/.config/home-manager/home.nix;
+
+      ".editorconfig".source = hmDir + "/.editorconfig";
+      ".condarc".source = hmDir + "/.condarc";
+      ".tmux.conf".source = hmDir + "/.tmux.conf";
+      ".todo.cfg".source = hmDir + "/.todo.cfg";
+      ".vimrc".source = hmDir + "/.vimrc";
+      ".config/containers/registries.conf".source = hmDir + "/containers/registries.conf";
+      ".config/starship.toml".source = hmDir + "/starship.toml";
+      ".config/wezterm".source = hmDir + "/wezterm";
+      ".cargo/config.toml".source = hmDir + "/cargo.toml";
+      ".pip/pip.conf".source = hmDir + "/pip.conf";
+      ".config/alacritty/alacritty.toml".source = hmDir + "/alacritty.toml";
+      ".gitmux.conf".source = hmDir + "/.gitmux.conf";
+    } // (if isLinux then {
+      ".config/picom.conf".source = hmDir + "/picom.conf";
+      ".config/rofi".source = hmDir + "/rofi";
+      ".Xresources".source = hmDir + "/.Xresources";
+      ".config/kitty/kitty.conf".source = hmDir + "/kitty.conf";
+      ".gitconfig".source = hmDir + "/.gitconfig";
+    } else { });
 
   home.sessionVariables = {
     EDITOR = "nvim";
