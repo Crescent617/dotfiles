@@ -1,6 +1,0 @@
-[submodule "i3/i3blocks"]
-	path = i3/i3blocks
-	url = git@github.com:Crescent617/i3blocks.git
-[submodule "awesome"]
-	path = awesome
-	url = git@github.com:Crescent617/awesomewm.git
