@@ -32,6 +32,7 @@ in
     yq-go # A lightweight and portable command-line YAML processor
     atuin # A shell history assistant that helps you find and reuse commands
     boxes # A command-line tool for creating ASCII art boxes around text
+    direnv # A shell extension that loads environment variables from .env files
 
     # Git Tools
     lazygit
@@ -100,7 +101,7 @@ in
   #   org.gradle.daemon.idletimeout=3600000
   # '';
   home.file = {
-    ".cache/hm-current-config.nix".source = ~/.config/home-manager/home.nix;
+    ".cache/home.nix".source = ~/.config/home-manager/home.nix;
   };
 
   home.sessionVariables = {
@@ -136,6 +137,7 @@ in
         icat = "kitty +icat";
         t = "todo.sh";
         # yadm: a dotfile manager for git
+        yd = "yadm";
         yda = "yadm add";
         yds = "yadm status";
         ydcm = "yadm commit -m";
@@ -153,6 +155,7 @@ in
           "fancy-ctrl-z"
           "tmux"
           "zsh-interactive-cd"
+          "direnv"
         ];
       };
       envExtra = ''
