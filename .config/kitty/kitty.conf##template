@@ -5,6 +5,9 @@
 # modify_font cell_height 120%
 # modify_font cell_width 95%
 
+{% if yadm.os == "Darwin" %}
+font_size        14.0
+{% endif %}
 
 background_opacity 0.95
 cursor_trail 1
