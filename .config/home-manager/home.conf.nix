@@ -99,31 +99,9 @@ in
   #   org.gradle.console=verbose
   #   org.gradle.daemon.idletimeout=3600000
   # '';
-  home.file =
-    let
-      d = ~/.config/home-manager/d;
-    in
-    {
+  home.file = {
       ".cache/hm-current-config.nix".source = ~/.config/home-manager/home.nix;
-
-      ".editorconfig".source = d + "/.editorconfig";
-      ".condarc".source = d + "/.condarc";
-      ".tmux.conf".source = d + "/.tmux.conf";
-      ".todo.cfg".source = d + "/.todo.cfg";
-      ".vimrc".source = d + "/.vimrc";
-      ".config/containers/registries.conf".source = d + "/containers/registries.conf";
-      ".config/starship.toml".source = d + "/starship.toml";
-      ".config/wezterm".source = d + "/wezterm";
-      ".cargo/config.toml".source = d + "/cargo.toml";
-      ".pip/pip.conf".source = d + "/pip.conf";
-      ".config/alacritty/alacritty.toml".source = d + "/alacritty.toml";
-    } // (if isLinux then {
-      ".config/picom.conf".source = d + "/picom.conf";
-      ".config/rofi".source = d + "/rofi";
-      ".Xresources".source = d + "/.Xresources";
-      ".config/kitty/kitty.conf".source = d + "/kitty.conf";
-      ".gitconfig".source = d + "/.gitconfig";
-    } else { });
+  };
 
   home.sessionVariables = {
     EDITOR = "nvim";
