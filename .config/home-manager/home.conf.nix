@@ -100,7 +100,7 @@ in
   #   org.gradle.daemon.idletimeout=3600000
   # '';
   home.file = {
-      ".cache/hm-current-config.nix".source = ~/.config/home-manager/home.nix;
+    ".cache/hm-current-config.nix".source = ~/.config/home-manager/home.nix;
   };
 
   home.sessionVariables = {
@@ -135,6 +135,13 @@ in
         gmt = "go mod tidy";
         icat = "kitty +icat";
         t = "todo.sh";
+        # yadm: a dotfile manager for git
+        yda = "yadm add -u";
+        yds = "yadm status";
+        ydcm = "yadm commit -m";
+        ydd = "yadm diff";
+        ydp = "yadm push";
+        ydl = "yadm pull";
       };
       defaultKeymap = "emacs";
       oh-my-zsh = {
