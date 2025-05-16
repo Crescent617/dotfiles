@@ -136,7 +136,7 @@ in
         icat = "kitty +icat";
         t = "todo.sh";
         # yadm: a dotfile manager for git
-        yda = "yadm add -u";
+        yda = "yadm add";
         yds = "yadm status";
         ydcm = "yadm commit -m";
         ydd = "yadm diff";

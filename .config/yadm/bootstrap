@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$HOME"
+
+# Simple colored output functions
+print_msg() { echo -e "\033[${1}m$2\033[0m"; }
+warn() { print_msg "33" "  $1"; } # Yellow
+info() { print_msg "32" "  $1"; } # Green
+error() {
+    print_msg "31" "  $1"
+    exit 1
+} # Red
+
+info "Installing TPM (Tmux Plugin Manager)..."
+tpm_path="$HOME/.tmux/plugins/tpm"
+if [ ! -d "$tpm_path" ]; then
+    mkdir -p "$HOME/.tmux/plugins"
+    git clone https://github.com/tmux-plugins/tpm "$tpm_path"
+    info "TPM installed"
+else
+    warn "TPM already exists"
+fi
+
+info "Installing my-busybox..."
+my_busybox_path="$HOME/my-busybox"
+if [ ! -d "$my_busybox_path" ]; then
+    git clone https://github.com/Crescent617/my-busybox.git "$my_busybox_path"
+    info "my-busybox installed"
+else
+    warn "my-busybox already exists"
+fi
+
+
+info "Init successfully! Then run 'home-manager switch' to install the dependencies."
