@@ -144,8 +144,8 @@ in
         ydiff = "yadm diff";
         ypush = "yadm push";
         ypull = "yadm pull";
-        ylazy = ''GIT_DIR="$HOME/.local/share/yadm/repo.git" GIT_WORK_TREE="$HOME" lazygit'';
         ylog = "yadm log --oneline --graph --decorate --all";
+        lazyyadm = "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
       };
       defaultKeymap = "emacs";
       oh-my-zsh = {
