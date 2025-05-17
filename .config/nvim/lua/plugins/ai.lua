@@ -11,7 +11,7 @@ Format: markdown]]
 -- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo
 -- claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought
 -- gemini-2.5-pro o4-mini gpt-4.1
-local copilot_model = "gpt-4.1"
+local copilot_model = "claude-3.7-sonnet"
 
 ---@type LazySpec
 return {
@@ -42,14 +42,6 @@ return {
       "ibhagwan/fzf-lua", -- for file_selector provider fzf
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
       "zbirenbaum/copilot.lua", -- for providers='copilot'
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = render_md_ft,
-        },
-        ft = render_md_ft,
-      },
     },
   },
   {
@@ -123,15 +115,6 @@ return {
               end,
               user = "  Me",
             },
-            tools = {
-              mcp = {
-                -- calling it in a function would prevent mcphub from being loaded before it's needed
-                callback = function()
-                  return require "mcphub.extensions.codecompanion"
-                end,
-                description = "Call tools and resources from the MCP Servers",
-              },
-            },
           },
           inline = { adapter = "copilot" },
           cmd = { adapter = "copilot" },
@@ -143,6 +126,41 @@ return {
             })
           end,
         },
+        extensions = {
+          mcphub = {
+            callback = "mcphub.extensions.codecompanion",
+            opts = {
+              show_result_in_chat = true, -- Show mcp tool results in chat
+              make_vars = true, -- Convert resources to #variables
+              make_slash_commands = true, -- Add prompts as /slash commands
+            },
+          },
+          history = {
+            enabled = true,
+            opts = {
+              -- Keymap to open history from chat buffer (default: gh)
+              keymap = "gh",
+              -- Keymap to save the current chat manually (when auto_save is disabled)
+              save_chat_keymap = "sc",
+              -- Save all chats by default (disable to save only manually using 'sc')
+              auto_save = true,
+              -- Number of days after which chats are automatically deleted (0 to disable)
+              expiration_days = 0,
+              -- Picker interface ("telescope" or "snacks" or "fzf-lua" or "default")
+              picker = "telescope",
+              -- Automatically generate titles for new chats
+              auto_generate_title = true,
+              ---On exiting and entering neovim, loads the last chat on opening chat
+              continue_last_chat = false,
+              ---When chat is cleared with `gx` delete the chat from history
+              delete_on_clearing_chat = false,
+              ---Directory path to save the chats
+              dir_to_save = vim.fn.stdpath "data" .. "/codecompanion-history",
+              ---Enable detailed logging for history extension
+              enable_logging = false,
+            },
+          },
+        },
       }
     end,
     keys = {
@@ -152,9 +170,10 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "echasnovski/mini.diff",
+      "ravitemer/codecompanion-history.nvim",
     },
     init = function()
-      require("configs.codecompanion_progress").init({})
+      require("configs.codecompanion_progress").init {}
     end,
   },
   {
@@ -182,5 +201,13 @@ return {
         },
       }
     end,
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    opts = {
+      file_types = render_md_ft,
+    },
+    ft = render_md_ft,
   },
 }

@@ -8,7 +8,15 @@ local plugin_groups = {
 }
 
 ---@type LazySpec
-local M = {}
+local M = {
+  {
+    dir = "~/.config/nvim/lua/custom/theme",
+    event = "VeryLazy",
+    config = function()
+      require("custom.theme").setup()
+    end,
+  },
+}
 
 for _, g in ipairs(plugin_groups) do
   M = vim.list_extend(M, g)

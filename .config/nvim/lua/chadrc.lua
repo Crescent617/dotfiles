@@ -7,6 +7,7 @@ M.base46 = {
   -- transparency = true,
   hl_override = {
     DiffAdd = { fg = "green", bg = "#123b1a" },
+    DiffText = { bg = "orange", fg = "black" },
     DiffDelete = { fg = "red" },
     DiffChange = { fg = "orange" },
     Folded = { link = "DiagnosticVirtualTextInfo" },

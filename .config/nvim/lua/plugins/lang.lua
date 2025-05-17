@@ -48,7 +48,6 @@ return {
       ensure_installed = {
         "vim",
         "vimdoc",
-        "html",
         "lua",
         "css",
         "javascript",
@@ -56,7 +55,10 @@ return {
         "json",
         "toml",
         "yaml",
+        "html",
         "markdown",
+        "markdown_inline",
+        "latex",
         "c",
         "rust",
         "go",
@@ -65,6 +67,7 @@ return {
         "tsx",
         "http",
         "query",
+        "nix",
       },
       highlight = {
         disable = function(_, bufnr)

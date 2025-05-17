@@ -33,6 +33,7 @@ in
     atuin # A shell history assistant that helps you find and reuse commands
     boxes # A command-line tool for creating ASCII art boxes around text
     direnv # A shell extension that loads environment variables from .env files
+    tree-sitter # A CLI for parsing and analyzing source code
 
     # Git Tools
     lazygit
