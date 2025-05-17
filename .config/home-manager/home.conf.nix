@@ -9,24 +9,25 @@ in
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
+    # Fonts
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.caskaydia-cove
+    maple-mono.truetype # Maple Mono (Ligature TTF unhinted)
+    maple-mono.NF-CN-unhinted # Maple Mono NF CN (Ligature unhinted)
+
     # Terminal Utilities
     zsh
     curl
     unzip
     git
     htop
+    btop
     neovim
     podlet # use to gengerate podman systemd service (quadlet)
     starship # The minimal, blazing-fast, and infinitely customizable prompt for any shell!
     todo-txt-cli
     trash-cli
     zoxide # A faster way to navigate your filesystem
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.caskaydia-cove
-    # Maple Mono (Ligature TTF unhinted)
-    maple-mono.truetype
-    # Maple Mono NF CN (Ligature unhinted)
-    maple-mono.NF-CN-unhinted
     jq # A lightweight and flexible command-line JSON processor
     jqp # jq with a terminal UI
     yq-go # A lightweight and portable command-line YAML processor
@@ -34,6 +35,11 @@ in
     boxes # A command-line tool for creating ASCII art boxes around text
     direnv # A shell extension that loads environment variables from .env files
     tree-sitter # A CLI for parsing and analyzing source code
+    choose # A command-line tool for making choices
+    thefuck # A tool to correct your previous console command
+    asciinema # A tool for recording and sharing terminal sessions
+    gotty # A tool for sharing your terminal as a web application
+    watchexec # A tool for watching files and executing commands when they change
 
     # Git Tools
     lazygit
@@ -52,7 +58,7 @@ in
     television # like fzf but for your terminal
     clipse # A command-line tool for managing clipboard history
 
-    # System Monitoring
+    # System Tools
     duf # Disk Usage/Free Utility
     dust # A more intuitive version of du in rust
     tree
@@ -61,6 +67,10 @@ in
     progress # Coreutils progress viewer
     hyperfine # A command-line benchmarking tool
     fastfetch # A command-line system information tool written in Rust
+    ncdu # A disk usage analyzer with an ncurses interface
+    procs # A replacement for 'ps' written in Rust
+    bat # A cat clone with wings
+    lsd # A modern replacement for 'ls'
 
     # Network & Web Tools
     dogdns
@@ -68,6 +78,8 @@ in
     pup # HTML parsing tool
     httpie # A user-friendly command-line HTTP client for the API era
     mycli
+    rustscan # A fast, simple and powerful network scanner
+    aria2 # A download utility for HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink
 
     # Document & Content Tools
     zk # A CLI for Zettelkasten note taking
@@ -174,6 +186,7 @@ in
     starship.enable = true;
     zoxide.enable = true;
     yazi.enable = true;
+    thefuck.enable = true;
   };
 
   services =
