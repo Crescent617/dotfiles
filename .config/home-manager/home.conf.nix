@@ -1,7 +1,7 @@
 { config, pkgs, fonts, lib, ... }:
 
 let
-  isLinux = builtins.match ".*-linux" builtins.currentSystem != null;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
   hasSystemd = lib.pathExists "/run/systemd/system";
 in
 
@@ -40,10 +40,10 @@ in
     delta # A syntax-highlighter for git and diff output
     git-open
     gh # GitHub CLI
+    fzf-git-sh # fzf git shortcuts
 
     # Search & Navigation
     fzf
-    fzf-git-sh # fzf git shortcuts
     ripgrep
     fd # A simple, fast and user-friendly alternative to 'find'
     tmux
@@ -137,13 +137,14 @@ in
         icat = "kitty +icat";
         t = "todo.sh";
         # yadm: a dotfile manager for git
-        yd = "yadm";
-        yda = "yadm add";
-        yds = "yadm status";
-        ydcm = "yadm commit -m";
-        ydd = "yadm diff";
-        ydp = "yadm push";
-        ydl = "yadm pull";
+        yss = "yadm status";
+        yadd = "yadm add";
+        ycmsg = "yadm commit -m";
+        ydiff = "yadm diff";
+        ypush = "yadm push";
+        ypull = "yadm pull";
+        ylazy = ''GIT_DIR="$HOME/.local/share/yadm/repo.git" GIT_WORK_TREE="$HOME" lazygit'';
+        ylog = "yadm log --oneline --graph --decorate --all";
       };
       defaultKeymap = "emacs";
       oh-my-zsh = {

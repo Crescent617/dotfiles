@@ -248,12 +248,11 @@ layout {
 // See the binds section below for more spawn examples.
 // spawn-at-startup "alacritty" "-e" "fish"
 
-spawn-at-startup "waybar"
-spawn-at-startup "swaybg" "-i" "/home/hrli/Pictures/jinx.jpg"
-spawn-at-startup "xwayland-satellite"
-spawn-at-startup "clipse" "-listen"
-// Or, if you built it by hand:
-// spawn-at-startup "~/path/to/code/target/release/xwayland-satellite"
+spawn-at-startup "waybar" // Status bar
+spawn-at-startup "swaybg" "-i" "/home/hrli/Pictures/jinx.jpg" // Background
+spawn-at-startup "xwayland-satellite" // XWayland support
+spawn-at-startup "clipse" "-listen" // Clipboard manager
+spawn-at-startup "mako" // Notifications
 
 environment {
     DISPLAY ":0"

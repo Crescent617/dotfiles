@@ -154,7 +154,7 @@ return {
       "echasnovski/mini.diff",
     },
     init = function()
-      require("configs.codecompanion").init()
+      require("configs.codecompanion_progress").init({})
     end,
   },
   {

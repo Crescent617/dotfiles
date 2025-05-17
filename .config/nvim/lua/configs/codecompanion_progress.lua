@@ -60,7 +60,7 @@ end
 
 function M:report_exit_status(handle, request)
   if request.data.status == "success" then
-    handle.message = "Completed"
+    handle.message = "󰇵 Completed"
   elseif request.data.status == "error" then
     handle.message = " Error"
   else
