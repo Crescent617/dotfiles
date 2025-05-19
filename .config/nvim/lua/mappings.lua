@@ -27,6 +27,19 @@ del("n", "<C-c>")
 map({ "n", "x" }, ";", ":", { desc = "CMD enter command mode" })
 map("n", "P", '"0p', { desc = "paste from yank register" })
 map("t", "<C-n>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
+map("x", "/", function()
+  -- 退出 visual 模式
+  vim.cmd 'exe "normal! \\<Esc>"'
+
+  -- get visoal selection start and end line
+  local start_line = vim.fn.line "'<"
+  local end_line = vim.fn.line "'>"
+  local prefix = "\\%>" .. start_line .. "l\\%<" .. end_line .. "l"
+
+  local pattern = prefix .. vim.fn.input("<" .. start_line .. "," .. end_line .. ">  ")
+  vim.fn.setreg("/", pattern)
+  vim.fn.search(pattern)
+end, {})
 
 map("n", "<C-q>", "<cmd>call QuickFixToggle()<CR>", { desc = "Toggle Quickfix" })
 -- map("n", "<C-w>z", "<cmd>resize | vertical resize<CR>", { desc = "Zoom in window" })

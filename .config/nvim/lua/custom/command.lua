@@ -1,3 +1,5 @@
+local M = {}
+
 -- ## Git Rebase Squash
 local function register_git_rabase_squash()
   vim.api.nvim_buf_create_user_command(0, "GitRebaseSquash", function()
@@ -20,15 +22,32 @@ local function register_git_rabase_squash()
   end, { desc = "Replace 'pick' with 'squash' in non-comment git rebase lines" })
 end
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "gitrebase",
-  callback = register_git_rabase_squash,
-})
+function M.setup()
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "gitrebase",
+    callback = register_git_rabase_squash,
+  })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "jsonc",
-  callback = function()
-    -- add commentstring
-    vim.bo.commentstring = "// %s"
-  end,
-})
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "jsonc",
+    callback = function()
+      -- add commentstring
+      vim.bo.commentstring = "// %s"
+    end,
+  })
+
+  vim.cmd [[
+    command! DiffOrig w !diff -u % -
+    command! DiffOrigVim vert new | setlocal buftype=nofile | setlocal nobuflisted | read ++edit # | 0d_ | diffthis | wincmd p | diffthis | wincmd p
+
+    function! QuickFixToggle()
+      if empty(filter(getwininfo(), 'v:val.quickfix'))
+        copen
+      else
+        cclose
+      endif
+    endfunction
+  ]]
+end
+
+return M

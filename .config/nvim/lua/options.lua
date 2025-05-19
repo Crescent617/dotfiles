@@ -1,25 +1,10 @@
 require "nvchad.options"
 
--- add yours here!
-
+vim.cmd [[
+  packadd cfilter
+]]
 local o = vim.o
 local g = vim.g
-
--- vim config
-vim.cmd [[
-  command! DiffOrig w !diff -u % -
-  command! DiffOrigVim vert new | setlocal buftype=nofile | setlocal nobuflisted | read ++edit # | 0d_ | diffthis | wincmd p | diffthis | wincmd p
-  command! -range -nargs=1 SearchInRange /\%><line1>l\%<<line2>l<args>
-  packadd cfilter
-
-  function! QuickFixToggle()
-    if empty(filter(getwininfo(), 'v:val.quickfix'))
-      copen
-    else
-      cclose
-    endif
-  endfunction
-]]
 
 o.cmdheight = 1 -- more space in the neovim command line for displaying messages
 o.confirm = true
@@ -39,6 +24,7 @@ o.jumpoptions = "stack"
 -- [[ fold settings
 o.foldenable = true
 o.foldlevelstart = 99
+
 local disable_expr_fold_ft = { "codecompanion", "Avante" }
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
@@ -59,8 +45,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 g.loaded_python3_provider = nil
 
--- [[ custom
-require "custom.command" -- TODO: use lazy.nvim to load this
+-- [[ custom commands
+require("custom.command").setup()
 -- ]]
 
 local colors = {
