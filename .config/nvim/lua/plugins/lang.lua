@@ -268,22 +268,22 @@ return {
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/neotest-plenary",
+      "nvim-neotest/neotest-vim-test",
+      "nvim-neotest/neotest-go",
+      -- "rouge8/neotest-rust",
       {
         "vim-test/vim-test",
         config = function()
-          vim.cmd 'let test#strategy ="neovim"'
+          vim.g["test#strategy"] = "toggleterm"
         end,
       },
-      "nvim-neotest/neotest-plenary",
-      "nvim-neotest/neotest-vim-test",
-      -- "nvim-neotest/neotest-go",
-      -- "rouge8/neotest-rust",
     },
     config = function()
       require("neotest").setup {
         adapters = {
           -- require "neotest-rust",
-          -- require "neotest-go",
+          require "neotest-go",
           require "neotest-plenary",
           -- require "rustaceanvim.neotest",
           require "neotest-vim-test",

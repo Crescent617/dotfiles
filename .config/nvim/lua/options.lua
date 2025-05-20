@@ -24,23 +24,6 @@ o.jumpoptions = "stack"
 -- [[ fold settings
 o.foldenable = true
 o.foldlevelstart = 99
-
-local disable_expr_fold_ft = { "codecompanion", "Avante" }
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    if vim.tbl_contains(disable_expr_fold_ft, vim.bo[args.buf].filetype) then
-      return
-    end
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    local win = vim.api.nvim_get_current_win()
-    vim.wo[win][0].foldmethod = "expr"
-    if client and client:supports_method "textDocument/foldingRange" then
-      vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
-    else
-      vim.wo[win][0].foldexpr = "nvim_treesitter#foldexpr()"
-    end
-  end,
-})
 -- ]]
 
 g.loaded_python3_provider = nil
