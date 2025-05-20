@@ -19,6 +19,10 @@ del("i", "<C-h>")
 del("i", "<C-j>")
 del("i", "<C-k>")
 del("n", "<C-c>")
+del("n", "grn")
+del("n", "gri")
+del("n", "gra")
+del("n", "grr")
 -- del("n", "<C-l>")
 
 -- ===========================
@@ -39,6 +43,19 @@ map("x", "/", function()
   local pattern = prefix .. vim.fn.input("<" .. start_line .. "," .. end_line .. ">  ")
   vim.fn.setreg("/", pattern)
   vim.fn.search(pattern)
+end, {})
+
+-- mouse users + nvimtree users!
+vim.keymap.set({ "n", "v" }, "<RightMouse>", function()
+  require("menu.utils").delete_old_menus()
+
+  vim.cmd.exec '"normal! \\<RightMouse>"'
+
+  -- clicked buf
+  local buf = vim.api.nvim_win_get_buf(vim.fn.getmousepos().winid)
+  local options = vim.bo[buf].ft == "NvimTree" and "nvimtree" or "default"
+
+  require("menu").open(options, { mouse = true })
 end, {})
 
 map("n", "<C-q>", "<cmd>call QuickFixToggle()<CR>", { desc = "Toggle Quickfix" })

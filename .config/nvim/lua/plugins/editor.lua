@@ -405,6 +405,13 @@ return {
       },
     }, -- needed even when using default config
   },
+  { "nvzone/volt", lazy = true },
+  { "nvzone/menu", lazy = true },
+  {
+    "folke/which-key.nvim",
+    opts = { preset = "helix" },
+  },
+
   -- 自定义插件
   {
     dir = "~/.config/nvim/lua/custom/betternoti",
