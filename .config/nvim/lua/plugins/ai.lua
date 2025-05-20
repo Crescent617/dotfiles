@@ -111,7 +111,7 @@ return {
             adapter = "copilot",
             roles = {
               llm = function(adapter)
-                return "  天才 (" .. adapter.formatted_name .. ")"
+                return "  天才 (" .. adapter.model.name .. ")"
               end,
               user = "  Me",
             },

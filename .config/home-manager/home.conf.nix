@@ -80,6 +80,7 @@ in
     mycli
     rustscan # A fast, simple and powerful network scanner
     aria2 # A download utility for HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink
+    tshark # capture and analyze network packets
 
     # Document & Content Tools
     zk # A CLI for Zettelkasten note taking
