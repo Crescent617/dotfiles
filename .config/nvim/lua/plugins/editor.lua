@@ -331,7 +331,7 @@ return {
   },
   {
     "olimorris/persisted.nvim",
-    event = "VeryLazy",
+    event = "BufRead",
     cmd = { "SessionSave" },
     config = function()
       require("persisted").setup {

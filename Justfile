@@ -1,3 +1,7 @@
+[private]
+default:
+    @just --list
+
 sync:
     @echo "Syncing..."
     yadm pull
