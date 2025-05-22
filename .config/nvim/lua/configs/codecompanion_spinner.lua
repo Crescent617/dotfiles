@@ -1,20 +1,34 @@
+local dot_spinners = {
+  "⠋",
+  "⠙",
+  "⠹",
+  "⠸",
+  "⠼",
+  "⠴",
+  "⠦",
+  "⠧",
+  "⠇",
+  "⠏",
+}
+
+-- moon spinner
+local moon_spinner = {
+  "🌑",
+  "🌒",
+  "🌓",
+  "🌔",
+  "🌕",
+  "🌖",
+  "🌗",
+  "🌘",
+}
+
 local M = {
   processing = false,
   spinner_index = 1,
   namespace_id = nil,
   timer = nil,
-  spinner_symbols = {
-    "⠋",
-    "⠙",
-    "⠹",
-    "⠸",
-    "⠼",
-    "⠴",
-    "⠦",
-    "⠧",
-    "⠇",
-    "⠏",
-  },
+  spinner_symbols = moon_spinner,
   filetype = "codecompanion",
 }
 
@@ -45,7 +59,7 @@ function M:update_spinner()
 
   local last_line = vim.api.nvim_buf_line_count(buf) - 1
   vim.api.nvim_buf_set_extmark(buf, self.namespace_id, last_line, 0, {
-    virt_lines = { { { self.spinner_symbols[self.spinner_index] .. "   Processing...", "Comment" } } },
+    virt_lines = { { { self.spinner_symbols[self.spinner_index] .. "...", "Comment" } } },
     virt_lines_above = false, -- false means below the line
   })
 end
@@ -89,7 +103,7 @@ end
 
 function M:init()
   -- Create namespace for virtual text
-  self.namespace_id = vim.api.nvim_create_namespace("CodeCompanionSpinner")
+  self.namespace_id = vim.api.nvim_create_namespace "CodeCompanionSpinner"
 
   vim.api.nvim_create_augroup("CodeCompanionHooks", { clear = true })
   local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})

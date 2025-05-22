@@ -184,7 +184,7 @@ return {
       "ravitemer/codecompanion-history.nvim",
     },
     init = function()
-      -- require("configs.codecompanion_progress").init {}
+      require("configs.codecompanion_progress").init {}
       require("configs.codecompanion_spinner"):init()
     end,
   },
