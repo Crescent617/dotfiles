@@ -36,6 +36,7 @@ local servers = {
   volar = { disable_default = true },
   helm_ls = {},
   golangci_lint_ls = {},
+  svelte = {},
 }
 
 -- ======================= LSP HANDLER =======================

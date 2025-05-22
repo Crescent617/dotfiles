@@ -130,50 +130,72 @@ M.term = {
 M.mason = {
   cmd = true,
   pkgs = {
-    -- LSP servers
-    "bash-language-server",
-    "css-lsp",
-    "eslint-lsp",
-    "gopls",
-    "helm-ls",
-    "html-lsp",
-    "json-lsp",
-    "lua-language-server",
-    "nil",
-    "prosemd-lsp",
-    "pyright",
-    "rnix-lsp",
-    "rust-analyzer",
-    "tailwindcss-language-server",
-    "typescript-language-server",
-    "vim-language-server",
-    "vue-language-server",
-    "vtsls",
-    "yaml-language-server",
-    "zk",
+    "ast-grep", -- AST-based code searching tool
+    "bash-language-server", -- Language server for Bash
+    "black", -- Python code formatter
+    "codelldb", -- LLDB-based debugger
+    "codespell", -- Spell checker for source code
+    "css-lsp", -- Language server for CSS
+    "eslint-lsp", -- Language server for ESLint
+    "gofumpt", -- Formatter for Go code
+    "goimports", -- Tool for updating Go import lines
+    "golangci-lint", -- Linter for Go
+    "golangci-lint-langserver", -- Language server for golangci-lint
+    "golines", -- Formatter for Go code to shorten lines
+    "gopls", -- Go language server
+    "helm-ls", -- Language server for Helm
+    "html-lsp", -- Language server for HTML
+    "isort", -- Python import sorter
+    "json-lsp", -- Language server for JSON
+    "lua-language-server", -- Language server for Lua
+    "nil", -- Nix language server
+    "prettier", -- Code formatter supporting multiple languages
+    "prettierd", -- Prettier daemon for faster formatting
+    "prosemd-lsp", -- Language server for Markdown prose
+    "pyright", -- Python type checker and language server
+    "rnix-lsp", -- Language server for Nix
+    "rust-analyzer", -- Language server for Rust
+    "shfmt", -- Shell script formatter
+    "sqlfluff", -- SQL linter and formatter
+    "stylua", -- Lua code formatter
+    "svelte-language-server", -- Language server for Svelte
+    "tailwindcss-language-server", -- Language server for Tailwind CSS
+    "taplo", -- Language server for TOML
+    "typescript-language-server", -- Language server for TypeScript
+    "vim-language-server", -- Language server for Vim script
+    "vue-language-server", -- Language server for Vue.js
+    "yaml-language-server", -- Language server for YAML
+    "zk", -- Plain text note-taking assistant
+  },
+}
 
-    -- DAP
-    "codelldb",
-
-    -- Formatters
-    "black",
-    "gofumpt",
-    "goimports",
-    "golines",
-    "isort",
-    "prettier",
-    "prettierd",
-    "shfmt",
-    "sqlfluff",
-    "stylua",
-    "taplo",
-
-    -- Linters
-    "ast-grep",
-    "codespell",
-    "golangci-lint",
-    "golangci-lint-langserver",
-    "ruff",
+-- NOTE: this is not nvchad official option
+M.tree_sitter = {
+  ensure_installed = {
+    "bash",
+    "c",
+    "css",
+    "go",
+    "html",
+    "http",
+    "javascript",
+    "json",
+    "kdl",
+    "latex",
+    "lua",
+    "markdown",
+    "markdown_inline",
+    "nix",
+    "python",
+    "query",
+    "rust",
+    "svelte",
+    "toml",
+    "tsx",
+    "typescript",
+    "vim",
+    "vimdoc",
+    "yaml",
   },
 }
 

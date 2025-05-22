@@ -45,35 +45,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
-      ensure_installed = {
-        "vim",
-        "vimdoc",
-        "lua",
-        "css",
-        "javascript",
-        "typescript",
-        "json",
-        "toml",
-        "yaml",
-        "html",
-        "markdown",
-        "markdown_inline",
-        "latex",
-        "c",
-        "rust",
-        "go",
-        "python",
-        "bash",
-        "tsx",
-        "http",
-        "query",
-        "nix",
-      },
-      highlight = {
-        disable = function(_, bufnr)
-          return vim.api.nvim_buf_line_count(bufnr) > 5000
-        end,
-      },
+      ensure_installed = require("chadrc").tree_sitter.ensure_installed,
     },
   },
   {
