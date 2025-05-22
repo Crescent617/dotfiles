@@ -82,26 +82,34 @@ return {
     config = function()
       require("codecompanion").setup {
         opts = {
-          language = "中文",
+          language = "Chinese",
           -- system_prompt = function(opts)
           --   return codecompanion_system_prompt
           -- end,
         },
         prompt_library = {
-          ["Pure Prompt"] = {
+          ["Tiancai Prompt"] = {
             strategy = "chat",
             description = "天才",
             opts = {
               ignore_system_prompt = true,
+              short_name = "tiancai",
+            },
+            prompts = {
+              { role = "system", content = pure_prompt },
+              { role = "user", content = "" },
+            },
+          },
+          ["Cursor"] = {
+            strategy = "chat",
+            description = "Cursor",
+            opts = {
+              short_name = "cursor",
             },
             prompts = {
               {
-                role = "system",
-                content = pure_prompt,
-              },
-              {
                 role = "user",
-                content = "",
+                content = "#buffer\n@editor\n@files\n\nI want you to ",
               },
             },
           },
@@ -175,7 +183,8 @@ return {
       }
     end,
     keys = {
-      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanionChat" },
+      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion" },
+      { "<leader>ai", "<cmd>CodeCompanionChat<cr>", mode = "x", desc = "CodeCompanion" },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -186,6 +195,22 @@ return {
     init = function()
       require("configs.codecompanion_progress").init {}
       require("configs.codecompanion_spinner"):init()
+
+      -- cmdline abbr for CodeCompanion
+      vim.cmd [[cab ai CodeCompanion]]
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "codecompanion" },
+        callback = function()
+          local opts = { buffer = true, noremap = true }
+          vim.keymap.set("n", "<LocalLeader>c", function()
+            require("codecompanion").prompt "cursor"
+          end, vim.tbl_deep_extend("force", opts, { desc = "Cursor" }))
+          vim.keymap.set("n", "<LocalLeader>t", function()
+            require("codecompanion").prompt "tiancai"
+          end, vim.tbl_deep_extend("force", opts, { desc = "Tiancai Prompt" }))
+        end,
+      })
     end,
   },
   {
