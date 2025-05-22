@@ -75,6 +75,7 @@ M.setup = function(opts)
     render = opts.render or "wrapped-compact",
     timeout = M.timeout,
     top_down = opts.top_down,
+    max_width = opts.max_width,
   }
 end
 

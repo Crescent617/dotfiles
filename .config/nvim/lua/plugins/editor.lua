@@ -434,6 +434,7 @@ return {
       bt.setup {
         blacklist = { "textDocument/" },
         top_down = false,
+        max_width = 60,
       }
       vim.notify = bt.notify
     end,
