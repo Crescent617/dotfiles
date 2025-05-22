@@ -74,6 +74,7 @@ M.setup = function(opts)
   noti.setup {
     render = opts.render or "wrapped-compact",
     timeout = M.timeout,
+    top_down = opts.top_down,
   }
 end
 

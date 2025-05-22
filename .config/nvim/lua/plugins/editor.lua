@@ -431,7 +431,10 @@ return {
     event = "VeryLazy",
     config = function()
       local bt = require "custom.betternoti"
-      bt.setup { blacklist = { "textDocument/" } }
+      bt.setup {
+        blacklist = { "textDocument/" },
+        top_down = false,
+      }
       vim.notify = bt.notify
     end,
   },

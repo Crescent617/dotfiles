@@ -161,6 +161,17 @@ return {
             },
           },
         },
+        keymaps = {
+          send = {
+            callback = function(chat)
+              vim.cmd "stopinsert"
+              chat:add_buf_message { role = "llm", content = "" }
+              chat:submit()
+            end,
+            index = 1,
+            description = "Send",
+          },
+        },
       }
     end,
     keys = {
@@ -173,7 +184,8 @@ return {
       "ravitemer/codecompanion-history.nvim",
     },
     init = function()
-      require("configs.codecompanion_progress").init {}
+      -- require("configs.codecompanion_progress").init {}
+      require("configs.codecompanion_spinner"):init()
     end,
   },
   {
