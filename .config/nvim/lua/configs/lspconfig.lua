@@ -37,6 +37,7 @@ local servers = {
   helm_ls = {},
   golangci_lint_ls = {},
   svelte = {},
+  buf_ls = {},
 }
 
 -- ======================= LSP HANDLER =======================

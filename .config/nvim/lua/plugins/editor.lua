@@ -417,6 +417,10 @@ return {
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {
       disable_mouse = false,
+      restricted_keys = {
+        l = false,
+        h = false,
+      },
     },
   },
 
