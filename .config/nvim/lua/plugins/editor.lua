@@ -252,6 +252,7 @@ return {
         -- enabled = true,
       },
     },
+    cmd = { "ToggleTerm" },
     init = function()
       local function set_terminal_keymaps()
         local opts = { buffer = 0 }
@@ -420,6 +421,12 @@ return {
       restricted_keys = {
         l = false,
         h = false,
+      },
+      disabled_keys = {
+        ["<Up>"] = false,
+        ["<Down>"] = false,
+        ["<Left>"] = false,
+        ["<Right>"] = false,
       },
     },
   },

@@ -45,6 +45,10 @@ map("x", "/", function()
   vim.fn.search(pattern)
 end, {})
 
+map({ "n", "t" }, "<A-i>", function()
+  vim.cmd "ToggleTerm direction=float"
+end, { desc = "terminal toggle floating term" })
+
 -- mouse users + nvimtree users!
 vim.keymap.set({ "n", "v" }, "<RightMouse>", function()
   require("menu.utils").delete_old_menus()

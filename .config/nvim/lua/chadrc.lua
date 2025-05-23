@@ -117,16 +117,6 @@ M.nvdash = {
   },
 }
 
-M.term = {
-  float = {
-    row = 0.01,
-    col = 0,
-    width = 1,
-    height = 0.9,
-    border = "rounded",
-  },
-}
-
 M.mason = {
   cmd = true,
   pkgs = {
