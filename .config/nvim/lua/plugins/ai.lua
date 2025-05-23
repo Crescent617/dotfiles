@@ -21,9 +21,7 @@ return {
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     opts = {
       provider = "copilot",
-      copilot = {
-        model = copilot_model,
-      },
+      copilot = { model = copilot_model },
       behaviour = {
         enable_claude_text_editor_tool_mode = true,
       },
@@ -100,26 +98,13 @@ return {
               { role = "user", content = "" },
             },
           },
-          ["Cursor"] = {
-            strategy = "chat",
-            description = "Cursor",
-            opts = {
-              short_name = "cursor",
-            },
-            prompts = {
-              {
-                role = "user",
-                content = "#buffer\n@editor\n@files\n\nI want you to ",
-              },
-            },
-          },
         },
         strategies = {
           chat = {
             adapter = "copilot",
             roles = {
               llm = function(adapter)
-                return "  天才 (" .. adapter.model.name .. ")"
+                return "  CodeCompanion (" .. adapter.model.name .. ")"
               end,
               user = "  Me",
             },
@@ -145,28 +130,6 @@ return {
           },
           history = {
             enabled = true,
-            opts = {
-              -- Keymap to open history from chat buffer (default: gh)
-              keymap = "gh",
-              -- Keymap to save the current chat manually (when auto_save is disabled)
-              save_chat_keymap = "sc",
-              -- Save all chats by default (disable to save only manually using 'sc')
-              auto_save = true,
-              -- Number of days after which chats are automatically deleted (0 to disable)
-              expiration_days = 0,
-              -- Picker interface ("telescope" or "snacks" or "fzf-lua" or "default")
-              picker = "telescope",
-              -- Automatically generate titles for new chats
-              auto_generate_title = true,
-              ---On exiting and entering neovim, loads the last chat on opening chat
-              continue_last_chat = false,
-              ---When chat is cleared with `gx` delete the chat from history
-              delete_on_clearing_chat = false,
-              ---Directory path to save the chats
-              dir_to_save = vim.fn.stdpath "data" .. "/codecompanion-history",
-              ---Enable detailed logging for history extension
-              enable_logging = false,
-            },
           },
         },
         keymaps = {
@@ -203,9 +166,13 @@ return {
         pattern = { "codecompanion" },
         callback = function()
           local opts = { buffer = true, noremap = true }
+
+          -- add prompts template keymaps
           vim.keymap.set("n", "<LocalLeader>c", function()
-            require("codecompanion").prompt "cursor"
+            local prompt = { "#buffer", "@editor", "@files", "I want you to make change in-place." }
+            vim.api.nvim_put(prompt, "l", false, true)
           end, vim.tbl_deep_extend("force", opts, { desc = "Cursor" }))
+
           vim.keymap.set("n", "<LocalLeader>t", function()
             require("codecompanion").prompt "tiancai"
           end, vim.tbl_deep_extend("force", opts, { desc = "Tiancai Prompt" }))
