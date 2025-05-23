@@ -12,20 +12,17 @@ local servers = {
   -- pylyzer = {},
   gopls = {},
   ts_ls = {
-    config = {
-      init_options = {
-        plugins = {
-          {
-            name = "@vue/typescript-plugin",
-            location = vue_language_server_path,
-            languages = { "vue" },
-          },
+    init_options = {
+      plugins = {
+        {
+          name = "@vue/typescript-plugin",
+          location = vue_language_server_path,
+          languages = { "vue" },
         },
       },
-      filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
     },
+    filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
   },
-  jsonls = {},
   yamlls = {},
   taplo = {},
   -- prosemd_lsp = {},
@@ -33,11 +30,18 @@ local servers = {
   -- rust_analyzer = {},
   tailwindcss = {},
   rnix = {},
-  volar = { disable_default = true },
   helm_ls = {},
   golangci_lint_ls = {},
   svelte = {},
   buf_ls = {},
+  jsonls = {
+    settings = {
+      json = {
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
+      },
+    },
+  },
 }
 
 -- ======================= LSP HANDLER =======================
@@ -92,10 +96,8 @@ local default_config = {
 local lspconfig = require "lspconfig"
 
 for lsp, setting in pairs(servers) do
-  local custom_config = setting.config or {}
-  if not setting.disable_default then
-    custom_config = vim.tbl_extend("force", default_config, custom_config)
-  end
+  local custom_config = setting or {}
+  custom_config = vim.tbl_extend("force", default_config, custom_config)
   lspconfig[lsp].setup(custom_config)
 end
 

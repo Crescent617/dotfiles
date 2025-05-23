@@ -263,4 +263,7 @@ return {
       }
     end,
   },
+  {
+    "b0o/schemastore.nvim",
+  },
 }

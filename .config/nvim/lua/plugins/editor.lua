@@ -423,6 +423,13 @@ return {
       },
     },
   },
+  {
+    "echasnovski/mini.diff",
+    event = "VeryLazy",
+    config = function()
+      require("mini.diff").setup()
+    end,
+  },
 
   -- 自定义插件
   {
