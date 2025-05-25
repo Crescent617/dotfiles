@@ -26,7 +26,7 @@ in
     podlet # use to gengerate podman systemd service (quadlet)
     starship # The minimal, blazing-fast, and infinitely customizable prompt for any shell!
     todo-txt-cli
-    trash-cli
+    gomi # A command-line trash can for Linux
     zoxide # A faster way to navigate your filesystem
     jq # A lightweight and flexible command-line JSON processor
     jqp # jq with a terminal UI
@@ -41,6 +41,7 @@ in
     gotty # A tool for sharing your terminal as a web application
     watchexec # A tool for watching files and executing commands when they change
     trufflehog # Find, verify, and analyze leaked credentials
+    earthly # Like Dockerfile and Makefile had a baby.
 
     # Git Tools
     lazygit
@@ -145,7 +146,7 @@ in
       shellAliases = {
         v = "nvim";
         j = "z";
-        rm = "trash";
+        rm = "gomi";
         lazypodman = "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
         lg = "lazygit";
         gmt = "go mod tidy";

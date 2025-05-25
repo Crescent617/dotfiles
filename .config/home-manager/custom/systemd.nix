@@ -45,6 +45,7 @@ in
       clickhouse.enable = mkEnableOption "ClickHouse container";
       ddns-go.enable = mkEnableOption "DDNS-Go container";
       samba.enable = mkEnableOption "Samba container";
+      ollama.enable = mkEnableOption "Ollama container";
     };
   };
 
@@ -113,6 +114,15 @@ in
         params = ''
           -p 1445:445 -e "USER=smbuser" -e 'PASS=123465!' -v samba_data:/storage \
           dockurr/samba
+        '';
+        autoStart = true;
+      };
+
+      "${prefix}ollama" = containerConfig {
+        enable = config.custom.systemd.ollama.enable;
+        name = "ollama";
+        params = ''
+          --gpus=all -v ollama:/root/.ollama -p 11434:11434 ollama/ollama
         '';
         autoStart = true;
       };
