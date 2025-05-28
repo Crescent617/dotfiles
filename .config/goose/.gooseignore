@@ -1,0 +1,24 @@
+# Ignore specific files by name
+settings.json         # Ignore only the file named "settings.json"
+
+# Ignore files by extension
+*.pdf                # Ignore all PDF files
+*.config             # Ignore all files ending in .config
+
+# Ignore directories and their contents
+backup/              # Ignore everything in the "backup" directory
+downloads/           # Ignore everything in the "downloads" directory
+
+# Ignore all files with this name in any directory
+**/credentials.json  # Ignore all files named "credentials.json" in any directory
+
+# Complex patterns
+*.log                # Ignore all .log files
+!error.log           # Except for error.log file
+
+# Secret files
+**/.env
+**/.env.*
+**/.envrc
+**/.envrc.*
+**/secrets.*
