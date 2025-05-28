@@ -42,6 +42,7 @@ in
     watchexec # A tool for watching files and executing commands when they change
     trufflehog # Find, verify, and analyze leaked credentials
     earthly # Like Dockerfile and Makefile had a baby.
+    miniserve # A tiny web server for static files
 
     # Git Tools
     lazygit
