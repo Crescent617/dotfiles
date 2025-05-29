@@ -349,10 +349,10 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Return { spawn "kitty"; }
-    Mod+Space { spawn "fuzzel"; }
-    Super+Alt+L { spawn "swaylock"; }
-    Super+V { spawn "kitty" "--class" "clipse" "-e" "clipse"; }
+    Mod+Return repeat=false { spawn "kitty"; }
+    Mod+Space  repeat=false { spawn "fuzzel"; }
+    // Super+Alt+L { spawn "swaylock"; }
+    Super+V repeat=false { spawn "kitty" "--class" "clipse" "-e" "clipse"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -365,7 +365,7 @@ binds {
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
-    Mod+Q { close-window; }
+    Mod+Q repeat=false { close-window; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-window-down; }

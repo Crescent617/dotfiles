@@ -375,16 +375,6 @@ return {
     end,
   },
   {
-    "voxelprismatic/rabbit.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "B", "<cmd>Rabbit trail<cr>", mode = "n", desc = "Buffers" },
-    },
-    config = function()
-      require("rabbit").setup {}
-    end,
-  },
-  {
     "petertriho/nvim-scrollbar",
     event = "VeryLazy",
     config = function()

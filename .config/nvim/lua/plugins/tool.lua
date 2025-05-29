@@ -40,6 +40,7 @@ return {
     ---@type snacks.Config
     opts = {
       bigfile = { enabled = true },
+      image = { enabled = true },
       -- dashboard = { enabled = true, },
       -- terminal = { enabled = true },
       -- notifier = { enabled = true, timeout = 5000 }, -- already have nvim-notify
@@ -50,7 +51,7 @@ return {
       lazygit = { enabled = true },
       scope = { enabled = true },
       -- statuscolumn = { enabled = true },
-      words = { enabled = true },
+      -- words = { enabled = true },
       picker = {
         prompt = "   ",
         layouts = {
@@ -85,6 +86,7 @@ return {
       -- stylua: ignore start
       -- top
       { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
+      { "B", function() Snacks.picker.buffers({ layout = { preset = "sidebar" } }) end, desc = "Buffers" },
 
       -- Grep
       { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
