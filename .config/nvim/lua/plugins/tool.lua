@@ -86,7 +86,7 @@ return {
       -- stylua: ignore start
       -- top
       { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
-      { "B", function() Snacks.picker.buffers({ layout = { preset = "sidebar" } }) end, desc = "Buffers" },
+      { "B", function() Snacks.picker.buffers({ layout = { preset = "ivy" } }) end, desc = "Buffers" },
 
       -- Grep
       { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
