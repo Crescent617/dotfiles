@@ -31,6 +31,8 @@ del("n", "grr")
 map({ "n", "x" }, ";", ":", { desc = "CMD enter command mode" })
 map("n", "P", '"0p', { desc = "paste from yank register" })
 map("t", "<C-n>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
+
+-- search in range
 map("x", "/", function()
   -- 退出 visual 模式
   vim.cmd 'exe "normal! \\<Esc>"'
@@ -45,9 +47,8 @@ map("x", "/", function()
   vim.fn.search(pattern)
 end, {})
 
-map({ "n", "t" }, "<A-i>", function()
-  vim.cmd "ToggleTerm direction=float"
-end, { desc = "terminal toggle floating term" })
+-- open floating terminal
+map({ "n", "t" }, "<A-i>", "<cmd>ToggleTerm direction=float<cr>", { desc = "terminal toggle floating term" })
 
 -- mouse users + nvimtree users!
 vim.keymap.set({ "n", "v" }, "<RightMouse>", function()

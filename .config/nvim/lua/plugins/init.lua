@@ -5,6 +5,7 @@ local plugin_groups = {
   require "plugins.git",
   require "plugins.tool",
   require "plugins.editor",
+  require "plugins.note",
 }
 
 ---@type LazySpec

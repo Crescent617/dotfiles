@@ -80,7 +80,8 @@ in
     whois
     pup # HTML parsing tool
     httpie # A user-friendly command-line HTTP client for the API era
-    mycli
+    mycli # A command-line interface for MySQL with autocompletion and syntax highlighting
+    pgcli # A command-line interface for PostgreSQL with autocompletion and syntax highlighting
     rustscan # A fast, simple and powerful network scanner
     aria2 # A download utility for HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink
     tshark # capture and analyze network packets

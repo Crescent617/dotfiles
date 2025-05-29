@@ -11,7 +11,7 @@ Format: markdown]]
 -- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo
 -- claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought claude-sonnet-4
 -- gemini-2.5-pro o4-mini gpt-4.1
-local copilot_model = "gpt-4o"
+local copilot_model = "gpt-4o" -- Set your preferred model here
 
 ---@type LazySpec
 return {
@@ -170,7 +170,8 @@ return {
 
           -- add prompts template keymaps
           vim.keymap.set("n", "<LocalLeader>c", function()
-            local prompt = { "#buffer", "@editor", "@files", "I want you to make change in-place." }
+            local prompt =
+              { "#buffer", "@editor", "@files", "> INSTRUCTION: If need change file content, just make change in-place." }
             vim.api.nvim_put(prompt, "l", false, true)
           end, vim.tbl_deep_extend("force", opts, { desc = "Cursor" }))
 
