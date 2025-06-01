@@ -36,7 +36,7 @@ in
     direnv # A shell extension that loads environment variables from .env files
     tree-sitter # A CLI for parsing and analyzing source code
     choose # A command-line tool for making choices
-    thefuck # A tool to correct your previous console command
+    pay-respects # A tool to correct your previous console command
     asciinema # A tool for recording and sharing terminal sessions
     gotty # A tool for sharing your terminal as a web application
     watchexec # A tool for watching files and executing commands when they change
@@ -191,7 +191,7 @@ in
     starship.enable = true;
     zoxide.enable = true;
     yazi.enable = true;
-    thefuck.enable = true;
+    pay-respects.enable = true;
   };
 
   services =
