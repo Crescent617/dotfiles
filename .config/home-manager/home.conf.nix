@@ -182,7 +182,6 @@ in
       '';
       initContent = ''
         eval "$(devbox global shellenv)"
-        eval "$(gh copilot alias -- zsh)"
         source ~/.nix-profile/share/fzf-git-sh/fzf-git.sh
         command -v motd.sh &>/dev/null && motd.sh
       '';
