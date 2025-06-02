@@ -15,6 +15,7 @@ input {
             // For example:
             // layout "us,ru"
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
+            options "ctrl:nocaps"
         }
     }
 
@@ -253,6 +254,7 @@ spawn-at-startup "swaybg" "-i" "/home/hrli/Pictures/jinx.jpg" // Background
 spawn-at-startup "xwayland-satellite" // XWayland support
 spawn-at-startup "clipse" "-listen" // Clipboard manager
 spawn-at-startup "mako" // Notifications
+spawn-at-startup "wlsunset" "-l" "39.90" "-L" "116.40" "-t" "4000" "-T" "5500" "-g" "0.9" // Night light
 
 environment {
     DISPLAY ":0"
@@ -364,6 +366,8 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86MonBrightnessUp  allow-when-locked=true { spawn "brightnessctl" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "10%-"; }
 
     Mod+Q repeat=false { close-window; }
 

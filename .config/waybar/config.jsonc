@@ -23,7 +23,8 @@
         "network",
         "pulseaudio",
         "cpu",
-        "memory"
+        "memory",
+        "battery"
     ],
     "custom/logout": {
         "format": "⏻",

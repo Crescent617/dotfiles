@@ -74,6 +74,7 @@ in
     procs # A replacement for 'ps' written in Rust
     bat # A cat clone with wings
     lsd # A modern replacement for 'ls'
+    systemctl-tui # A TUI for managing systemd services
 
     # Network & Web Tools
     dogdns
