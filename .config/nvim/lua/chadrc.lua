@@ -122,7 +122,7 @@ M.mason = {
   pkgs = {
     "ast-grep", -- AST-based code searching tool
     "bash-language-server", -- Language server for Bash
-    "black", -- Python code formatter
+    -- "black", -- Python code formatter
     "codelldb", -- LLDB-based debugger
     "codespell", -- Spell checker for source code
     "css-lsp", -- Language server for CSS
@@ -135,7 +135,7 @@ M.mason = {
     "gopls", -- Go language server
     "helm-ls", -- Language server for Helm
     "html-lsp", -- Language server for HTML
-    "isort", -- Python import sorter
+    -- "isort", -- Python import sorter
     "json-lsp", -- Language server for JSON
     "lua-language-server", -- Language server for Lua
     "nil", -- Nix language server
@@ -144,6 +144,7 @@ M.mason = {
     "prosemd-lsp", -- Language server for Markdown prose
     "pyright", -- Python type checker and language server
     "rnix-lsp", -- Language server for Nix
+    "ruff", -- Python linter and formatter
     "rust-analyzer", -- Language server for Rust
     "shfmt", -- Shell script formatter
     "sqlfluff", -- SQL linter and formatter

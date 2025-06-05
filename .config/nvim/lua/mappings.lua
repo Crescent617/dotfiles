@@ -192,6 +192,7 @@ map("n", "H", "<cmd>lua require('nvchad.tabufline').prev()<cr>", { desc = "  
 -- Telescope mappings
 -- ===========================
 map("n", "<leader>fy", "<cmd>Telescope yank_history<cr>", { desc = "yank history" })
+map("n", "<leader><space>", "<cmd>Telescope find_files<cr>", { desc = "find files" })
 
 -- ===========================
 -- Gitsigns mappings

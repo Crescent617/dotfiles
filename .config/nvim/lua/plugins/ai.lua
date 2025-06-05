@@ -21,11 +21,13 @@ return {
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     opts = {
       provider = "copilot",
-      copilot = { model = copilot_model },
+      providers = {
+        copilot = { model = copilot_model },
+      },
       cursor_applying_provider = "copilot", -- use copilot as the cursor applying provider
       behaviour = {
         -- enable_claude_text_editor_tool_mode = true,
-        enable_cursor_planning_mode = true, -- enable cursor planning mode!
+        -- enable_cursor_planning_mode = true, -- enable cursor planning mode!
       },
       disabled_tools = { "python", "web_search" },
     },
@@ -170,8 +172,12 @@ return {
 
           -- add prompts template keymaps
           vim.keymap.set("n", "<LocalLeader>c", function()
-            local prompt =
-              { "#buffer", "@editor", "@files", "> INSTRUCTION: If need change file content, just make change in-place." }
+            local prompt = {
+              "#buffer",
+              "@editor",
+              "@files",
+              "> INSTRUCTION: If need change file content, just make change in-place.",
+            }
             vim.api.nvim_put(prompt, "l", false, true)
           end, vim.tbl_deep_extend("force", opts, { desc = "Cursor" }))
 

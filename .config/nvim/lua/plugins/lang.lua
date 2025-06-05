@@ -22,7 +22,7 @@ return {
       -- Define your formatters
       formatters_by_ft = {
         lua = { "stylua" },
-        python = { "isort", "black" },
+        python = { "ruff_organize_imports", "ruff_format" },
         javascript = frontend_formatter,
         typescript = frontend_formatter,
         javascriptreact = frontend_formatter,
@@ -116,13 +116,13 @@ return {
       local b = null_ls.builtins
 
       local sources = {
-        b.diagnostics.codespell.with {
-          diagnostics_postprocess = function(diagnostic)
-            diagnostic.severity = vim.diagnostic.severity.HINT
-          end,
-          disabled_filetypes = { "NvimTree", "csv" },
-          args = { "-L", "crate,ans,ratatui,enew", "-" },
-        },
+        -- b.diagnostics.codespell.with {
+        --   diagnostics_postprocess = function(diagnostic)
+        --     diagnostic.severity = vim.diagnostic.severity.HINT
+        --   end,
+        --   disabled_filetypes = { "NvimTree", "csv" },
+        --   args = { "-L", "crate,ans,ratatui,enew", "-" },
+        -- },
       }
       null_ls.setup {
         -- debug = true,
