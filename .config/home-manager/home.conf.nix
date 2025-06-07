@@ -1,11 +1,12 @@
 { config, pkgs, fonts, lib, ... }:
 
 let
-  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
-  hasSystemd = lib.pathExists "/run/systemd/system";
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
 in
 
 {
+  imports = [ ./custom/systemd.nix ];
+
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
@@ -74,7 +75,6 @@ in
     procs # A replacement for 'ps' written in Rust
     bat # A cat clone with wings
     lsd # A modern replacement for 'ls'
-    systemctl-tui # A TUI for managing systemd services
 
     # Network & Web Tools
     dogdns
@@ -101,9 +101,7 @@ in
     # Languages
     go
     rustup
-    # GUI Applications
-    # copyq # Clipboard manager with advanced features
-    # flameshot # Powerful yet simple to use screenshot software
+    systemctl-tui # A TUI for managing systemd services
   ] else [ ]);
 
 
@@ -194,14 +192,9 @@ in
     pay-respects.enable = true;
   };
 
-  services =
-    if isLinux then {
-      home-manager.autoExpire = {
-        enable = true;
-      };
-    } else { };
-
-  imports =
-    if hasSystemd then
-      [ ./custom/systemd.nix ] else [ ];
+  services = {
+    home-manager.autoExpire = {
+      enable = true;
+    };
+  };
 }
