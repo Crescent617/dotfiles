@@ -17,6 +17,7 @@ return {
   },
   {
     "saghen/blink.cmp",
+    version = "*",
     dependencies = {
       "Kaiser-Yang/blink-cmp-avante",
     },
@@ -425,6 +426,24 @@ return {
     event = "VeryLazy",
     config = function()
       require("mini.diff").setup()
+    end,
+  },
+
+  {
+    "ojroques/nvim-osc52",
+    event = "VeryLazy",
+    enabled = os.getenv "SSH_CONNECTION" ~= nil,
+    config = function()
+      vim.api.nvim_create_augroup("Yank", {})
+      vim.api.nvim_create_autocmd("TextYankPost", {
+        group = "Yank",
+        callback = function()
+          if vim.v.event.operator == "y" then
+            -- Only copy to OSC52 register if the yank is not explicitly named
+            require("osc52").copy_register '"'
+          end
+        end,
+      })
     end,
   },
 
