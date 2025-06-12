@@ -48,6 +48,13 @@ function M.setup()
       endif
     endfunction
   ]]
+
+  vim.api.nvim_create_autocmd("BufReadPost", {
+    pattern = "Caddyfile",
+    callback = function()
+      vim.bo.filetype = "caddy"
+    end,
+  })
 end
 
 return M
