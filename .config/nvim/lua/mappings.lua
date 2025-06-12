@@ -48,7 +48,7 @@ map("x", "/", function()
 end, {})
 
 -- open floating terminal
-map({ "n", "t" }, "<A-i>", "<cmd>ToggleTerm direction=float<cr>", { desc = "terminal toggle floating term" })
+-- map({ "n", "t" }, "<A-i>", "<cmd>ToggleTerm direction=float<cr>", { desc = "terminal toggle floating term" })
 
 -- mouse users + nvimtree users!
 vim.keymap.set({ "n", "v" }, "<RightMouse>", function()

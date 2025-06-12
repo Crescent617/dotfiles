@@ -226,12 +226,14 @@ return {
   {
     "azorng/goose.nvim",
     cmd = "Goose",
-    keys = {
-      { "<leader>aa", "<cmd>Goose<cr>", mode = "n", desc = "Goose" },
-    },
     config = function()
       require("goose").setup {
         default_global_keymaps = false,
+        keymap = {
+          window = {
+            submit_insert = "<C-s>",
+          },
+        },
       }
     end,
   },
