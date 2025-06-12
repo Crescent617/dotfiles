@@ -61,12 +61,6 @@ local on_attach = function(client, bufnr)
   map("n", "gr", vim.lsp.buf.references, opts "Lsp Show references")
   map("n", "gD", vim.lsp.buf.type_definition, opts "Lsp Go to type definition")
   -- map("n", "gD", vim.lsp.buf.declaration, opts "Lsp Go to declaration")
-  map("n", "<leader>lth", function()
-    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-    vim.notify("Inlay hints " .. (vim.lsp.inlay_hint.is_enabled() and "enabled" or "disabled"), nil, {
-      title = "LSP",
-    })
-  end, opts "Toggle Lsp Inlay hints")
 
   -- setup signature popup
   if client.server_capabilities.signatureHelpProvider then
@@ -74,9 +68,9 @@ local on_attach = function(client, bufnr)
     map("n", "<leader>lh", vim.lsp.buf.signature_help, opts "Lsp Signature help")
   end
 
-  if client.server_capabilities.documentSymbolProvider then
-    navic.attach(client, bufnr)
-  end
+  -- if client.server_capabilities.documentSymbolProvider then
+  --   navic.attach(client, bufnr)
+  -- end
 
   client.server_capabilities.semanticTokensProvider = nil
 

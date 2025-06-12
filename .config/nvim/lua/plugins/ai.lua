@@ -19,6 +19,7 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+    enabled = false,
     opts = {
       provider = "copilot",
       providers = {
@@ -225,6 +226,9 @@ return {
   {
     "azorng/goose.nvim",
     cmd = "Goose",
+    keys = {
+      { "<leader>aa", "<cmd>Goose<cr>", mode = "n", desc = "Goose" },
+    },
     config = function()
       require("goose").setup {
         default_global_keymaps = false,
