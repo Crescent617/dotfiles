@@ -47,6 +47,7 @@ M.ui = {
 }
 
 M.term = {
+  base46_colors = false,
   float = {
     row = 0.075,
     col = 0.1,
