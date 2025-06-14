@@ -1,4 +1,4 @@
-GOOSE_PROVIDER: github_copilot
+GOOSE_MODEL: gpt-4o
 extensions:
   developer:
     bundled: true
@@ -7,4 +7,4 @@ extensions:
     name: developer
     timeout: 300
     type: builtin
-GOOSE_MODEL: gpt-4o
+GOOSE_PROVIDER: github_copilot

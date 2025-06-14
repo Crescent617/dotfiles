@@ -97,12 +97,11 @@ in
     just # A handy way to save and run project-specific commands
     ast-grep
     devbox # A development environment manager
-  ] ++ (if isLinux then [
-    # Languages
+  ] ++ lib.optionals isLinux [
     go
     rustup
     systemctl-tui # A TUI for managing systemd services
-  ] else [ ]);
+  ];
 
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -137,6 +136,7 @@ in
     UV_DEFAULT_INDEX = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple";
     ZK_NOTEBOOK_DIR = "$HOME/notes";
     GOEXPERIMENT = "aliastypeparams";
+    GOOSE_DISABLE_KEYRING = 1; # https://github.com/block/goose/issues/2787
   };
 
   programs = {
@@ -153,11 +153,12 @@ in
         gmt = "go mod tidy";
         icat = "kitty +icat";
         t = "todo.sh";
+        s = "kitty +kitten ssh";
         # yadm: a dotfile manager for git
         yss = "yadm status";
         yadd = "yadm add";
         ycmsg = "yadm commit -m";
-        ydiff = "yadm diff";
+        ydca = "yadm diff --cached";
         ypush = "yadm push";
         ypull = "yadm pull";
         ylog = "yadm log --oneline --graph --decorate --all";
