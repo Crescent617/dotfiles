@@ -153,7 +153,6 @@ in
         gmt = "go mod tidy";
         icat = "kitty +icat";
         t = "todo.sh";
-        s = "kitty +kitten ssh";
         # yadm: a dotfile manager for git
         yss = "yadm status";
         yadd = "yadm add";
