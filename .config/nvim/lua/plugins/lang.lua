@@ -28,7 +28,7 @@ return {
         javascriptreact = frontend_formatter,
         typescriptreact = frontend_formatter,
         go = { "goimports", "gofmt" },
-        sql = { "sql-formatter" },
+        sql = { "sql_formatter", "sqlfmt", "sqlfluff", stop_after_first = true },
         json = frontend_formatter,
         proto = { "buf" },
       },
