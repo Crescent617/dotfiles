@@ -391,11 +391,17 @@ return {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
     opts = {
-      foldtextWithLineCount = {
-        template = "    •••••••  %s lines  •••••••  ",
-        hlgroupForCount = "Folded",
+      foldtext = {
+        lineCount = {
+          template = "    •••••••  %s lines  •••••••  ",
+          hlgroup = "Folded",
+        },
       },
     }, -- needed even when using default config
+    config = function(_, opts)
+      vim.diagnostic.config { signs = {} }
+      require("origami").setup(opts)
+    end,
   },
   { "nvzone/volt", lazy = true },
   { "nvzone/menu", lazy = true },
