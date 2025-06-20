@@ -46,9 +46,11 @@ local servers = {
 
 -- ======================= LSP HANDLER =======================
 
+local util = require "custom.lsputil"
 local map = vim.keymap.set
 local navic = require "nvim-navic"
-local hover_func = require("custom.lsputil").hover
+local hover_func = util.hover
+util.diagnostic_config()
 
 local on_attach = function(client, bufnr)
   local function opts(desc)

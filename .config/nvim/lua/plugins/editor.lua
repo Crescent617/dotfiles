@@ -389,7 +389,7 @@ return {
   },
   {
     "chrisgrieser/nvim-origami",
-    event = "VeryLazy",
+    event = "BufRead",
     opts = {
       foldtext = {
         lineCount = {
@@ -399,7 +399,7 @@ return {
       },
     }, -- needed even when using default config
     config = function(_, opts)
-      vim.diagnostic.config { signs = {} }
+      require("custom.lsputil").diagnostic_config()
       require("origami").setup(opts)
     end,
   },
