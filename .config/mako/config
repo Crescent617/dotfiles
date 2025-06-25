@@ -13,11 +13,13 @@ icons=1
 background-color=#3b4252
 text-color=#81a1c1
 border-color=#5e81ac
+default-timeout=5000
 
 [urgency=normal]
 background-color=#2e3440
 text-color=#d8dee9
 border-color=#88c0d0
+default-timeout=5000
 
 [urgency=high]
 background-color=#bf616a
