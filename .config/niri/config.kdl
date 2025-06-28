@@ -97,6 +97,10 @@ input {
     position x=1280 y=0
 }
 
+// switch-events {
+//     lid-close { spawn "swaylock" "-c" "000000"; }
+// }
+
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
@@ -256,6 +260,8 @@ spawn-at-startup "clipse" "-listen" // Clipboard manager
 spawn-at-startup "mako" // Notifications
 spawn-at-startup "wlsunset" "-l" "39.90" "-L" "116.40" "-t" "5000" "-T" "5500" "-g" "0.9" // Night light
 spawn-at-startup "kitty"
+
+spawn-at-startup "kitty" // Status bar
 
 environment {
     DISPLAY ":0"

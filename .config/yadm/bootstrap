@@ -34,5 +34,3 @@ fi
 
 info "Apply yadm alt config..."
 yadm alt -v
-
-info "Init successfully! Then run 'home-manager switch' to install the dependencies."
