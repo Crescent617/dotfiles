@@ -258,7 +258,7 @@ spawn-at-startup "swaybg" "-i" "/home/hrli/Pictures/jinx.jpg" // Background
 spawn-at-startup "xwayland-satellite" // XWayland support
 spawn-at-startup "clipse" "-listen" // Clipboard manager
 spawn-at-startup "mako" // Notifications
-spawn-at-startup "wlsunset" "-l" "39.90" "-L" "116.40" "-t" "5000" "-T" "5500" "-g" "0.9" // Night light
+spawn-at-startup "wlsunset" "-l" "39.90" "-L" "116.40" "-t" "5500" "-T" "6000" "-g" "0.9" // Night light
 spawn-at-startup "kitty"
 
 environment {

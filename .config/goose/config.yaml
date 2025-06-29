@@ -1,4 +1,5 @@
 GOOSE_MODEL: claude-3.7-sonnet
+GOOSE_PROVIDER: github_copilot
 extensions:
   developer:
     bundled: true
@@ -7,4 +8,3 @@ extensions:
     name: developer
     timeout: 300
     type: builtin
-GOOSE_PROVIDER: github_copilot

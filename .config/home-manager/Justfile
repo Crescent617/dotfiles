@@ -1,0 +1,4 @@
+home_nix_url := "https://raw.githubusercontent.com/Crescent617/nyx/refs/heads/main/home/home.nix"
+
+sync:
+  curl {{home_nix_url}} > home.nyx.nix

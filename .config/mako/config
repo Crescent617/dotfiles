@@ -8,6 +8,9 @@ margin=20
 default-timeout=5000
 anchor=top-right
 icons=1
+max-history=100
+height=200
+width=400
 
 [urgency=low]
 background-color=#3b4252
