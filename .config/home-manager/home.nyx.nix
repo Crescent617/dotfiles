@@ -16,7 +16,6 @@
     yq-go # A lightweight and portable command-line YAML processor
     atuin # A shell history assistant that helps you find and reuse commands
     boxes # A command-line tool for creating ASCII art boxes around text
-    direnv # A shell extension that loads environment variables from .env files
     tree-sitter # A CLI for parsing and analyzing source code
     choose # A command-line tool for making choices
     pay-respects # A tool to correct your previous console command
@@ -44,6 +43,7 @@
     yazi # A command-line tool for managing and navigating your filesystem
     television # like fzf but for your terminal
     clipse # A command-line tool for managing clipboard history
+    lnav
 
     # System Tools
     duf # Disk Usage/Free Utility
@@ -82,6 +82,7 @@
 
     # Development Tools
     k9s
+    gitRepo
 
     # Lang
     rustup
@@ -116,7 +117,7 @@
       shellAliases = {
         v = "nvim";
         j = "z";
-        rm = "gomi";
+        trash = "gomi";
         lazypodman =
           "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
         lg = "lazygit";
@@ -132,6 +133,8 @@
         ypull = "yadm pull";
         ylog = "yadm log --oneline --graph --decorate --all";
         lazyyadm = "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
+
+        proxy-toggle = "source proxy-toggle.sh";
       };
       defaultKeymap = "emacs";
       oh-my-zsh = {
@@ -143,13 +146,14 @@
           "fancy-ctrl-z"
           "tmux"
           "zsh-interactive-cd"
-          "direnv"
         ];
       };
       initContent = ''
         command -v motd.sh &>/dev/null && motd.sh
+        source ${pkgs.fzf-git-sh}/share/fzf-git-sh/fzf-git.sh
       '';
     };
+    fzf.enable = true;
     atuin.enable = true;
     starship.enable = true;
     zoxide.enable = true;
@@ -165,5 +169,9 @@
       };
     };
     pay-respects.enable = true;
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
   };
 }

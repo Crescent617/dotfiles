@@ -1,0 +1,259 @@
+{
+  "$schema": "https://lnav.org/schemas/config-v1.schema.json",
+  "ui": {
+    "theme-defs": {
+      "dracula": {
+        "vars": {
+          "semantic_highlight_color": "semantic()"
+        },
+        "styles": {
+          "text": {
+            "color": "#8787af",
+            "background-color": ""
+          },
+          "identifier": {
+            "background-color": "",
+            "color": "",
+            "bold": true
+          },
+          "alt-text": {
+            "color": "",
+            "bold": true
+          },
+          "ok": {
+            "color": "#50FA7B",
+            "bold": true
+          },
+          "error": {
+            "color": "#FF5555",
+            "bold": true
+          },
+          "warning": {
+            "color": "#282A36",
+            "background-color": "#FF5555",
+            "bold": true
+          },
+          "hidden": {
+            "color": "",
+            "bold": true
+          },
+          "cursor-line": {
+            "color": "#50FA7B",
+            "background-color": "#5f5f87",
+            "bold": true,
+            "underline": false
+          },
+          "adjusted-time": {
+            "color": "#BD93F9"
+          },
+          "skewed-time": {
+            "color": "#F1FA8C"
+          },
+          "offset-time": {
+            "color": "#FFB86C"
+          },
+          "invalid-msg": {
+            "color": ""
+          },
+          "popup": {
+            "color": "#50FA7B",
+            "background-color": "#5f5f87"
+          },
+          "scrollbar": {
+            "color": "#5F5F87",
+            "background-color": "#50FA7B"
+          },
+          "focused": {
+            "color": "#5F5F87",
+            "background-color": "#50FA7B"
+          },
+          "disabled-focused": {
+            "color": "",
+            "background-color": ""
+          },
+          "h1": {
+            "underline": false
+          },
+          "h2": {
+            "underline": false,
+            "bold": true
+          },
+          "h3": {
+            "underline": false,
+            "bold": true
+          },
+          "h4": {
+            "underline": false,
+            "bold": true
+          },
+
+          "h5": {
+            "underline": false,
+            "bold": true
+          },
+          "h6": {
+            "underline": false,
+            "bold": true
+          },
+          "list-glyph": {
+            "color": ""
+          },
+          "breadcrumb": {
+            "color": "#50FA7B"
+          },
+          "table-border": {
+            "color": "#50FA7B"
+          }
+        },
+        "syntax-styles": {
+          "keyword": {
+            "color": ""
+          },
+          "string": {
+            "color": "",
+            "bold": true
+          },
+          "comment": {
+            "color": ""
+          },
+          "doc-directive": {
+            "color": ""
+          },
+          "variable": {
+            "color": ""
+          },
+          "symbol": {
+            "color": ""
+          },
+          "re-special": {
+            "color": ""
+          },
+          "re-repeat": {
+            "color": ""
+          },
+          "diff-delete": {
+            "color": "#FF5555"
+          },
+          "diff-add": {
+            "color": "#50FA7B"
+          },
+          "diff-section": {
+            "color": ""
+          },
+          "spectrogram-low": {
+            "background-color": "#50FA7B"
+          },
+          "spectrogram-medium": {
+            "background-color": "#FFb86C"
+          },
+          "spectrogram-high": {
+            "background-color": "#FF5555"
+          },
+          "file": {
+            "color": ""
+          },
+          "number": {
+            "bold": true
+          }
+        },
+        "status-styles": {
+          "title": {
+            "color": "#50FA7B",
+            "background-color": "#5f5f87",
+            "bold": true
+          },
+          "disabled-title": {
+            "color": "#F1FA8C",
+            "background-color": "#5f5f87",
+            "bold": true
+          },
+          "subtitle": {
+            "color": "#ffffff",
+            "background-color": "#5f5f87"
+          },
+          "text": {
+            "color": "#ffffff",
+            "background-color": "#5f5f87"
+          },
+          "warn": {
+            "color": "#5f5f87",
+            "background-color": "#F1FA8C"
+          },
+          "alert": {
+            "color": "#5f5f87",
+            "background-color": "#FF5555"
+          },
+          "active": {
+            "color": "#5F5F87",
+            "background-color": "#50FA7B"
+          },
+          "info": {
+            "color": "#FF79C6",
+            "background-color": "#5f5f87"
+          },
+          "inactive": {
+            "color": "#F8F8F2",
+            "background-color": "#5f5f87"
+          },
+          "inactive-alert": {
+            "color": "",
+            "background-color": ""
+          },
+          "title-hotkey": {
+            "color": "",
+            "background-color": "",
+            "underline": true
+          },
+          "hotkey": {
+            "color": "",
+            "underline": true,
+            "bold": true
+          }
+        },
+        "log-level-styles": {
+          "warning": {
+            "color": "#F1FA8C"
+          },
+          "error": {
+            "color": "#FFB86C",
+            "bold": true
+          },
+          "critical": {
+            "color": "#FF5555",
+            "bold": true
+          },
+          "fatal": {
+            "color": "#F8F8F2",
+            "bold": true
+          }
+        },
+        "highlights": {
+          "colors": {
+            "pattern": "(?:#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}\\b)",
+            "style": {
+              "color": ""
+            }
+          },
+          "ipv4": {
+            "pattern": "\\b(?<!\\d\\.)\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b(?!\\.\\d)",
+            "style": {
+              "color": "#F1FA8C"
+            }
+          },
+          "xml": {
+            "pattern": "</?([^ >=!]+)[^>]*>",
+            "style": {
+              "color": "#FF79C6"
+            }
+          },
+          "xml-decl": {
+            "pattern": "<!([^ >=!]+)[^>]*>",
+            "style": {
+              "color": "#FFB86C"
+            }
+          }
+        }
+      }
+    }
+  }
+}
