@@ -11,7 +11,7 @@ Format: markdown]]
 -- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo
 -- claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought claude-sonnet-4
 -- gemini-2.5-pro o4-mini gpt-4.1
-local copilot_model = "gpt-4o" -- Set your preferred model here
+local copilot_model = "gpt-4.1" -- Set your preferred model here
 
 ---@type LazySpec
 return {
@@ -19,16 +19,10 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-    enabled = false,
     opts = {
       provider = "copilot",
       providers = {
         copilot = { model = copilot_model },
-      },
-      cursor_applying_provider = "copilot", -- use copilot as the cursor applying provider
-      behaviour = {
-        -- enable_claude_text_editor_tool_mode = true,
-        -- enable_cursor_planning_mode = true, -- enable cursor planning mode!
       },
       disabled_tools = { "python", "web_search" },
     },

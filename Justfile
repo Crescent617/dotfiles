@@ -9,11 +9,14 @@ sync:
     -cd /etc/nix-darwin/ && just sync
     -yadm pull
 
-# update system packages
+[macos]
 upgrade:
     -command -v brew && brew update && brew upgrade
     -command -v darwin-rebuild && sudo darwin-rebuild switch
     -cd ./services/ && docker compose pull
+
+[linux]
+upgrade:
     -command -v nixos-rebuild && sudo nixos-rebuild switch --upgrade
 
 [macos]
