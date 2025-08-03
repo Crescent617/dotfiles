@@ -69,6 +69,7 @@ return {
   },
   {
     "b0o/incline.nvim",
+    enabled = false,
     config = function()
       local helpers = require "incline.helpers"
       local devicons = require "nvim-web-devicons"
@@ -91,6 +92,24 @@ return {
       }
     end,
     event = "VeryLazy",
+  },
+  {
+    "Bekaboo/dropbar.nvim",
+    event = "BufRead",
+    -- optional, but required for fuzzy finder support
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+    },
+    opts = {
+      icons = {
+        kinds = {
+          dir_icon = function()
+            return ""
+          end,
+        },
+      },
+    },
   },
   {
     "folke/todo-comments.nvim",
