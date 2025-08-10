@@ -217,18 +217,4 @@ return {
     },
     ft = render_md_ft,
   },
-  {
-    "azorng/goose.nvim",
-    cmd = "Goose",
-    config = function()
-      require("goose").setup {
-        default_global_keymaps = false,
-        keymap = {
-          window = {
-            submit_insert = "<C-s>",
-          },
-        },
-      }
-    end,
-  },
 }

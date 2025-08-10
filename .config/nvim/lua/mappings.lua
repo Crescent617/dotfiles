@@ -30,7 +30,7 @@ del("n", "grr")
 -- ===========================
 map({ "n", "x" }, ";", ":", { desc = "CMD enter command mode" })
 map("n", "P", '"0p', { desc = "paste from yank register" })
-map("t", "<C-n>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
+map("t", "jk", [[<C-\><C-n>]]) -- jk to escape in terminal mode
 
 -- search in range
 map("x", "/", function()
@@ -192,6 +192,7 @@ map("n", "H", "<cmd>lua require('nvchad.tabufline').prev()<cr>", { desc = "  
 -- Telescope mappings
 -- ===========================
 map("n", "<leader>fy", "<cmd>Telescope yank_history<cr>", { desc = "yank history" })
+map("n", "<leader><space>", "<cmd>Telescope find_files<cr>", { desc = "find files" })
 
 -- ===========================
 -- Gitsigns mappings
