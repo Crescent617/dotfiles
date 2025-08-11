@@ -470,6 +470,26 @@ return {
       })
     end,
   },
+  {
+    "ibhagwan/fzf-lua",
+    config = function()
+      require("fzf-lua").setup {
+        winopts = {
+          border = "rounded",
+          preview = {
+            border = "rounded",
+            scrollbar = false,
+          },
+        },
+        hls = {
+          border = "TelescopeBorder", -- or "FloatBorder"
+          preview_border = "TelescopeBorder",
+          title = "TelescopePromptTitle",
+          preview_title = "TelescopePreviewTitle",
+        },
+      }
+    end,
+  },
 
   -- 自定义插件
   {
