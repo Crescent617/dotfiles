@@ -9,8 +9,9 @@ pager = delta
 diffFilter = delta --color-only
 
 [delta]
-navigate = true    # use n and N to move between diff sections
-light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    tabs= 4
 
 [merge]
 conflictstyle = diff3
@@ -26,6 +27,7 @@ helper = !gh auth git-credential
 
 [includeIf "gitdir:~/workspace/"]
 path = ~/workspace/.gitconfig
+
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
