@@ -505,5 +505,5 @@ return {
       }
       vim.notify = bt.notify
     end,
-  },
+  }
 }

@@ -112,11 +112,13 @@ return {
           cmd = { adapter = "copilot" },
         },
         adapters = {
-          copilot = function()
-            return require("codecompanion.adapters").extend("copilot", {
-              schema = { model = { default = copilot_model } },
-            })
-          end,
+          http = {
+            copilot = function()
+              return require("codecompanion.adapters").extend("copilot", {
+                schema = { model = { default = copilot_model } },
+              })
+            end,
+          },
         },
         extensions = {
           mcphub = {

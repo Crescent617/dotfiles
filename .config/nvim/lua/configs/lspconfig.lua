@@ -48,7 +48,6 @@ local servers = {
 
 local util = require "custom.lsputil"
 local map = vim.keymap.set
-local navic = require "nvim-navic"
 local hover_func = util.hover
 util.diagnostic_config()
 
