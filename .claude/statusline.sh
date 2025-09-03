@@ -30,11 +30,19 @@ input=$(cat)
 #   }
 # }
 
+null2zero() {
+  if [ "$1" == "null" ] || [ -z "$1" ]; then
+    echo "0"
+  else
+    echo "$1"
+  fi
+}
+
 # Extract values using jq
 MDL=$(echo "$input" | jq -r '.model.display_name')
 CWD=$(echo "$input" | jq -r '.workspace.current_dir')
-LINES_ADDED=$(echo "$input" | jq -r '.cost.total_lines_added')
-LINES_REMOVED=$(echo "$input" | jq -r '.cost.total_lines_removed')
+LINES_ADDED=$(null2zero $(echo "$input" | jq -r '.cost.total_lines_added'))
+LINES_REMOVED=$(null2zero $(echo "$input" | jq -r '.cost.total_lines_removed'))
 # cost in USD 两位小数
 COST=$(echo "$input" | jq -r '.cost.total_cost_usd' | awk '{printf "%.2f", $0}')
 DURATION=$(echo "$input" | jq -r '.cost.total_duration_ms' | awk '{printf "%.0f", $0 / 1000}') # convert ms to seconds
@@ -52,9 +60,10 @@ delimiter=" | "
 # Output the status line
 len=${#parts[@]}
 for ((i = 0; i < len; i++)); do
+  p="${parts[i]}"
   if [ $i -eq $((len - 1)) ]; then
-    printf "%s" "${parts[i]}"
+    printf "%s" "$p"
   else
-    printf "%s%s" "${parts[i]}" "$delimiter"
+    printf "%s%s" "$p" "$delimiter"
   fi
 done
