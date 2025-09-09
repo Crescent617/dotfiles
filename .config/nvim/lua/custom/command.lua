@@ -23,19 +23,6 @@ local function register_git_rabase_squash()
 end
 
 function M.setup()
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "gitrebase",
-    callback = register_git_rabase_squash,
-  })
-
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "jsonc",
-    callback = function()
-      -- add commentstring
-      vim.bo.commentstring = "// %s"
-    end,
-  })
-
   vim.cmd [[
     command! DiffOrig w !diff -u % -
     command! DiffOrigVim vert new | setlocal buftype=nofile | setlocal nobuflisted | read ++edit # | 0d_ | diffthis | wincmd p | diffthis | wincmd p
@@ -49,6 +36,18 @@ function M.setup()
     endfunction
   ]]
 
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "gitrebase",
+    callback = register_git_rabase_squash,
+  })
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "jsonc",
+    callback = function()
+      -- add commentstring
+      vim.bo.commentstring = "// %s"
+    end,
+  })
   vim.api.nvim_create_autocmd("BufReadPost", {
     pattern = "Caddyfile",
     callback = function()
