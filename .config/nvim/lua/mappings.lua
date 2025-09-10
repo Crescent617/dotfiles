@@ -130,9 +130,7 @@ end, { desc = "next diagnostic" })
 -- LSP (Language Server Protocol) mappings
 -- ===========================
 map("n", "gI", vim.lsp.buf.implementation, { desc = "lsp implementation" })
-
 map("n", "<leader>la", vim.lsp.buf.code_action, { desc = "Code Action" })
-
 map("n", "<leader>lA", lsputil.action.source, { desc = "Src action" })
 
 -- map("n", "<leader>ld", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Buffer Diagnostics" })

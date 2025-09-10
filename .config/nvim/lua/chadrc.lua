@@ -125,6 +125,7 @@ M.mason = {
     "typescript-language-server", -- Language server for TypeScript
     "vim-language-server", -- Language server for Vim script
     "vue-language-server", -- Language server for Vue.js
+    "vtsls", -- Vue tooling for TypeScript server
     "yaml-language-server", -- Language server for YAML
     -- "zk", -- Plain text note-taking assistant, nixos not work
   },
