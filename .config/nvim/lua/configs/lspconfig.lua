@@ -40,8 +40,8 @@ local server_settings = {
   pyright = {},
   -- pylyzer = {},
   gopls = {},
-  ts_ls = ts_ls_config,
-  -- vtsls = vtsls_config,
+  -- ts_ls = ts_ls_config,
+  vtsls = vtsls_config,
   vue_ls = {},
   yamlls = {},
   taplo = {},
@@ -75,14 +75,14 @@ nvchad_configs.on_attach = function(client, bufnr)
   prev_nvchad_on_attach(client, bufnr)
   -- your custom on_attach function
   local function opts(desc)
-    return { buffer = bufnr, desc = "LSP " .. desc }
+    return { buffer = bufnr, desc = desc }
   end
 
-  map("n", "K", util.hover, opts "Lsp hover information")
-  map("n", "gd", vim.lsp.buf.definition, opts "Lsp Go to definition")
-  map("n", "gI", vim.lsp.buf.implementation, opts "Lsp Go to implementation")
-  map("n", "gr", vim.lsp.buf.references, opts "Lsp Show references")
-  map("n", "gD", vim.lsp.buf.type_definition, opts "Lsp Go to type definition")
+  map("n", "K", util.hover, opts "Hover information")
+  map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
+  map("n", "gI", vim.lsp.buf.implementation, opts "Go to implementation")
+  map("n", "gr", vim.lsp.buf.references, opts "Go to references")
+  map("n", "gD", vim.lsp.buf.type_definition, opts "Go to type definition")
   -- map("n", "gD", vim.lsp.buf.declaration, opts "Lsp Go to declaration")
 end
 
