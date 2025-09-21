@@ -23,15 +23,6 @@ local vtsls_config = {
   filetypes = tsserver_filetypes,
 }
 
-local ts_ls_config = {
-  init_options = {
-    plugins = {
-      vue_plugin,
-    },
-  },
-  filetypes = tsserver_filetypes,
-}
-
 local server_settings = {
   vimls = {},
   html = {},
@@ -62,6 +53,7 @@ local server_settings = {
       },
     },
   },
+  zls = {},
 }
 
 -- ======================= LSP HANDLER =======================

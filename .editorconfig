@@ -24,7 +24,7 @@ indent_style = tab
 indent_style = space
 indent_size = 2
 
-[*.{js,sh,proto,yml,yaml,json,lua,ts,tsx,md,jsx,nix,txt}]
+[*.{js,sh,proto,yml,yaml,json,lua,ts,tsx,md,jsx,nix,txt,svelte}]
 indent_style = space
 indent_size = 2
 
