@@ -145,5 +145,8 @@ return {
       file_types = render_md_ft,
     },
     ft = render_md_ft,
+    config = function()
+      vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "#50FA7B", bold = true, underline = true })
+    end,
   },
 }

@@ -57,7 +57,6 @@ M.term = {
   },
 }
 
-
 M.nvdash = {
   header = require("custom.banners").pick(),
   load_on_startup = true,

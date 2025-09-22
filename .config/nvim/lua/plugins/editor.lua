@@ -418,7 +418,6 @@ return {
       },
     }, -- needed even when using default config
     config = function(_, opts)
-      require("custom.lsputil").diagnostic_config()
       require("origami").setup(opts)
     end,
   },

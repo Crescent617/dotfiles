@@ -20,8 +20,4 @@ M.hover = function()
   vim.lsp.buf.hover(opts)
 end
 
-M.diagnostic_config = function()
-  require("nvchad.lsp").diagnostic_config()
-end
-
 return M
