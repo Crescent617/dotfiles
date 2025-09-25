@@ -21,17 +21,18 @@ return {
     dependencies = {
       "Kaiser-Yang/blink-cmp-avante",
     },
-    opts = function(_, opts)
-      table.insert(opts.sources.default, "avante")
-      if not opts.sources.providers then
-        opts.sources.providers = {}
-      end
-      opts.sources.providers.avante = {
-        module = "blink-cmp-avante",
-        name = "Avante",
-      }
-      return opts
-    end,
+    opts = {
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+        per_filetype = {
+          sql = { "snippets", "dadbod", "buffer" },
+        },
+        -- add vim-dadbod-completion to your completion providers
+        providers = {
+          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+        },
+      },
+    },
   },
   --- }}}
   {
@@ -505,5 +506,5 @@ return {
       }
       vim.notify = bt.notify
     end,
-  }
+  },
 }
