@@ -55,6 +55,7 @@ return {
     config = function()
       require("treesitter-context").setup {
         separator = "·",
+        max_lines = '10%',
       }
     end,
   },

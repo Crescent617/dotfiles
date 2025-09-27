@@ -417,9 +417,10 @@ return {
           hlgroup = "Folded",
         },
       },
-    }, -- needed even when using default config
-    config = function(_, opts)
-      require("origami").setup(opts)
+    },
+    init = function()
+      vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
     end,
   },
   { "nvzone/volt", lazy = true },
