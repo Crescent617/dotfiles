@@ -3,19 +3,30 @@ local mason_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason")
 -- ======================= LSP CONFIGURATION =======================
 local vue_language_server_path =
   vim.fs.joinpath(mason_path, "packages/vue-language-server/node_modules/@vue/language-server")
+local svelte_language_server_path =
+  vim.fs.joinpath(mason_path, "packages/svelte-language-server/node_modules/node_modules/typescript-svelte-plugin")
+
 local vue_plugin = {
   name = "@vue/typescript-plugin",
   location = vue_language_server_path,
   languages = { "vue" },
   configNamespace = "typescript",
 }
-local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
+local svelte_plugin = {
+  name = "typescript-svelte-plugin",
+  location = svelte_language_server_path,
+  languages = { "svelte" },
+  configNamespace = "typescript",
+}
+
+local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "svelte" }
 local vtsls_config = {
   settings = {
     vtsls = {
       tsserver = {
         globalPlugins = {
           vue_plugin,
+          svelte_plugin,
         },
       },
     },
