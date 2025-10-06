@@ -27,6 +27,8 @@ return {
         typescript = frontend_formatter,
         javascriptreact = frontend_formatter,
         typescriptreact = frontend_formatter,
+        svelte = frontend_formatter,
+        vue = frontend_formatter,
         go = { "goimports", "gofmt" },
         sql = { "sql_formatter", "sqlfmt", "sqlfluff", stop_after_first = true },
         json = frontend_formatter,
