@@ -14,7 +14,7 @@ M.notify = function(msg, level, opts)
   if M.blacklist ~= nil then
     for _, v in ipairs(M.blacklist) do
       if msg:find(v) then
-        builtin_notify("[notify] " .. msg, vim.log.levels.WARN, { title = "Notify" })
+        -- builtin_notify("[notify] " .. msg, vim.log.levels.WARN, { title = "Notify" })
         return
       end
     end

@@ -31,6 +31,8 @@ del("n", "grr")
 map({ "n", "x" }, ";", ":", { desc = "CMD enter command mode" })
 map("n", "P", '"0p', { desc = "paste from yank register" })
 map("t", "<Esc><Esc>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
+map("v", "<Tab>", ">gv", { noremap = true, silent = true })
+map("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
 
 -- search in range
 map("x", "/", function()
