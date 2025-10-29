@@ -143,13 +143,6 @@ return {
     end,
   },
   {
-    "ggandor/flit.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("flit").setup()
-    end,
-  },
-  {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "BufRead",
@@ -416,6 +409,9 @@ return {
           template = "    •••••••  %s lines  •••••••  ",
           hlgroup = "Folded",
         },
+      },
+      autoFold = {
+        enabled = false,
       },
     },
     init = function()

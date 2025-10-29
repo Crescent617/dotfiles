@@ -1,4 +1,5 @@
 local mason_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason")
+vim.lsp.set_log_level("OFF")
 
 -- ======================= LSP CONFIGURATION =======================
 local vue_language_server_path =
