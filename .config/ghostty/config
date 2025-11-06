@@ -51,11 +51,11 @@ mouse-hide-while-typing = true
 
 # macos-titlebar-proxy-icon = hidden
 # macos-titlebar-style = hidden
-# window-decoration = none
-window-decoration = true
+# window-decoration = true
+window-decoration = none
 
 # cursor-invert-fg-bg = true
-# cursor-style-blink = false
+cursor-style-blink = false
 # adjust-cursor-thickness = 2
 
 custom-shader-animation = true
