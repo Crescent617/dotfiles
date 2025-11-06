@@ -30,7 +30,7 @@ return {
         svelte = frontend_formatter,
         vue = frontend_formatter,
         go = { "goimports", "gofmt" },
-        sql = { "sql_formatter", "sqlfmt", "sqlfluff", stop_after_first = true },
+        sql = { "pg_format", "sql_formatter", "sqlfluff", stop_after_first = true },
         json = frontend_formatter,
         proto = { "buf" },
       },
@@ -57,7 +57,7 @@ return {
     config = function()
       require("treesitter-context").setup {
         separator = "·",
-        max_lines = '10%',
+        max_lines = "10%",
       }
     end,
   },
@@ -195,7 +195,7 @@ return {
   { "NoahTheDuke/vim-just", ft = "just" },
   {
     "mrcjkb/rustaceanvim",
-    version = "^5", -- Recommended
+    version = "*", -- Recommended
     ft = "rust",
     config = function()
       local lspconfig = require "configs.lspconfig"
@@ -207,7 +207,14 @@ return {
           on_attach = lspconfig.on_attach,
           default_settings = {
             -- rust-analyzer language server configuration
-            ["rust-analyzer"] = {},
+            ["rust-analyzer"] = {
+              -- cargo = { loadOutDirsFromCheck = true },
+              -- check = { command = "clippy" },
+              -- procMacro = { enable = false },
+              -- diagnostics = { enable = true },
+              -- completion = { postfix = { enable = false } },
+              -- buildScripts = { enable = false }, -- 重点：关闭 build.rs 分析，加速
+            },
           },
         },
         -- DAP configuration
