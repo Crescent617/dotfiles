@@ -44,7 +44,6 @@ function M.setup()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "jsonc",
     callback = function()
-      -- add commentstring
       vim.bo.commentstring = "// %s"
     end,
   })
@@ -52,6 +51,15 @@ function M.setup()
     pattern = "Caddyfile",
     callback = function()
       vim.bo.filetype = "caddy"
+      vim.bo.commentstring = '# %s'
+    end,
+  })
+
+  -- lsp
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+    callback = function(args)
+      vim.lsp.inlay_hint.enable()
     end,
   })
 end

@@ -1,5 +1,8 @@
 { config, pkgs, fonts, lib, ... }:
-
+let
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
+  preferUnstable = name: if pkgs ? unstable then pkgs.unstable."${name}" else pkgs."${name}";
+in
 {
   home.packages = with pkgs; [
     # Terminal Utilities
@@ -21,17 +24,21 @@
     pay-respects # A tool to correct your previous console command
     asciinema # A tool for recording and sharing terminal sessions
     watchexec # A tool for watching files and executing commands when they change
-    earthly # Like Dockerfile and Makefile had a baby.
     miniserve # A tiny web server for static files
     yadm
     just # A handy way to save and run project-specific commands
     ast-grep # A command-line tool for parsing and analyzing source code with AST
+    zip
+    croc # A tool for sending files and folders securely and easily
 
     # Git Tools
     lazygit
     lazydocker
     delta # A syntax-highlighter for git and diff output
+    git-lfs
+    (preferUnstable "git-extras")
     git-open
+    tig # A command-line tool for browsing git repositories
     gh # GitHub CLI
     fzf-git-sh # fzf git shortcuts
 
@@ -60,7 +67,6 @@
     lsd # A modern replacement for 'ls'
 
     # Network & Web Tools
-    speedtest-go # A command-line tool to test internet speed
     dogdns
     whois
     pup # HTML parsing tool
@@ -70,11 +76,13 @@
     rustscan # A fast, simple and powerful network scanner
     aria2 # A download utility for HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink
     tshark # capture and analyze network packets
+    grpcurl # A command-line tool for making gRPC requests
+    proxychains-ng # A tool for redirecting network connections through a proxy server
+    tcpdump # A command-line packet analyzer
 
     # Document & Content Tools
     zk # A CLI for Zettelkasten note taking
     glow # Render markdown on the CLI, with pizzazz!
-    goose-cli # AI cli agent
     chafa # Image-to-text converter supporting ANSI, ASCII and HTML
 
     # Media
@@ -82,11 +90,24 @@
 
     # Development Tools
     k9s
-    gitRepo
+    process-compose
+    pnpm
+    bun # A fast all-in-one JavaScript runtime
+    grpcui
+
+    # devenv # A tool for managing development environments 不太 UNIX 哲学，功能过于复杂，暂时不使用
+    # AI Tools
+    (preferUnstable "goose-cli")
+    (preferUnstable "claude-code")
+    nur.repos.charmbracelet.crush
+
+    # Nix
+    nix-search-cli
+    nix-search-tv
 
     # Lang
-    rustup
     go
+    rustup
   ];
 
   home.sessionVariables = {
@@ -101,12 +122,14 @@
     UV_DEFAULT_INDEX = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple";
     ZK_NOTEBOOK_DIR = "$HOME/notes";
     GOOSE_DISABLE_KEYRING = 1;
+    CGO_ENABLED = 1;
   };
 
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/my-busybox/bin"
     "$HOME/go/bin"
+    "$HOME/.cargo/bin"
   ];
 
   programs = {
@@ -121,7 +144,6 @@
         lazypodman =
           "DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker";
         lg = "lazygit";
-        gmt = "go mod tidy";
         icat = "kitty +icat";
         t = "todo.sh";
         # yadm: a dotfile manager for git
@@ -133,19 +155,28 @@
         ypull = "yadm pull";
         ylog = "yadm log --oneline --graph --decorate --all";
         lazyyadm = "lazygit --git-dir=$HOME/.local/share/yadm/repo.git --work-tree=$HOME";
+        ns = "nix-search-tv print | fzf --preview 'nix-search-tv preview {}'";
 
         proxy-toggle = "source proxy-toggle.sh";
+        claude-yolo = " claude --dangerously-skip-permissions";
+
+        # git
+        gwtsw = "source gwtsw.sh";
+        grbmb = "git rebase -i --autosquash $(git merge-base $(git_main_branch) HEAD)";
       };
       defaultKeymap = "emacs";
       oh-my-zsh = {
         enable = true;
         plugins = [
-          "git"
-          "gitignore" # gi command to generate .gitignore
-          "sudo"
           "fancy-ctrl-z"
+          "git"
+          "git-extras"
+          "gitignore" # gi command to generate .gitignore
+          "golang"
+          "helm"
+          "kubectl"
+          "sudo"
           "tmux"
-          "zsh-interactive-cd"
         ];
       };
       initContent = ''
