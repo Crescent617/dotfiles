@@ -63,6 +63,7 @@ local server_settings = {
       },
     },
   },
+  glsl_analyzer = {},
   zls = {},
 }
 
