@@ -55,7 +55,7 @@ mouse-hide-while-typing = true
 window-decoration = none
 
 # cursor-invert-fg-bg = true
-cursor-style-blink = false
+# cursor-style-blink = false
 adjust-cursor-thickness = 2
 
 custom-shader-animation = true
