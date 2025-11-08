@@ -260,11 +260,11 @@ spawn-at-startup "clipse" "-listen" // Clipboard manager
 spawn-at-startup "mako" // Notifications
 spawn-at-startup "wlsunset" "-l" "39.90" "-L" "116.40" "-t" "5500" "-T" "6000" "-g" "0.9" // Night light
 spawn-at-startup "/home/hrli/tasks/auto-dark.sh"
-spawn-at-startup "kitty"
+spawn-at-startup "ghostty"
 
 environment {
     DISPLAY ":0"
-    TERMINAL "kitty"
+    TERMINAL "ghostty"
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -357,7 +357,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Return repeat=false { spawn "kitty"; }
+    Mod+Return repeat=false { spawn "ghostty"; }
     Mod+Space  repeat=false { spawn "fuzzel"; }
     // Super+Alt+L { spawn "swaylock"; }
     Super+V repeat=false { spawn "kitty" "--class" "clipse" "-e" "clipse"; }

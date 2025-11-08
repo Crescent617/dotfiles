@@ -26,7 +26,7 @@ in
     watchexec # A tool for watching files and executing commands when they change
     miniserve # A tiny web server for static files
     yadm
-    just # A handy way to save and run project-specific commands
+    (preferUnstable "just") # A handy way to save and run project-specific commands
     ast-grep # A command-line tool for parsing and analyzing source code with AST
     zip
     croc # A tool for sending files and folders securely and easily
@@ -94,6 +94,9 @@ in
     pnpm
     bun # A fast all-in-one JavaScript runtime
     grpcui
+    hey # http performance benchmarking tool
+    ghz # A gRPC benchmarking and load testing tool
+
 
     # devenv # A tool for managing development environments 不太 UNIX 哲学，功能过于复杂，暂时不使用
     # AI Tools
@@ -108,6 +111,7 @@ in
     # Lang
     go
     rustup
+    (preferUnstable "zig")
   ];
 
   home.sessionVariables = {
