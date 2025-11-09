@@ -1,33 +1,20 @@
 // configuration
-// const vec4 TRAIL_COLOR = vec4(1.0, 0.725, 0.161, 1.0); // yellow
-// const vec4 TRAIL_COLOR_ACCENT = vec4(1.0, 0., 0., 1.0); // red-orange
-const vec4 TRAIL_COLOR = vec4(0.678, 0.847, 0.902, 1.0);       // 淡蓝色
-const vec4 TRAIL_COLOR_ACCENT = vec4(0.0, 0.0, 1.0, 1.0);       // 蓝色
-
-const vec4 CURRENT_CURSOR_COLOR = TRAIL_COLOR;
-const vec4 PREVIOUS_CURSOR_COLOR = TRAIL_COLOR;
+const vec4 TRAIL_COLOR = vec4(0.678, 0.847, 0.902, 1.0);
+const vec4 TRAIL_COLOR_ACCENT = vec4(0.0, 0.3, 1.0, 1.0);
 const float DURATION = .5;
-const float OPACITY = .2;
-
 // Don't draw trail within that distance * cursor size.
 // This prevents trails from appearing when typing.
 const float DRAW_THRESHOLD = 1.5;
 // Don't draw trails within the same line: same line jumps are usually where
 // people expect them.
-const bool HIDE_TRAILS_ON_THE_SAME_LINE = false;
+const bool HIDE_TRAILS_ON_SAME_LINE = false;
 
-
-// Based on https://gist.github.com/chardskarth/95874c54e29da6b5a36ab7b50ae2d088
 float ease(float x) {
-    return pow(1.0 - x, 10.0);
+    return pow(1.0 - x, 3.0);
 }
 
-float sdBox(in vec2 p, in vec2 xy, in vec2 b)
-{
-    vec2 d = abs(p - xy) - b;
-    return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
-}
-
+// SDF: Signed Distance Function for rectangle
+// 表示一个点到矩形边界的距离，负值表示点在矩形内部，正值表示点在矩形外部
 float getSdfRectangle(in vec2 p, in vec2 xy, in vec2 b)
 {
     vec2 d = abs(p - xy) - b;
@@ -70,35 +57,43 @@ vec2 normalize(vec2 value, float isPosition) {
 
 float blend(float t)
 {
-    float sqr = t * t;
-    return sqr / (2.0 * (sqr - t) + 1.0);
+    // float sqr = t * t;
+    // return sqr / (2.0 * (sqr - t) + 1.0);
+    return t;
 }
 
-float antialising(float distance) {
-    return 1. - smoothstep(0., normalize(vec2(2., 2.), 0.).x, distance);
+float antialising(float d) {
+    return 1. - smoothstep(0., normalize(vec2(2., 2.), 0.).x, d);
 }
 
 float determineStartVertexFactor(vec2 a, vec2 b) {
     // Conditions using step
-    float condition1 = step(b.x, a.x) * step(a.y, b.y); // a.x < b.x && a.y > b.y
-    float condition2 = step(a.x, b.x) * step(b.y, a.y); // a.x > b.x && a.y < b.y
+    float condition1 = step(b.x, a.x) * step(a.y, b.y); // a.x >= b.x and a.y <= b.y
+    float condition2 = step(a.x, b.x) * step(b.y, a.y); // a.x <= b.x and a.y >= b.y
 
     // If neither condition is met, return 1 (else case)
     return 1.0 - max(condition1, condition2);
 }
+
 vec2 getRectangleCenter(vec4 rectangle) {
     return vec2(rectangle.x + (rectangle.z / 2.), rectangle.y - (rectangle.w / 2.));
 }
-
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
     #if !defined(WEB)
     fragColor = texture(iChannel0, fragCoord.xy / iResolution.xy);
     #endif
+
+    float progress = (iTime - iTimeCursorChange) / DURATION;
+    // Only draw trail if within duration
+    if (progress < 0.0 || progress > 1.0) {
+        return;
+    }
+
     //Normalization for fragCoord to a space of -1 to 1;
     vec2 vu = normalize(fragCoord, 1.);
-    vec2 offsetFactor = vec2(-.5, 0.5);
+    vec2 offsetFactor = vec2(-0.5, 0.5);
 
     //Normalization for cursor position and size;
     //cursor xy has the postion in a space of -1 to 1;
@@ -106,7 +101,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec4 currentCursor = vec4(normalize(iCurrentCursor.xy, 1.), normalize(iCurrentCursor.zw, 0.));
     vec4 previousCursor = vec4(normalize(iPreviousCursor.xy, 1.), normalize(iPreviousCursor.zw, 0.));
 
-    //When drawing a parellelogram between cursors for the trail i need to determine where to start at the top-left or top-right vertex of the cursor
+    //When drawing a parallelogram between cursors for the trail i need to determine where to start at the top-left or top-right vertex of the cursor
     float vertexFactor = determineStartVertexFactor(currentCursor.xy, previousCursor.xy);
     float invertedVertexFactor = 1.0 - vertexFactor;
 
@@ -116,10 +111,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec2 v2 = vec2(previousCursor.x + currentCursor.z * invertedVertexFactor, previousCursor.y);
     vec2 v3 = vec2(previousCursor.x + currentCursor.z * vertexFactor, previousCursor.y - previousCursor.w);
 
-    vec4 newColor = vec4(fragColor);
-
-    float progress = blend(clamp((iTime - iTimeCursorChange) / DURATION, 0.0, 1));
-    float easedProgress = ease(progress);
+    progress = ease(blend(clamp(progress, 0.0, 1)));
 
     //Distance between cursors determine the total length of the parallelogram;
     vec2 centerCC = getRectangleCenter(currentCursor);
@@ -127,21 +119,18 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     float cursorSize = max(currentCursor.z, currentCursor.w);
     float trailThreshold = DRAW_THRESHOLD * cursorSize;
     float lineLength = distance(centerCC, centerCP);
-    //
-    bool isFarEnough = lineLength > trailThreshold;
-    bool isOnSeparateLine = HIDE_TRAILS_ON_THE_SAME_LINE ? currentCursor.y != previousCursor.y : true;
-    if (isFarEnough && isOnSeparateLine) {
-        float distanceToEnd = distance(vu.xy, centerCC);
-        float alphaModifier = distanceToEnd / (lineLength * (easedProgress));
 
-        if (alphaModifier > 1.0) { // this change fixed it for me.
-            alphaModifier = 1.0;
-        }
+    bool isFarEnough = lineLength > trailThreshold || (HIDE_TRAILS_ON_SAME_LINE && currentCursor.y != previousCursor.y);
+    if (isFarEnough) {
+        vec4 newColor = vec4(fragColor);
+
+        float distanceToEnd = distance(vu.xy, centerCC);
+        float alphaModifier = clamp(distanceToEnd / (lineLength * progress), 0.0, 1.0);
 
         float sdfCursor = getSdfRectangle(vu, currentCursor.xy - (currentCursor.zw * offsetFactor), currentCursor.zw * 0.5);
         float sdfTrail = getSdfParallelogram(vu, v0, v1, v2, v3);
 
-        newColor = mix(newColor, TRAIL_COLOR_ACCENT, 1.0 - smoothstep(sdfTrail, -0.01, 0.001));
+        newColor = mix(newColor, TRAIL_COLOR_ACCENT, 1.0 - smoothstep(sdfTrail, -0.003, 0.001));
         newColor = mix(newColor, TRAIL_COLOR, antialising(sdfTrail));
         newColor = mix(fragColor, newColor, 1.0 - alphaModifier);
         fragColor = mix(newColor, fragColor, step(sdfCursor, 0));
