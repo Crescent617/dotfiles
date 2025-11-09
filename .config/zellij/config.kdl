@@ -181,6 +181,8 @@ keybinds clear-defaults=true {
         bind "l" { PageScrollDown; }
         bind "Ctrl s" { SwitchToMode "normal"; }
         bind "u" { HalfPageScrollUp; }
+        bind "g" { ScrollToTop; }
+        bind "G" { ScrollToBottom; }
     }
     entersearch {
         bind "Ctrl c" { SwitchToMode "scroll"; }
@@ -220,6 +222,12 @@ keybinds clear-defaults=true {
         bind "p" { GoToPreviousTab; SwitchToMode "normal"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "normal"; }
 
+        // move
+        bind "{" { MovePaneBackwards; SwitchToMode "normal"; }
+        bind "}" { MovePane; SwitchToMode "normal"; }
+        bind "<" { MoveTab "left"; SwitchToMode "normal"; }
+        bind ">" { MoveTab "right"; SwitchToMode "normal"; }
+
         // tab
         bind "a" { ToggleTab; SwitchToMode "normal"; }
         bind "1" { GoToTab 1; SwitchToMode "normal"; }
@@ -234,7 +242,7 @@ keybinds clear-defaults=true {
 
         // mode
         bind "Ctrl h" { SwitchToMode "move"; }
-        bind "Ctrl s" { SwitchToMode "session"; }
+        bind "Ctrl o" { SwitchToMode "session"; }
         bind "Ctrl t" { SwitchToMode "tab"; }
         bind "Ctrl p" { SwitchToMode "pane"; }
 
