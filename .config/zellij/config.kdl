@@ -208,7 +208,7 @@ keybinds clear-defaults=true {
         // bind "j" { MoveFocus "down"; SwitchToMode "normal"; }
         // bind "k" { MoveFocus "up"; SwitchToMode "normal"; }
         // bind "l" { MoveFocus "right"; SwitchToMode "normal"; }
-        bind "space" { NextSwapLayout; }
+        bind "space" { NextSwapLayout; SwitchToMode "normal"; }
         bind "-" { NewPane "down"; SwitchToMode "normal"; }
         bind "=" { NewPane "right"; SwitchToMode "normal"; }
         bind "," { SwitchToMode "renametab"; }
@@ -533,3 +533,9 @@ default_layout "compact"
 // can be useful for removing wrappers around commands
 // Note: be sure to escape backslashes and similar characters properly
 // post_command_discovery_hook "echo $RESURRECT_COMMAND | sed <your_regex_here>"
+
+ui {
+    pane_frames {
+        rounded_corners true
+    }
+}
