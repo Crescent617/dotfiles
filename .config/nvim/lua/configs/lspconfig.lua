@@ -63,8 +63,8 @@ local server_settings = {
       },
     },
   },
-  glsl_analyzer = {},
-  zls = {},
+  glsl_analyzer = {}, -- glsl language server
+  zls = {}, -- zig language server
 }
 
 -- ======================= LSP HANDLER =======================
@@ -86,7 +86,6 @@ nvchad_configs.on_attach = function(client, bufnr)
   map("n", "gI", vim.lsp.buf.implementation, opts "Go to implementation")
   map("n", "gr", vim.lsp.buf.references, opts "Go to references")
   map("n", "gD", vim.lsp.buf.type_definition, opts "Go to type definition")
-  -- map("n", "gD", vim.lsp.buf.declaration, opts "Lsp Go to declaration")
 end
 
 nvchad_configs.defaults() -- setup default configs

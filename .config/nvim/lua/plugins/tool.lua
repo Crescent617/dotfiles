@@ -1,11 +1,6 @@
 ---@type LazySpec
 return {
   {
-    "ellisonleao/glow.nvim",
-    ft = "markdown",
-    config = true,
-  },
-  {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
     config = function()
@@ -51,7 +46,7 @@ return {
       lazygit = { enabled = true },
       scope = { enabled = true },
       -- statuscolumn = { enabled = true },
-      -- words = { enabled = true },
+      words = { enabled = true },
       picker = {
         prompt = "   ",
         layouts = {
