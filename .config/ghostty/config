@@ -44,7 +44,7 @@
 # resize-overlay-duration = 4s 200ms
 
 font-family = Maple Mono NF CN
-font-size = 11
+# font-size = 11
 theme = Dracula
 background-opacity = 0.9
 # mouse-hide-while-typing = true
@@ -53,6 +53,7 @@ background-opacity = 0.9
 # macos-titlebar-style = hidden
 # window-decoration = true
 window-decoration = none
+macos-option-as-alt = true
 
 # cursor-invert-fg-bg = true
 adjust-cursor-thickness = 2
