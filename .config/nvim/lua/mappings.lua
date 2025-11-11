@@ -72,7 +72,6 @@ map("n", "<leader>Q", "<cmd>qall<CR>", { desc = "quit all" })
 map("n", "<leader>w", "<cmd>update<CR>", { desc = "save" })
 map("n", "<leader>.", ":@:<CR>", { noremap = true, silent = true, desc = "repeat last command" })
 
-map("n", "<leader>tp", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Problems" }) -- show only errors
 map("n", "<leader>b", "<cmd>b#<CR>", { desc = "last buffer" })
 map("n", "<Esc>", "<cmd>nohl<CR>", { desc = "nohl" })
 
@@ -85,14 +84,19 @@ map(
 )
 
 -- ===========================
--- Neotest mappings
+-- Test mappings
 -- ===========================
-map("n", "<leader>tf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', { desc = "Test File" })
-map("n", "<leader>tn", '<cmd>lua require("neotest").run.run()<CR>', { desc = "Test Nearest" })
-map("n", "<leader>to", '<cmd>lua require("neotest").output.open({ enter = true })<CR>', { desc = "Show Test Output" })
-map("n", "<leader>ta", '<cmd>lua require("neotest").run.attach()<CR>', { desc = "Attach Test" })
-map("n", "<leader>ts", '<cmd>lua require("neotest").run.stop()<CR>', { desc = "Stop Test" })
-map("n", "<leader>tt", '<cmd>lua require("neotest").summary.toggle()<CR>', { desc = "Toggle Test Outline" })
+-- map("n", "<leader>tf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', { desc = "Test File" })
+-- map("n", "<leader>tn", '<cmd>lua require("neotest").run.run()<CR>', { desc = "Test Nearest" })
+-- map("n", "<leader>to", '<cmd>lua require("neotest").output.open({ enter = true })<CR>', { desc = "Show Test Output" })
+-- map("n", "<leader>ta", '<cmd>lua require("neotest").run.attach()<CR>', { desc = "Attach Test" })
+-- map("n", "<leader>ts", '<cmd>lua require("neotest").run.stop()<CR>', { desc = "Stop Test" })
+-- map("n", "<leader>tt", '<cmd>lua require("neotest").summary.toggle()<CR>', { desc = "Toggle Test Outline" })
+map("n", "<leader>tf", '<cmd>TestFile<CR>', { desc = "Test File" })
+map("n", "<leader>tn", '<cmd>TestNearest<CR>', { desc = "Test Nearest" })
+map("n", "<leader>ts", '<cmd>TestSuite<CR>', { desc = "Test Suite" })
+map("n", "<leader>tv", '<cmd>TestVisit<CR>', { desc = "Test Visit" })
+map("n", "<leader>tl", '<cmd>TestLast<CR>', { desc = "Test Last" })
 
 -- ===========================
 -- DAP (Debug Adapter Protocol) mappings

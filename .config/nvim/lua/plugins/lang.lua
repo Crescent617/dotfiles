@@ -225,6 +225,7 @@ return {
   {
     "nvim-neotest/neotest",
     event = "BufRead",
+    enable = false,
     dependencies = {
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
@@ -233,12 +234,6 @@ return {
       "nvim-neotest/neotest-vim-test",
       "nvim-neotest/neotest-go",
       -- "rouge8/neotest-rust",
-      {
-        "vim-test/vim-test",
-        config = function()
-          vim.g["test#strategy"] = "toggleterm"
-        end,
-      },
     },
     config = function()
       require("neotest").setup {
@@ -261,5 +256,12 @@ return {
     opts = {
       -- leave empty or see below
     },
+  },
+  {
+    "vim-test/vim-test",
+    event = "BufRead",
+    config = function()
+      vim.g["test#strategy"] = "toggleterm"
+    end,
   },
 }

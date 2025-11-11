@@ -46,7 +46,7 @@ return {
       lazygit = { enabled = true },
       scope = { enabled = true },
       -- statuscolumn = { enabled = true },
-      words = { enabled = true },
+      -- words = { enabled = true },
       picker = {
         prompt = "   ",
         layouts = {
