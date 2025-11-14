@@ -127,6 +127,7 @@ M.mason = {
     "vtsls", -- Vue tooling for TypeScript server
     "yaml-language-server", -- Language server for YAML
     -- "zk", -- Plain text note-taking assistant, nixos not work
+    "zls",
   },
 }
 
@@ -159,6 +160,7 @@ M.tree_sitter = {
     "vim",
     "vimdoc",
     "yaml",
+    "zig",
   },
 }
 

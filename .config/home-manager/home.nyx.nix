@@ -30,6 +30,8 @@ in
     ast-grep # A command-line tool for parsing and analyzing source code with AST
     zip
     croc # A tool for sending files and folders securely and easily
+    tmux
+    (preferUnstable "zellij") # tmux-like written in rust
 
     # Git Tools
     lazygit
@@ -46,7 +48,6 @@ in
     fzf
     ripgrep
     fd # A simple, fast and user-friendly alternative to 'find'
-    tmux
     yazi # A command-line tool for managing and navigating your filesystem
     television # like fzf but for your terminal
     clipse # A command-line tool for managing clipboard history
@@ -62,9 +63,7 @@ in
     hyperfine # A command-line benchmarking tool
     fastfetch # A command-line system information tool written in Rust
     ncdu # A disk usage analyzer with an ncurses interface
-    procs # A replacement for 'ps' written in Rust
     bat # A cat clone with wings
-    lsd # A modern replacement for 'ls'
 
     # Network & Web Tools
     dogdns
@@ -77,7 +76,6 @@ in
     aria2 # A download utility for HTTP/HTTPS, FTP, SFTP, BitTorrent and Metalink
     tshark # capture and analyze network packets
     grpcurl # A command-line tool for making gRPC requests
-    proxychains-ng # A tool for redirecting network connections through a proxy server
     tcpdump # A command-line packet analyzer
 
     # Document & Content Tools
