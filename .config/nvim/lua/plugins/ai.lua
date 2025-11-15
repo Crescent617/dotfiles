@@ -4,10 +4,7 @@ vim.opt.laststatus = 3
 
 local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
 
--- gpt-3.5-turbo gpt-4o-mini gpt-4 gpt-4o o1 o3-mini o3-mini-paygo
--- claude-3.5-sonnet claude-3.7-sonnet claude-3.7-sonnet-thought claude-sonnet-4
--- gemini-2.5-pro o4-mini gpt-4.1
-local copilot_model = "gpt-4.1" -- Set your preferred model here
+local copilot_model = "gpt-5-mini" -- Set your preferred model here
 
 ---@type LazySpec
 return {
@@ -15,6 +12,12 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
+    dependencies = {
+      -- "copilotlsp-nvim/copilot-lsp", -- (optional) for NES functionality
+      -- init = function()
+      --   vim.g.copilot_nes_debounce = 500
+      -- end,
+    },
     config = function()
       require("copilot").setup {
         suggestion = {
@@ -58,7 +61,7 @@ return {
               -- llm = function(adapter)
               --   return "  CodeCompanion (" .. adapter.model.name .. ")"
               -- end,
-              user = "  Me",
+              user = "🙀 Me",
             },
           },
           inline = { adapter = "copilot" },
@@ -75,7 +78,7 @@ return {
           http = {
             copilot = function()
               return require("codecompanion.adapters").extend("copilot", {
-                -- schema = { model = { default = copilot_model } },
+                schema = { model = { default = copilot_model } },
               })
             end,
           },
@@ -92,15 +95,28 @@ return {
           history = {
             enabled = true,
             opts = {
-              auto_generate_title = false,
+              auto_generate_title = true,
             },
           },
         },
       }
     end,
     keys = {
-      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion" },
+      { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion Toggle" },
+      { "<leader>aa", "<cmd>CodeCompanionActions<cr>", mode = "n", desc = "CodeCompanion Action" },
       { "<leader>ai", "<cmd>CodeCompanionChat<cr>", mode = "x", desc = "CodeCompanion" },
+      {
+        "<leader>ak",
+        function()
+          vim.ui.input({ prompt = "What kind of command to run? " }, function(input)
+            if input then
+              vim.cmd("CodeCompanionCmd " .. input)
+            end
+          end)
+        end,
+        mode = "n",
+        desc = "CodeCompanion",
+      },
     },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -110,6 +126,7 @@ return {
     init = function()
       require("configs.codecompanion_progress").init {}
       require("configs.codecompanion_spinner"):init()
+      vim.g.codecompanion_yolo_mode = true -- enable YOLO mode, be careful!
     end,
   },
   {
