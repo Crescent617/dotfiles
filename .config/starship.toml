@@ -1,4 +1,4 @@
-right_format = '$time'
+# right_format = '$time'
 
 [custom.http_proxy]
 command = 'echo $http_proxy'
@@ -6,12 +6,12 @@ when = 'test -n "$http_proxy"'
 style = 'bold blue'
 format = '[ $output]($style) '
 
-[time]
-disabled = false
-style = "italic dimmed white"
-format = '[$time]($style) '
-# 2021-07-23 15:30:00
-time_format = '%Y-%m-%d %H:%M:%S'
+# [time]
+# disabled = false
+# style = "italic dimmed white"
+# format = '[$time]($style) '
+# # 2021-07-23 15:30:00
+# time_format = '%Y-%m-%d %H:%M:%S'
 
 [container]
 disabled = true
