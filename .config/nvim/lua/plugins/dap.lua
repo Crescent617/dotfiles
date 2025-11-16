@@ -10,6 +10,31 @@ return {
       vim.fn.sign_define("DapStopped", { text = " ", texthl = "DiagnosticInfo" })
 
       require("nvim-dap-virtual-text").setup {}
+      local dap = require "dap"
+
+      -- configure codelldb adapter
+      dap.adapters.codelldb = {
+        type = "server",
+        port = "${port}",
+        executable = {
+          command = "codelldb",
+          args = { "--port", "${port}" },
+        },
+      }
+
+      -- setup a debugger config for zig projects
+      -- in build.zig, set exe.use_llvm = true to generate llvm debug info
+      dap.configurations.zig = {
+        {
+          name = "Launch",
+          type = "codelldb",
+          request = "launch",
+          program = "${workspaceFolder}/zig-out/bin/${workspaceFolderBasename}",
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          args = {},
+        },
+      }
     end,
   },
   {

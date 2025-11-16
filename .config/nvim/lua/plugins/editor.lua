@@ -132,15 +132,28 @@ return {
     end,
   },
   {
-    "ggandor/leap.nvim",
+    "folke/flash.nvim",
     event = "VeryLazy",
-    config = function()
-      -- require("leap").add_default_mappings()
-      -- vim.cmd [[nnoremap gs <Plug>(leap-from-window)]]
-      vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" }) -- or some grey
-      vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
-      vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
-    end,
+    ---@type Flash.Config
+    opts = {},
+    keys = {
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
+    },
   },
   {
     "kylechui/nvim-surround",
@@ -302,49 +315,6 @@ return {
     end,
   },
   {
-    "ThePrimeagen/refactoring.nvim",
-    cmd = "Refactor",
-    event = "BufRead",
-    keys = {
-      {
-        "<leader>rr",
-        function()
-          require("refactoring").select_refactor()
-        end,
-        mode = "n",
-        desc = "Refactor",
-      },
-      {
-        "<leader>rp",
-        function()
-          require("refactoring").debug.printf { below = true }
-        end,
-        mode = "n",
-        desc = "Refactor print",
-      },
-      {
-        "<leader>rv",
-        function()
-          require("refactoring").debug.print_var()
-        end,
-        mode = "n",
-        desc = "Refactor print var",
-      },
-      {
-        "<leader>rc",
-        function()
-          require("refactoring").debug.cleanup {}
-        end,
-        mode = "n",
-        desc = "Refactor cleanup",
-      },
-    },
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require("refactoring").setup()
-    end,
-  },
-  {
     "olimorris/persisted.nvim",
     event = "BufRead",
     cmd = { "SessionSave" },
@@ -358,12 +328,6 @@ return {
       }
       require("telescope").load_extension "persisted"
     end,
-  },
-  {
-    "sphamba/smear-cursor.nvim", -- cursor like neovide
-    opts = {},
-    enabled = false and not vim.g.neovide, -- kitty have this feature
-    event = "VeryLazy",
   },
   {
     "j-hui/fidget.nvim", -- lsp progress at bottom right

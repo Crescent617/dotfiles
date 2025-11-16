@@ -22,6 +22,17 @@ local function register_git_rabase_squash()
   end, { desc = "Replace 'pick' with 'squash' in non-comment git rebase lines" })
 end
 
+local function register_lsp_diagnostic()
+  vim.api.nvim_create_user_command("LspMultiLineDiagnosticToggle", function()
+    local current = vim.diagnostic.config().virtual_lines
+    if current then
+      vim.diagnostic.config { virtual_lines = false, virtual_text = true }
+    else
+      vim.diagnostic.config { virtual_lines = { only_current_line = true }, virtual_text = false }
+    end
+  end, { desc = "Toggle multi-line LSP diagnostics" })
+end
+
 function M.setup()
   vim.cmd [[
     command! DiffOrig w !diff -u % -
@@ -35,6 +46,8 @@ function M.setup()
       endif
     endfunction
   ]]
+
+  register_lsp_diagnostic()
 
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "gitrebase",

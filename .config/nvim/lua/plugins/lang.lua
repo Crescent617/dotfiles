@@ -66,7 +66,7 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     event = "BufRead",
     config = function()
-      require("nvim-treesitter.configs").setup {
+      local conf = {
         textobjects = {
           select = {
             enable = true,
@@ -76,6 +76,21 @@ return {
               ["if"] = "@function.inner",
               ["ac"] = "@class.outer",
               ["ic"] = "@class.inner",
+              -- ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+            },
+            selection_modes = {
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
+            },
+          },
+          swap = {
+            enable = true,
+            swap_next = {
+              ["]p"] = "@parameter.inner",
+            },
+            swap_previous = {
+              ["[p"] = "@parameter.inner",
             },
           },
           move = {
@@ -109,29 +124,8 @@ return {
           },
         },
       }
-    end,
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = "neovim/nvim-lspconfig",
-    event = "BufRead",
-    config = function()
-      local null_ls = require "null-ls"
-      local b = null_ls.builtins
 
-      local sources = {
-        -- b.diagnostics.codespell.with {
-        --   diagnostics_postprocess = function(diagnostic)
-        --     diagnostic.severity = vim.diagnostic.severity.HINT
-        --   end,
-        --   disabled_filetypes = { "NvimTree", "csv" },
-        --   args = { "-L", "crate,ans,ratatui,enew", "-" },
-        -- },
-      }
-      null_ls.setup {
-        -- debug = true,
-        sources = sources,
-      }
+      require("nvim-treesitter.configs").setup(conf)
     end,
   },
   {
@@ -274,5 +268,26 @@ return {
         { path = "snacks.nvim", words = { "Snacks" } },
       },
     },
+  },
+  {
+    "mfussenegger/nvim-lint",
+    event = "BufRead",
+    config = function()
+      require("lint").linters_by_ft = {
+        zig = { "zlint", "compiler" },
+        proto = { "buf_lint" },
+      }
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        callback = function()
+          -- try_lint without arguments runs the linters defined in `linters_by_ft`
+          -- for the current filetype
+          require("lint").try_lint()
+
+          -- You can call `try_lint` with a linter name or a list of names to always
+          -- run specific linters, independent of the `linters_by_ft` configuration
+          -- require("lint").try_lint "cspell"
+        end,
+      })
+    end,
   },
 }
