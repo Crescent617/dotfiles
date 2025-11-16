@@ -452,6 +452,18 @@ return {
       }
     end,
   },
+  {
+    "Wansmer/treesj",
+    keys = {
+      { "<leader>j", require("treesj").toggle, desc = "Toggle Split/Join" },
+    },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("treesj").setup {
+        use_default_keymaps = false,
+      }
+    end,
+  },
 
   -- 自定义插件
   {

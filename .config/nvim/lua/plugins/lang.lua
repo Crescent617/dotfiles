@@ -274,7 +274,7 @@ return {
     event = "BufRead",
     config = function()
       require("lint").linters_by_ft = {
-        zig = { "zlint", "compiler" },
+        zig = { "zlint" },
         proto = { "buf_lint" },
       }
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {
