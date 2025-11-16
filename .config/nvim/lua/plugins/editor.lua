@@ -455,7 +455,13 @@ return {
   {
     "Wansmer/treesj",
     keys = {
-      { "<leader>j", require("treesj").toggle, desc = "Toggle Split/Join" },
+      {
+        "<leader>j",
+        function()
+          require("treesj").toggle()
+        end,
+        desc = "Toggle Split/Join",
+      },
     },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
