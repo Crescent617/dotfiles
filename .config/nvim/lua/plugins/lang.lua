@@ -218,25 +218,24 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    event = "BufRead",
-    enable = false,
+    cmd = "Neotest",
     dependencies = {
       "nvim-neotest/nvim-nio",
+      "lawrence-laz/neotest-zig",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-plenary",
-      "nvim-neotest/neotest-vim-test",
       "nvim-neotest/neotest-go",
-      -- "rouge8/neotest-rust",
+      -- "nvim-neotest/neotest-vim-test",
     },
     config = function()
       require("neotest").setup {
         adapters = {
-          -- require "neotest-rust",
           require "neotest-go",
           require "neotest-plenary",
-          -- require "rustaceanvim.neotest",
-          require "neotest-vim-test",
+          require "neotest-zig" { dap = { adapter = "lldb" } },
+          require "rustaceanvim.neotest",
+          -- require "neotest-vim-test",
         },
       }
     end,
