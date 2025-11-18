@@ -18,9 +18,6 @@ return {
   {
     "saghen/blink.cmp",
     version = "*",
-    dependencies = {
-      "Kaiser-Yang/blink-cmp-avante",
-    },
     opts = {
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
@@ -170,8 +167,6 @@ return {
     ft = "qf",
     config = function()
       require("bqf").setup {
-        auto_enabled = true,
-        auto_resize_height = true, -- highly recommended enable
         preview = {
           should_preview_cb = function(bufnr, qwinid)
             local ret = true
@@ -298,12 +293,6 @@ return {
   },
   { "AndrewRadev/bufferize.vim", cmd = "Bufferize" },
   { "tpope/vim-repeat", event = "BufRead" },
-  {
-    "danymat/neogen",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    event = "BufRead",
-    config = true,
-  },
   {
     "gbprod/yanky.nvim",
     event = "BufRead",

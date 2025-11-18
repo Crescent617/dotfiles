@@ -193,4 +193,11 @@ return {
       require("telescope").load_extension "fzf"
     end,
   },
+  {
+    "skywind3000/asyncrun.vim",
+    cmd = "AsyncRun",
+    config = function()
+      vim.g.asyncrun_open = 10
+    end,
+  },
 }

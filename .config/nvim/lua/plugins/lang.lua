@@ -254,7 +254,7 @@ return {
     "vim-test/vim-test",
     event = "BufRead",
     config = function()
-      vim.g["test#strategy"] = "toggleterm"
+      vim.g["test#strategy"] = "asyncrun"
     end,
   },
   {

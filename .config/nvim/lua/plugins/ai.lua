@@ -48,7 +48,6 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
-    event = "VeryLazy",
     config = function()
       require("codecompanion").setup {
         opts = {
@@ -122,6 +121,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
+      "ravitemer/mcphub.nvim",
     },
     init = function()
       require("configs.codecompanion_progress").init {}
@@ -134,7 +134,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim", -- Required for Job and HTTP requests
     },
-    event = "VeryLazy",
     -- comment the following line to ensure hub will be ready at the earliest
     cmd = "MCPHub", -- lazy load by default
     -- build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
