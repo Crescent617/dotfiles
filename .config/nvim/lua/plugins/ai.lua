@@ -115,7 +115,7 @@ return {
           end)
         end,
         mode = "n",
-        desc = "CodeCompanion",
+        desc = "CodeCompanionCmd",
       },
     },
     dependencies = {
