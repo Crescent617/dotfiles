@@ -254,7 +254,7 @@ return {
     "vim-test/vim-test",
     event = "BufRead",
     config = function()
-      vim.g["test#strategy"] = "asyncrun"
+      vim.g["test#strategy"] = "toggleterm"
     end,
   },
   {
@@ -273,7 +273,7 @@ return {
     event = "BufRead",
     config = function()
       require("lint").linters_by_ft = {
-        zig = { "zlint" },
+        -- zig = { "zlint" },
         proto = { "buf_lint" },
       }
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {
