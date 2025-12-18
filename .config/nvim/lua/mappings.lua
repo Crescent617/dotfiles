@@ -34,7 +34,7 @@ map("t", "<Esc><Esc>", [[<C-\><C-n>]]) -- jk to escape in terminal mode
 map("v", "<Tab>", ">gv", { noremap = true, silent = true })
 map("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
 map("c", "<C-a>", "<Home>")
-
+map("n", "yyy", "<cmd>%y<cr>", { desc = "yank whole file" })
 -- search in range
 map("x", "/", function()
   -- 退出 visual 模式
@@ -93,11 +93,11 @@ map(
 -- map("n", "<leader>ta", '<cmd>lua require("neotest").run.attach()<CR>', { desc = "Attach Test" })
 -- map("n", "<leader>ts", '<cmd>lua require("neotest").run.stop()<CR>', { desc = "Stop Test" })
 -- map("n", "<leader>tt", '<cmd>lua require("neotest").summary.toggle()<CR>', { desc = "Toggle Test Outline" })
-map("n", "<leader>tf", '<cmd>TestFile<CR>', { desc = "Test File" })
-map("n", "<leader>tn", '<cmd>TestNearest<CR>', { desc = "Test Nearest" })
-map("n", "<leader>ts", '<cmd>TestSuite<CR>', { desc = "Test Suite" })
-map("n", "<leader>tv", '<cmd>TestVisit<CR>', { desc = "Test Visit" })
-map("n", "<leader>tl", '<cmd>TestLast<CR>', { desc = "Test Last" })
+map("n", "<leader>tf", "<cmd>TestFile<CR>", { desc = "Test File" })
+map("n", "<leader>tn", "<cmd>TestNearest<CR>", { desc = "Test Nearest" })
+map("n", "<leader>ts", "<cmd>TestSuite<CR>", { desc = "Test Suite" })
+map("n", "<leader>tv", "<cmd>TestVisit<CR>", { desc = "Test Visit" })
+map("n", "<leader>tl", "<cmd>TestLast<CR>", { desc = "Test Last" })
 
 -- ===========================
 -- DAP (Debug Adapter Protocol) mappings
