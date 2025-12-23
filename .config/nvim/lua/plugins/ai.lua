@@ -5,6 +5,7 @@ vim.opt.laststatus = 3
 local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
 
 local copilot_model = "gpt-5-mini" -- Set your preferred model here
+local copilot_mini_model = "gpt-5-mini" -- Set your preferred model here
 
 ---@type LazySpec
 return {
@@ -48,23 +49,29 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
+    cmd = { "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
     config = function()
       require("codecompanion").setup {
         opts = {
           language = "Chinese",
+          log_level = "DEBUG",
         },
-        strategies = {
+        interactions = {
           chat = {
             adapter = "copilot",
-            roles = {
-              -- llm = function(adapter)
-              --   return "  CodeCompanion (" .. adapter.model.name .. ")"
-              -- end,
-              user = "🙀 Me",
+          },
+          inline = {
+            adapter = "copilot",
+          },
+          cmd = {
+            adapter = "copilot",
+          },
+          background = {
+            adapter = {
+              name = "copilot",
+              model = copilot_mini_model,
             },
           },
-          inline = { adapter = "copilot" },
-          cmd = { adapter = "copilot" },
         },
         adapters = {
           acp = {
@@ -102,7 +109,6 @@ return {
     end,
     keys = {
       { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion Toggle" },
-      { "<leader>aa", "<cmd>CodeCompanionActions<cr>", mode = "n", desc = "CodeCompanion Action" },
       { "<leader>ai", "<cmd>CodeCompanionChat<cr>", mode = "x", desc = "CodeCompanion" },
       {
         "<leader>ak",
@@ -125,7 +131,6 @@ return {
     },
     init = function()
       require("configs.codecompanion_progress").init {}
-      require("configs.codecompanion_spinner"):init()
       vim.g.codecompanion_yolo_mode = true -- enable YOLO mode, be careful!
     end,
   },
