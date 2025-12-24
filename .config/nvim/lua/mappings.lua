@@ -35,7 +35,6 @@ map("v", "<Tab>", ">gv", { noremap = true, silent = true })
 map("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
 map("c", "<C-a>", "<Home>")
 map("n", "yyy", "<cmd>%y<cr>", { desc = "yank whole file" })
-map("n", "ddd", "<cmd>%d d<cr>", { desc = "delete whole file" })
 -- search in range
 map("x", "/", function()
   -- 退出 visual 模式
