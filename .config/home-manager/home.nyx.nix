@@ -9,7 +9,6 @@ in
     unzip
     htop
     btop
-    neovim
     starship # The minimal, blazing-fast, and infinitely customizable prompt for any shell!
     todo-txt-cli
     gomi # A command-line trash can for Linux
@@ -20,7 +19,6 @@ in
     atuin # A shell history assistant that helps you find and reuse commands
     boxes # A command-line tool for creating ASCII art boxes around text
     tree-sitter # A CLI for parsing and analyzing source code
-    choose # A command-line tool for making choices
     pay-respects # A tool to correct your previous console command
     asciinema # A tool for recording and sharing terminal sessions
     watchexec # A tool for watching files and executing commands when they change
@@ -35,7 +33,6 @@ in
 
     # Git Tools
     lazygit
-    lazydocker
     delta # A syntax-highlighter for git and diff output
     git-lfs
     (preferUnstable "git-extras")
@@ -43,6 +40,10 @@ in
     tig # A command-line tool for browsing git repositories
     gh # GitHub CLI
     fzf-git-sh # fzf git shortcuts
+
+    # docker
+    lazydocker
+    ctop
 
     # Search & Navigation
     fzf
@@ -77,11 +78,15 @@ in
     tshark # capture and analyze network packets
     grpcurl # A command-line tool for making gRPC requests
     tcpdump # A command-line packet analyzer
+    socat
+    netcat
+    gost # A simple, fast and secure tunnel for TCP/UDP/HTTP/SOCKS5/SSH/WebSocket
 
     # Document & Content Tools
     zk # A CLI for Zettelkasten note taking
     glow # Render markdown on the CLI, with pizzazz!
     chafa # Image-to-text converter supporting ANSI, ASCII and HTML
+    imagemagick
 
     # Media
     ffmpeg
@@ -94,7 +99,7 @@ in
     grpcui
     hey # http performance benchmarking tool
     ghz # A gRPC benchmarking and load testing tool
-
+    cargo-autoinherit
 
     # devenv # A tool for managing development environments 不太 UNIX 哲学，功能过于复杂，暂时不使用
     # AI Tools
@@ -103,13 +108,19 @@ in
     nur.repos.charmbracelet.crush
 
     # Nix
+    nix-init # A command-line tool to initialize Nix projects
     nix-search-cli
     nix-search-tv
+    nix-prefetch-github # A command-line tool to fetch and display information about GitHub repositories for Nix packages
 
     # Lang
-    go
-    rustup
+    (preferUnstable "go")
+    (preferUnstable "rustup")
     (preferUnstable "zig")
+
+    # misc
+    pokeget-rs # A command-line Pokémon card collector and manager
+    starsheep
   ];
 
   home.sessionVariables = {
@@ -117,11 +128,11 @@ in
     GOPROXY = lib.mkDefault "https://goproxy.cn";
     FZF_DEFAULT_OPTS =
       "--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 --color=selected-bg:#45475a --multi";
-    RUSTUP_UPDATE_ROOT = "https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup";
-    RUSTUP_DIST_SERVER = "https://mirrors.tuna.tsinghua.edu.cn/rustup";
+    RUSTUP_DIST_SERVER = "https://rsproxy.cn";
+    RUSTUP_UPDATE_ROOT = "https://rsproxy.cn/rustup";
     # fix: https://github.com/tauri-apps/tauri/issues/7910
     WEBKIT_DISABLE_DMABUF_RENDERER = "1";
-    UV_DEFAULT_INDEX = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple";
+    UV_DEFAULT_INDEX = "https://mirrors.ustc.edu.cn/pypi/simple";
     ZK_NOTEBOOK_DIR = "$HOME/notes";
     GOOSE_DISABLE_KEYRING = 1;
     CGO_ENABLED = 1;
@@ -135,6 +146,9 @@ in
   ];
 
   programs = {
+    neovim = {
+      enable = true;
+    };
     zsh = {
       enable = true;
       autosuggestion.enable = true;
@@ -184,11 +198,16 @@ in
       initContent = ''
         command -v motd.sh &>/dev/null && motd.sh
         source ${pkgs.fzf-git-sh}/share/fzf-git-sh/fzf-git.sh
+        command -v starsheep &>/dev/null && eval "$(starsheep init zsh)"
+        # fallback to starship, if last command fail
+        if [ $? -ne 0 ]; then
+          eval "$(starship init zsh)"
+        fi
       '';
     };
     fzf.enable = true;
     atuin.enable = true;
-    starship.enable = true;
+    # starship.enable = true;
     zoxide.enable = true;
     yazi = {
       enable = true;
@@ -201,7 +220,7 @@ in
         ];
       };
     };
-    pay-respects.enable = true;
+    # pay-respects.enable = true; # like fuck command
     direnv = {
       enable = true;
       nix-direnv.enable = true;
