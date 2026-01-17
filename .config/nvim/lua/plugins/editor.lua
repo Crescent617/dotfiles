@@ -67,32 +67,6 @@ return {
     dependencies = "neovim/nvim-lspconfig",
   },
   {
-    "b0o/incline.nvim",
-    enabled = false,
-    config = function()
-      local helpers = require "incline.helpers"
-      local devicons = require "nvim-web-devicons"
-      require("incline").setup {
-        render = function(props)
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          if filename == "" then
-            filename = "[No Name]"
-          end
-          local ft_icon, ft_color = devicons.get_icon_color(filename)
-          local modified = vim.bo[props.buf].modified
-          return {
-            ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
-            " ",
-            { filename, gui = modified and "bold,italic" or "bold" },
-            " ",
-            guibg = "#44406e",
-          }
-        end,
-      }
-    end,
-    event = "VeryLazy",
-  },
-  {
     "Bekaboo/dropbar.nvim",
     event = "BufRead",
     -- optional, but required for fuzzy finder support
@@ -106,6 +80,28 @@ return {
             return ""
           end,
         },
+      },
+      bar = {
+        enable = function(buf, win, _)
+          buf = vim._resolve_bufnr(buf)
+          if
+            not vim.api.nvim_buf_is_valid(buf)
+            or not vim.api.nvim_win_is_valid(win)
+            or vim.fn.win_gettype(win) ~= ""
+            or vim.wo[win].winbar ~= ""
+            or vim.bo[buf].ft == "help"
+            or vim.bo[buf].ft == "toggleterm"
+            or vim.bo[buf].ft == "sidekick_terminal"
+          then
+            return false
+          end
+
+          local stat = vim.uv.fs_stat(vim.api.nvim_buf_get_name(buf))
+          if stat and stat.size > 1024 * 1024 then
+            return false
+          end
+          return true
+        end,
       },
     },
   },
