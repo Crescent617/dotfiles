@@ -25,8 +25,8 @@ return {
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = "<M-p>",
-            accept_line = "<M-o>",
+            accept = "<M-o>",
+            accept_line = "<M-O>",
             accept_word = "<M-w>",
           },
         },
@@ -49,12 +49,12 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
-    cmd = { "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
+    cmd = { "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd", "CodeCompanion" },
     config = function()
       require("codecompanion").setup {
         opts = {
           language = "Chinese",
-          log_level = "DEBUG",
+          -- log_level = "DEBUG",
         },
         interactions = {
           chat = {
@@ -130,8 +130,8 @@ return {
       "ravitemer/mcphub.nvim",
     },
     init = function()
-      require("configs.codecompanion_progress").init {}
       vim.g.codecompanion_yolo_mode = true -- enable YOLO mode, be careful!
+      require("configs.codecompanion_progress").init {}
     end,
   },
   {
@@ -169,5 +169,65 @@ return {
     config = function()
       vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "#50FA7B", bold = true, underline = true })
     end,
+  },
+  {
+    "folke/sidekick.nvim",
+    cmd = "Sidekick",
+    opts = {
+      jump = {
+        jumplist = false,
+      },
+      nes = { enabled = false },
+      -- cli = {
+      --   mux = {
+      --     backend = "zellij",
+      --     enabled = true,
+      --   },
+      -- },
+    },
+    keys = {
+      {
+        "<tab>",
+        function()
+          -- if there is a next edit, jump to it, otherwise apply it if any
+          if not require("sidekick").nes_jump_or_apply() then
+            return "<Tab>" -- fallback to normal tab
+          end
+        end,
+        expr = true,
+        desc = "Goto/Apply Next Edit Suggestion",
+      },
+      {
+        "<M-.>",
+        function()
+          require("sidekick.cli").toggle()
+        end,
+        desc = "Sidekick Toggle",
+        mode = { "n", "t", "i", "x" },
+      },
+      {
+        "<leader>at",
+        function()
+          require("sidekick.cli").send { msg = "{this}" }
+        end,
+        mode = { "x", "n" },
+        desc = "Send This",
+      },
+      {
+        "<leader>af",
+        function()
+          require("sidekick.cli").send { msg = "{file}" }
+        end,
+        desc = "Send File",
+      },
+      {
+        "<leader>ap",
+        function()
+          require("sidekick.cli").prompt()
+        end,
+        mode = { "n", "x" },
+        desc = "Sidekick Select Prompt",
+      },
+    },
   },
 }
