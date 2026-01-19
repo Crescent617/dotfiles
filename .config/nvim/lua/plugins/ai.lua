@@ -2,7 +2,7 @@
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
 
-local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub" }
+local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub", "AgenticChat" }
 
 local copilot_model = "gpt-5-mini" -- Set your preferred model here
 local copilot_mini_model = "gpt-5-mini" -- Set your preferred model here
@@ -58,7 +58,10 @@ return {
         },
         interactions = {
           chat = {
-            adapter = "copilot",
+            adapter = {
+              name = "claude_code",
+              command = "yolo",
+            },
           },
           inline = {
             adapter = "copilot",
@@ -101,7 +104,7 @@ return {
           history = {
             enabled = true,
             opts = {
-              auto_generate_title = true,
+              auto_generate_title = false,
             },
           },
         },
@@ -130,7 +133,6 @@ return {
       "ravitemer/mcphub.nvim",
     },
     init = function()
-      vim.g.codecompanion_yolo_mode = true -- enable YOLO mode, be careful!
       require("configs.codecompanion_progress").init {}
     end,
   },
