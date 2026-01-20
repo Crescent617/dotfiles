@@ -112,6 +112,7 @@ return {
     end,
     keys = {
       { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion Toggle" },
+      { "<M-.>", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "x", "i" }, desc = "CodeCompanion Toggle" },
       { "<leader>ai", "<cmd>CodeCompanionChat<cr>", mode = "x", desc = "CodeCompanion" },
       {
         "<leader>ak",
@@ -171,65 +172,5 @@ return {
     config = function()
       vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "#50FA7B", bold = true, underline = true })
     end,
-  },
-  {
-    "folke/sidekick.nvim",
-    cmd = "Sidekick",
-    opts = {
-      jump = {
-        jumplist = false,
-      },
-      nes = { enabled = false },
-      -- cli = {
-      --   mux = {
-      --     backend = "zellij",
-      --     enabled = true,
-      --   },
-      -- },
-    },
-    keys = {
-      {
-        "<tab>",
-        function()
-          -- if there is a next edit, jump to it, otherwise apply it if any
-          if not require("sidekick").nes_jump_or_apply() then
-            return "<Tab>" -- fallback to normal tab
-          end
-        end,
-        expr = true,
-        desc = "Goto/Apply Next Edit Suggestion",
-      },
-      {
-        "<M-.>",
-        function()
-          require("sidekick.cli").toggle()
-        end,
-        desc = "Sidekick Toggle",
-        mode = { "n", "t", "i", "x" },
-      },
-      {
-        "<leader>at",
-        function()
-          require("sidekick.cli").send { msg = "{this}" }
-        end,
-        mode = { "x", "n" },
-        desc = "Send This",
-      },
-      {
-        "<leader>af",
-        function()
-          require("sidekick.cli").send { msg = "{file}" }
-        end,
-        desc = "Send File",
-      },
-      {
-        "<leader>ap",
-        function()
-          require("sidekick.cli").prompt()
-        end,
-        mode = { "n", "x" },
-        desc = "Sidekick Select Prompt",
-      },
-    },
   },
 }
