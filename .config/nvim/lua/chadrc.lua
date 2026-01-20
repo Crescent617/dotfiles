@@ -11,6 +11,7 @@ M.base46 = {
     DiffDelete = { fg = "red" },
     DiffChange = { fg = "orange" },
     Folded = { link = "DiagnosticVirtualTextInfo" },
+    Error = { link = "DiagnosticError" },
     ["@keyword"] = { italic = true },
     ["@keyword.function"] = { link = "@keyword" },
     ["@keyword.return"] = { link = "@keyword" },
