@@ -58,10 +58,7 @@ return {
         },
         interactions = {
           chat = {
-            adapter = {
-              name = "claude_code",
-              command = "yolo",
-            },
+            adapter = "copilot",
           },
           inline = {
             adapter = "copilot",
@@ -112,6 +109,12 @@ return {
     end,
     keys = {
       { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "CodeCompanion Toggle" },
+      {
+        "<leader>aa",
+        "<cmd>CodeCompanionChat adapter=claude_code command=yolo<cr>",
+        mode = "n",
+        desc = "CodeCompanion ACP",
+      },
       { "<M-.>", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "x", "i" }, desc = "CodeCompanion Toggle" },
       { "<leader>ai", "<cmd>CodeCompanionChat<cr>", mode = "x", desc = "CodeCompanion" },
       {
