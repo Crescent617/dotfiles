@@ -111,7 +111,7 @@ return {
       {
         "<leader>ai",
         "<cmd>CodeCompanionChat Toggle adapter=claude_code command=yolo<cr>",
-        mode = { "n", "x", "i" },
+        mode = "n",
         desc = "CodeCompanion Toggle",
       },
       {
