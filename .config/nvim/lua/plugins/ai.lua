@@ -187,6 +187,11 @@ return {
         mux = {
           enabled = false,
         },
+        tools = {
+          claude = { cmd = { "claude", "--dangerously-skip-permissions" } },
+          crush = { cmd = { "crush", "-y" } },
+          gemini = { cmd = { "gemini", "-y" } },
+        },
       },
     },
     keys = {
