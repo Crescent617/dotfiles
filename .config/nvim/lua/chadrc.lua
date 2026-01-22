@@ -1,3 +1,4 @@
+local util = require "custom.lib.util"
 local M = {}
 
 local telescopeInputFg = "pink"
@@ -35,15 +36,16 @@ M.ui = {
     style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
   },
   statusline = {
+    theme = "default", -- default/vscode/vscode_colored/minimal
     modules = {
       lsp_msg = function()
         local clients = vim.lsp.get_clients { bufnr = 0 }
         for _, client in ipairs(clients) do
           if client.name == "copilot" then
-            return "  Take it lazy 󰒲 "
+            return util.get_copilot_status() .. "Take it lazy 󰒲 "
           end
         end
-        return "  Take it easy !"
+        return "  Take it easy !"
       end,
     },
   },
