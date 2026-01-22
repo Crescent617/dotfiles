@@ -20,6 +20,8 @@ M.base46 = {
     TelescopePromptTitle = { bg = telescopeInputFg, fg = "#000000" },
     TelescopePromptPrefix = { fg = telescopeInputFg },
     NvDashFooter = { fg = "blue" },
+    FloatTitle = { link = "TelescopePromptTitle" },
+    FloatFooter = { link = "TelescopePreviewTitle" },
   },
   theme_toggle = { "chadracula", "one_light" },
 }
