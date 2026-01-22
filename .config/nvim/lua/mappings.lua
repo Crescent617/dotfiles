@@ -23,7 +23,7 @@ del("n", "grn")
 del("n", "gri")
 del("n", "gra")
 del("n", "grr")
--- del("n", "<C-l>")
+del("t", "<C-x>")
 
 -- ===========================
 -- General mappings
@@ -176,7 +176,31 @@ map("n", "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", { de
 -- map("n", "<leader>go", "<cmd>Telescope git_status<cr>", { desc = "Open changed file" })
 -- map("n", "<leader>gc", "<cmd>Telescope git_bcommits<cr>", { desc = "Checkout commit (Cur File)" })
 -- map("n", "<leader>gC", "<cmd>Telescope git_commits<cr>", { desc = "Checkout commit" })
-map("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff" })
+
+local function float_git_diff()
+  local buf = vim.api.nvim_create_buf(false, true)
+  local width = math.floor(vim.o.columns * 0.9)
+  local height = math.floor(vim.o.lines * 0.8)
+  local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    border = "rounded",
+    title = " Git Diff ",
+    title_pos = "center",
+  })
+
+  local cur_file = vim.fn.expand "%"
+  vim.cmd("terminal git diff --color=always " .. cur_file)
+  vim.keymap.set("n", "q", "<cmd>bd!<cr>", { buffer = buf, silent = true })
+end
+
+map("n", "<leader>gd", float_git_diff, { desc = "Git Diff (file)" })
 map("n", "<leader>gb", "<cmd>lua Snacks.git.blame_line()<cr>", { desc = "Blame Line" })
 map("n", "<leader>gl", "<cmd>lua Snacks.picker.git_log()<cr>", { desc = "Git Log" })
 map("n", "<leader>gL", "<cmd>lua Snacks.picker.git_log_line()<cr>", { desc = "Git Log Line" })

@@ -82,6 +82,7 @@ return {
       -- top
       -- { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
       { "B", function() Snacks.picker.buffers({ layout = { preset = "ivy" } }) end, desc = "Buffers" },
+      { "<leader>:", function() Snacks.picker.commands() end, desc = "Commands" },
 
       -- Grep
       { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
@@ -100,8 +101,7 @@ return {
       { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
       { "<leader>sa", function() Snacks.picker.autocmds() end, desc = "Autocmds" },
       { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
-      { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
-      { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
+      { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Commands History" },
       { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
       { "<leader>sH", function() Snacks.picker.highlights() end, desc = "Highlights" },
       { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
@@ -166,13 +166,11 @@ return {
             .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
             :map "<leader>uc"
           Snacks.toggle.treesitter():map "<leader>uT"
-          Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map "<leader>ub"
           Snacks.toggle.inlay_hints():map "<leader>uh"
           Snacks.toggle.indent():map "<leader>ug"
           Snacks.toggle.dim():map "<leader>uD"
 
           -- Set some highlights
-          vim.api.nvim_set_hl(0, "FloatTitle", { link = "TelescopePromptTitle" })
           vim.api.nvim_set_hl(0, "SnacksPickerTitle", { link = "TelescopePromptTitle" })
           vim.api.nvim_set_hl(0, "SnacksPickerPreviewTitle", { link = "TelescopePreviewTitle" })
           vim.api.nvim_set_hl(0, "SnacksPickerPrompt", { link = "TelescopePromptPrefix" })
