@@ -170,6 +170,8 @@ return {
           Snacks.toggle.indent():map "<leader>ug"
           Snacks.toggle.dim():map "<leader>uD"
 
+          vim.api.nvim_set_hl(0, "FloatTitle", { link = "TelescopePromptTitle" })
+          vim.api.nvim_set_hl(0, "FloatFooter", { link = "TelescopePreviewTitle" })
           -- Set some highlights
           vim.api.nvim_set_hl(0, "SnacksPickerTitle", { link = "TelescopePromptTitle" })
           vim.api.nvim_set_hl(0, "SnacksPickerPreviewTitle", { link = "TelescopePreviewTitle" })
