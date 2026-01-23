@@ -218,11 +218,12 @@ map("n", "L", "<cmd>lua require('nvchad.tabufline').next()<cr>", { desc = "  
 map("n", "H", "<cmd>lua require('nvchad.tabufline').prev()<cr>", { desc = "  goto prev buffer" })
 
 -- ===========================
--- Telescope mappings
+-- Search mappings
 -- ===========================
 map("n", "<leader>fy", "<cmd>Telescope yank_history<cr>", { desc = "yank history" })
 map("n", "<leader><space>", "<cmd>Telescope find_files<cr>", { desc = "find files" })
 map("n", "<leader>fw", "<cmd>lua Snacks.picker.grep()<cr>", { desc = "grep" })
+map("n", "B", "<cmd>FzfLua buffers<cr>", { desc = "buffers" })
 
 -- ===========================
 -- Gitsigns mappings

@@ -37,15 +37,14 @@ M.ui = {
   },
   statusline = {
     theme = "default", -- default/vscode/vscode_colored/minimal
+    order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "copilot", "cwd", "cursor" },
     modules = {
       lsp_msg = function()
-        local clients = vim.lsp.get_clients { bufnr = 0 }
-        for _, client in ipairs(clients) do
-          if client.name == "copilot" then
-            return util.get_copilot_status() .. "Take it lazy 󰒲 "
-          end
-        end
         return "  Take it easy !"
+      end,
+      copilot = function()
+        local msg = util.get_copilot_status()
+        return "%#St_Lsp#" .. msg .. " %*"
       end,
     },
   },
