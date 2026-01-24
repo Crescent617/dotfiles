@@ -90,14 +90,6 @@ return {
           },
         },
         extensions = {
-          mcphub = {
-            callback = "mcphub.extensions.codecompanion",
-            opts = {
-              show_result_in_chat = true, -- Show mcp tool results in chat
-              make_vars = true, -- Convert resources to #variables
-              make_slash_commands = true, -- Add prompts as /slash commands
-            },
-          },
           history = {
             enabled = true,
             opts = {
@@ -131,35 +123,9 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
-      "ravitemer/mcphub.nvim",
     },
     init = function()
       require("configs.codecompanion_progress").init {}
-    end,
-  },
-  {
-    "ravitemer/mcphub.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- Required for Job and HTTP requests
-    },
-    -- comment the following line to ensure hub will be ready at the earliest
-    cmd = "MCPHub", -- lazy load by default
-    -- build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
-    -- uncomment this if you don't want mcp-hub to be available globally or can't use -g
-    build = "bundled_build.lua", -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
-    config = function()
-      require("mcphub").setup {
-        use_bundled_binary = true, -- Set to true if you want to use the bundled mcp-hub binary
-        auto_approve = true,
-        extensions = {
-          codecompanion = {
-            -- Show the mcp tool result in the chat buffer
-            show_result_in_chat = true,
-            make_vars = true, -- make chat #variables from MCP server resources
-            make_slash_commands = true, -- make /slash_commands from MCP server prompts
-          },
-        },
-      }
     end,
   },
   {
@@ -191,6 +157,7 @@ return {
           claude = { cmd = { "claude", "--dangerously-skip-permissions" } },
           crush = { cmd = { "crush", "-y" } },
           gemini = { cmd = { "gemini", "-y" } },
+          goose = { cmd = { "goose" } },
         },
       },
     },
