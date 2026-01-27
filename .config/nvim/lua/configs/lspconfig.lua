@@ -1,5 +1,5 @@
 local mason_path = vim.fs.joinpath(vim.fn.stdpath "data", "mason")
-vim.lsp.set_log_level("WARN")
+vim.lsp.set_log_level "WARN"
 
 -- ======================= LSP CONFIGURATION =======================
 local vue_language_server_path =
@@ -38,6 +38,21 @@ local server_settings = {
   html = {},
   cssls = {},
   bashls = {},
+  lua_ls = {
+    settings = {
+      Lua = {
+        runtime = { version = "LuaJIT" },
+        workspace = {
+          library = {
+            vim.fn.expand "$VIMRUNTIME/lua",
+            vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
+            vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+            "${3rd}/luv/library",
+          },
+        },
+      },
+    },
+  },
   pyright = {},
   -- pylyzer = {},
   gopls = {},
@@ -67,29 +82,41 @@ local server_settings = {
   zls = {}, -- zig language server
 }
 
--- ======================= LSP HANDLER =======================
-
-local nvchad_configs = require "nvchad.configs.lspconfig"
-local prev_nvchad_on_attach = nvchad_configs.on_attach
+-- ======================= LSP KEYMAPS =======================
 local map = vim.keymap.set
 local util = require "custom.lsputil"
 
-nvchad_configs.on_attach = function(client, bufnr)
-  prev_nvchad_on_attach(client, bufnr)
-  -- your custom on_attach function
-  local function opts(desc)
-    return { buffer = bufnr, desc = desc }
-  end
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local bufnr = args.buf
+    local function opts(desc)
+      return { buffer = bufnr, desc = desc }
+    end
 
-  map("n", "K", util.hover, opts "Hover information")
-  map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
-  map("n", "gI", vim.lsp.buf.implementation, opts "Go to implementation")
-  map("n", "gr", vim.lsp.buf.references, opts "Go to references")
-  map("n", "gD", vim.lsp.buf.type_definition, opts "Go to type definition")
-end
+    map("n", "K", util.hover, opts "Hover information")
+    map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
+    map("n", "gI", vim.lsp.buf.implementation, opts "Go to implementation")
+    map("n", "gr", vim.lsp.buf.references, opts "Go to references")
+    map("n", "gD", vim.lsp.buf.type_definition, opts "Go to type definition")
 
-nvchad_configs.defaults() -- setup default configs
+    -- if client.server_capabilities.documentSymbolProvider then
+    --   local navic = require "nvim-navic"
+    --   navic.attach(client, bufnr)
+    -- end
+  end,
+})
 
+-- ======================= DIAGNOSTIC CONFIGURATION =======================
+local x = vim.diagnostic.severity
+vim.diagnostic.config {
+  virtual_text = { prefix = "" },
+  signs = { text = { [x.ERROR] = "󰅙", [x.WARN] = "", [x.INFO] = "󰋼", [x.HINT] = "󰌵" } },
+  underline = true,
+  float = { border = "single" },
+}
+
+-- ======================= ENABLE LSP SERVERS =======================
 for lsp, settings in pairs(server_settings) do
   -- if settings is not empty, then set it
   if next(settings) ~= nil then
@@ -97,5 +124,3 @@ for lsp, settings in pairs(server_settings) do
   end
   vim.lsp.enable(lsp)
 end
-
-return { on_attach = nvchad_configs.on_attach }
