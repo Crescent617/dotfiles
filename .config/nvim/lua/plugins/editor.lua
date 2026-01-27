@@ -67,45 +67,6 @@ return {
     dependencies = "neovim/nvim-lspconfig",
   },
   {
-    "Bekaboo/dropbar.nvim",
-    event = "BufRead",
-    -- optional, but required for fuzzy finder support
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-    },
-    opts = {
-      icons = {
-        kinds = {
-          dir_icon = function()
-            return ""
-          end,
-        },
-      },
-      bar = {
-        enable = function(buf, win, _)
-          buf = vim._resolve_bufnr(buf)
-          if
-            not vim.api.nvim_buf_is_valid(buf)
-            or not vim.api.nvim_win_is_valid(win)
-            or vim.fn.win_gettype(win) ~= ""
-            or vim.wo[win].winbar ~= ""
-            or vim.bo[buf].ft == "help"
-            or vim.bo[buf].ft == "toggleterm"
-            or vim.bo[buf].ft == "sidekick_terminal"
-          then
-            return false
-          end
-
-          local stat = vim.uv.fs_stat(vim.api.nvim_buf_get_name(buf))
-          if stat and stat.size > 1024 * 1024 then
-            return false
-          end
-          return true
-        end,
-      },
-    },
-  },
-  {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
     event = "BufRead",
