@@ -45,6 +45,18 @@ local function get_copilot_status()
   return (icons[status] or " ")
 end
 
+-- 除了最后一个路径组件外，缩短路径中的所有组件为首2个字母
+local function shorten_path(path)
+  local components = vim.split(path, "/")
+  for i = 1, #components - 1 do
+    if #components[i] > 2 then
+      components[i] = components[i]:sub(1, 1)
+    end
+  end
+  return table.concat(components, "/")
+end
+
 return {
   get_copilot_status = get_copilot_status,
+  shorten_path = shorten_path,
 }
