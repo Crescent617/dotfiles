@@ -417,6 +417,34 @@ return {
       }
     end,
   },
+  {
+    "b0o/incline.nvim",
+    config = function()
+      require("incline").setup {
+        hide = {
+          cursorline = true,
+        },
+        render = function(props)
+          local filename = vim.fn.expand "%"
+          -- filename = util.shorten_path(filename)
+          local modified = vim.bo[props.buf].modified
+          local devicons = require "nvim-web-devicons"
+          local icon, icon_hl = devicons.get_icon_color(filename, nil, { default = true })
+          return {
+            " ",
+            { icon, guifg = icon_hl },
+            " ",
+            filename,
+            modified and "+" or "",
+            " ",
+            guibg = "#111122",
+            guifg = "#eeeeee",
+          }
+        end,
+      }
+    end,
+    event = "BufRead",
+  },
 
   -- 自定义插件
   {
