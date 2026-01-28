@@ -86,24 +86,28 @@ local server_settings = {
 local map = vim.keymap.set
 local util = require "custom.lsputil"
 
+local on_attach = function(client, bufnr)
+  local function opts(desc)
+    return { buffer = bufnr, desc = desc }
+  end
+
+  -- if client.server_capabilities.documentSymbolProvider then
+  --   local navic = require "nvim-navic"
+  --   navic.attach(client, bufnr)
+  -- end
+
+  map("n", "K", util.hover, opts "Hover information")
+  map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
+  map("n", "gI", vim.lsp.buf.implementation, opts "Go to implementation")
+  map("n", "gr", vim.lsp.buf.references, opts "Go to references")
+  map("n", "gD", vim.lsp.buf.type_definition, opts "Go to type definition")
+end
+
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local bufnr = args.buf
-    local function opts(desc)
-      return { buffer = bufnr, desc = desc }
-    end
-
-    map("n", "K", util.hover, opts "Hover information")
-    map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
-    map("n", "gI", vim.lsp.buf.implementation, opts "Go to implementation")
-    map("n", "gr", vim.lsp.buf.references, opts "Go to references")
-    map("n", "gD", vim.lsp.buf.type_definition, opts "Go to type definition")
-
-    -- if client.server_capabilities.documentSymbolProvider then
-    --   local navic = require "nvim-navic"
-    --   navic.attach(client, bufnr)
-    -- end
+    on_attach(client, bufnr)
   end,
 })
 
@@ -124,3 +128,7 @@ for lsp, settings in pairs(server_settings) do
   end
   vim.lsp.enable(lsp)
 end
+
+return {
+  on_attach = on_attach,
+}
