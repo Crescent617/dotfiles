@@ -425,7 +425,7 @@ return {
           cursorline = true,
         },
         render = function(props)
-          local filename = vim.fn.expand "%"
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':.')
           -- filename = util.shorten_path(filename)
           local modified = vim.bo[props.buf].modified
           local devicons = require "nvim-web-devicons"
