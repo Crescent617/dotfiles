@@ -160,6 +160,11 @@ return {
           goose = { cmd = { "goose" } },
           kimi = { cmd = { "ikimi", "-y" } },
         },
+        win = {
+          keys = {
+            prompt = false,
+          },
+        },
       },
     },
     keys = {
