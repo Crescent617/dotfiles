@@ -100,12 +100,17 @@ require("symbol-usage").setup {
   implementation = {
     enabled = true,
   },
+  log = {
+    enabled = true,
+    level = "ERROR",
+  },
   definition = {
     enabled = false,
   },
   kinds = common_kinds,
   filetypes = {
     go = {
+      symbol_request_pos = "start",
       kinds = vim.list_extend({ SymbolKind.Constant }, common_kinds),
     },
     rust = {
