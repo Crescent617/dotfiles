@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "moonshotai-cn": {
+      "options": {
+        "baseURL": "https://api.msh.team/v1"
+      }
+    }
+  }
+}
