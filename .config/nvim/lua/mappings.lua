@@ -50,6 +50,17 @@ map("x", "/", function()
   vim.fn.search(pattern)
 end, {})
 
+-- 复制相对路径:行号:列号
+map("n", "<leader>yl", function()
+  vim.fn.setreg("+", vim.fn.expand "%:." .. ":" .. vim.fn.line "." .. ":" .. vim.fn.col ".")
+  print("Copied: " .. vim.fn.getreg "+")
+end, { desc = "Copy relative location" })
+-- 复制绝对路径:行号:列号
+map("n", "<leader>yL", function()
+  vim.fn.setreg("+", vim.fn.expand "%:p" .. ":" .. vim.fn.line "." .. ":" .. vim.fn.col ".")
+  print("Copied: " .. vim.fn.getreg "+")
+end, { desc = "Copy absolute location" })
+
 -- open floating terminal
 -- map({ "n", "t" }, "<A-i>", "<cmd>ToggleTerm direction=float<cr>", { desc = "terminal toggle floating term" })
 
