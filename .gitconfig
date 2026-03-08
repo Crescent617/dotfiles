@@ -35,3 +35,5 @@ path = ~/workspace/.gitconfig
 	required = true
 [safe]
 	directory = /etc/nixos
+[alias]
+	dff = !git diff --name-only | fzf \\\n  --preview \"git diff --color=always {} | delta\" \\\n  --preview-window=right:70%,border-left \\\n  --bind \"ctrl-u:preview-page-up,ctrl-d:preview-page-down,shift-up:preview-up,shift-down:preview-down\" \\\n  --bind \"?:toggle-preview\"
