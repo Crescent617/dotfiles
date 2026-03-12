@@ -55,6 +55,7 @@ background-opacity = 0.9
 window-decoration = none
 macos-option-as-alt = true
 
+cursor-color = "#DDDDDD"
 # cursor-invert-fg-bg = true
 adjust-cursor-thickness = 2
 # mouse-shift-capture = true
