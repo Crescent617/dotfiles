@@ -159,6 +159,7 @@ return {
           gemini = { cmd = { "gemini", "-y" } },
           goose = { cmd = { "goose" } },
           kimi = { cmd = { "kimi", "-y" } },
+          yomi = { cmd = { "yomi", "-y" } },
         },
         win = {
           keys = {
