@@ -160,16 +160,9 @@ return {
   },
   {
     "Saecki/crates.nvim",
-    version = "*",
-    dependencies = "nvim-lua/plenary.nvim",
     event = { "BufRead Cargo.toml" },
     config = function()
-      require("crates").setup {
-        null_ls = {
-          enabled = true,
-          name = "crates.nvim",
-        },
-      }
+      require("crates").setup {}
     end,
   },
   {
