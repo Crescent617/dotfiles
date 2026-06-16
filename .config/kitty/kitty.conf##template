@@ -4,7 +4,6 @@ font_size        14.0
 
 background_opacity 0.95
 cursor_trail 1
-hide_window_decorations yes
 macos_option_as_alt yes
 # background_blur 10
 
