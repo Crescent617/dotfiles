@@ -52,7 +52,7 @@ background-opacity = 0.9
 # macos-titlebar-proxy-icon = hidden
 # macos-titlebar-style = hidden
 # window-decoration = true
-window-decoration = none
+# window-decoration = none
 macos-option-as-alt = true
 
 cursor-color = "#DDDDDD"
