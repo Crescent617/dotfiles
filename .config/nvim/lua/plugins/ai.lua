@@ -10,26 +10,13 @@ local copilot_mini_model = "gpt-5-mini" -- Set your preferred model here
 ---@type LazySpec
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
+    "monkoose/neocodeium",
     event = "InsertEnter",
-    dependencies = {
-      -- "copilotlsp-nvim/copilot-lsp", -- (optional) for NES functionality
-      -- init = function()
-      --   vim.g.copilot_nes_debounce = 500
-      -- end,
-    },
     config = function()
-      require("copilot").setup {
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          keymap = {
-            accept = "<M-o>",
-            accept_line = "<M-O>",
-            accept_word = "<M-w>",
-          },
-        },
+      local neocodeium = require "neocodeium"
+      neocodeium.setup {
+        enabled = true,
+        debounce = true,
         filetypes = {
           yaml = true,
           markdown = true,
@@ -40,92 +27,23 @@ return {
           ["grug-far-history"] = false,
           ["grug-far-help"] = false,
         },
-        -- copilot_model = "gpt-4o-copilot",
       }
-      -- set highlight group for copilot
+      -- keymaps: match old copilot.lua binds
+      vim.keymap.set("i", "<M-o>", neocodeium.accept)
+      vim.keymap.set("i", "<M-O>", neocodeium.accept_line)
+      vim.keymap.set("i", "<M-w>", neocodeium.accept_word)
+      vim.keymap.set("i", "<M-]>", function()
+        neocodeium.cycle(1)
+      end)
+      vim.keymap.set("i", "<M-[>", function()
+        neocodeium.cycle(-1)
+      end)
+      vim.keymap.set("i", "<M-c>", neocodeium.clear)
+
+      -- set highlight group for suggestion
       local comment_hl = vim.api.nvim_get_hl(0, { name = "Comment" })
-      vim.api.nvim_set_hl(0, "CopilotSuggestion", { italic = true, fg = comment_hl.fg })
-    end,
-  },
-  {
-    "olimorris/codecompanion.nvim",
-    cmd = { "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd", "CodeCompanion" },
-    config = function()
-      require("codecompanion").setup {
-        opts = {
-          language = "Chinese",
-          -- log_level = "DEBUG",
-        },
-        interactions = {
-          chat = {
-            adapter = "copilot",
-          },
-          inline = {
-            adapter = "copilot",
-          },
-          cmd = {
-            adapter = "copilot",
-          },
-          background = {
-            adapter = {
-              name = "copilot",
-              model = copilot_mini_model,
-            },
-          },
-        },
-        adapters = {
-          acp = {
-            claude_code = function()
-              return require("codecompanion.adapters").extend("claude_code", {
-                env = {},
-              })
-            end,
-          },
-          http = {
-            copilot = function()
-              return require("codecompanion.adapters").extend("copilot", {
-                schema = { model = { default = copilot_model } },
-              })
-            end,
-          },
-        },
-        extensions = {
-          history = {
-            enabled = true,
-            opts = {
-              auto_generate_title = false,
-            },
-          },
-        },
-      }
-    end,
-    keys = {
-      {
-        "<leader>ai",
-        "<cmd>CodeCompanionChat Toggle adapter=claude_code command=yolo<cr>",
-        mode = "n",
-        desc = "CodeCompanion Toggle",
-      },
-      {
-        "<leader>ak",
-        function()
-          vim.ui.input({ prompt = "What kind of command to run? " }, function(input)
-            if input then
-              vim.cmd("CodeCompanionCmd " .. input)
-            end
-          end)
-        end,
-        mode = "n",
-        desc = "CodeCompanionCmd",
-      },
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "ravitemer/codecompanion-history.nvim",
-    },
-    init = function()
-      require("configs.codecompanion_progress").init {}
+      vim.api.nvim_set_hl(0, "NeoCodeiumSuggestion", { italic = true, fg = comment_hl.fg })
+      vim.api.nvim_set_hl(0, "NeoCodeiumLabel", { italic = true, fg = comment_hl.fg })
     end,
   },
   {
