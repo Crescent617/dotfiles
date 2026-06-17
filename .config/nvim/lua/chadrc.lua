@@ -65,7 +65,6 @@ M.nvdash = {
   header = require("custom.banners").pick(),
   load_on_startup = true,
   buttons = {
-    { txt = "  AI Chat", keys = "a", cmd = "lua vim.cmd'CodeCompanionChat Toggle'; vim.cmd'wincmd p | q'" },
     { txt = "  New File", keys = "n", cmd = "enew" },
     { txt = "  Find File", keys = "f", cmd = "lua Snacks.picker.files()" },
     { txt = "󰈭  Find Word", keys = "w", cmd = "lua Snacks.picker.grep()" },
