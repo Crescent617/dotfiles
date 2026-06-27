@@ -213,7 +213,7 @@ automatically-unhide-macos-hidden-apps = false
     shift-down = ['volume set 0', 'mode main']
 
 [workspace-to-monitor-force-assignment]
-    2 = 1                            # Monitor sequence number from left to right. 1-based indexing
+    # 2 = 1                            # Monitor sequence number from left to right. 1-based indexing
     # 2 = 'main'                       # Main monitor
     # 3 = 'secondary'                  # Non-main monitor in case when there are only two monitors
     # 4 = 'built-in'                   # Case insensitive regex substring

@@ -4,48 +4,8 @@ vim.opt.laststatus = 3
 
 local render_md_ft = { "markdown", "Avante", "codecompanion", "mcphub", "AgenticChat" }
 
-local copilot_model = "gpt-5-mini" -- Set your preferred model here
-local copilot_mini_model = "gpt-5-mini" -- Set your preferred model here
-
 ---@type LazySpec
 return {
-  {
-    "monkoose/neocodeium",
-    event = "InsertEnter",
-    config = function()
-      local neocodeium = require "neocodeium"
-      neocodeium.setup {
-        enabled = true,
-        debounce = true,
-        filetypes = {
-          yaml = true,
-          markdown = true,
-          gitcommit = true,
-          gitrebase = true,
-          ["dap-repl"] = false,
-          ["grug-far"] = false,
-          ["grug-far-history"] = false,
-          ["grug-far-help"] = false,
-        },
-      }
-      -- keymaps: match old copilot.lua binds
-      vim.keymap.set("i", "<M-o>", neocodeium.accept)
-      vim.keymap.set("i", "<M-O>", neocodeium.accept_line)
-      vim.keymap.set("i", "<M-w>", neocodeium.accept_word)
-      vim.keymap.set("i", "<M-]>", function()
-        neocodeium.cycle(1)
-      end)
-      vim.keymap.set("i", "<M-[>", function()
-        neocodeium.cycle(-1)
-      end)
-      vim.keymap.set("i", "<M-c>", neocodeium.clear)
-
-      -- set highlight group for suggestion
-      local comment_hl = vim.api.nvim_get_hl(0, { name = "Comment" })
-      vim.api.nvim_set_hl(0, "NeoCodeiumSuggestion", { italic = true, fg = comment_hl.fg })
-      vim.api.nvim_set_hl(0, "NeoCodeiumLabel", { italic = true, fg = comment_hl.fg })
-    end,
-  },
   {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
