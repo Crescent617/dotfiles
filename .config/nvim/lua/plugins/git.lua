@@ -51,15 +51,16 @@ return {
       { "<leader>gY", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git link" },
     },
     config = function()
+      local router = { browse = {}, blame = {} }
+      local function add_router(host)
+        if host and host ~= "" then
+          router.browse["^" .. host] = require("gitlinker.routers").gitlab_browse
+          router.blame["^" .. host] = require("gitlinker.routers").gitlab_blame
+        end
+      end
+      add_router(os.getenv "GITLAB_HOST")
       require("gitlinker").setup {
-        router = {
-          browse = {
-            ["^github.freewheel.tv"] = require("gitlinker.routers").github_browse,
-          },
-          blame = {
-            ["^github.freewheel.tv"] = require("gitlinker.routers").github_blame,
-          },
-        },
+        router = router,
       }
     end,
   },
