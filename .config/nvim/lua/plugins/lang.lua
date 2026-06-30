@@ -190,35 +190,6 @@ return {
   },
   { "NoahTheDuke/vim-just", ft = "just" },
   {
-    "mrcjkb/rustaceanvim",
-    version = "*", -- Recommended
-    ft = "rust",
-    config = function()
-      local lspconfig = require "configs.lspconfig"
-      vim.g.rustaceanvim = {
-        -- Plugin configuration
-        tools = {},
-        -- LSP configuration
-        server = {
-          on_attach = lspconfig.on_attach,
-          default_settings = {
-            -- rust-analyzer language server configuration
-            ["rust-analyzer"] = {
-              -- cargo = { loadOutDirsFromCheck = true },
-              -- check = { command = "clippy" },
-              -- procMacro = { enable = false },
-              -- diagnostics = { enable = true },
-              -- completion = { postfix = { enable = false } },
-              -- buildScripts = { enable = false }, -- 重点：关闭 build.rs 分析，加速
-            },
-          },
-        },
-        -- DAP configuration
-        dap = {},
-      }
-    end,
-  },
-  {
     "nvim-neotest/neotest",
     cmd = "Neotest",
     dependencies = {
